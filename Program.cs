@@ -2,14 +2,55 @@
 
 class Program
 {
-    static void Main()
+    static async void Main()
     {
         Console.WriteLine($"Virtual Pet Test");
 
-        Pet currentPet = new(Console.ReadLine());
+        bool isMoving = true;
+
+
+        Pet currentPet = new("Timmy");
+
+
+
+        string[] screenLines = [
+            "---------------",
+            "|             |",
+            "|             |",
+            "|             |",
+            "|             |",
+            "|             |",
+            "|             |",
+            "---------------" ];
+        foreach (string screenLine in screenLines)
+        {
+            Console.WriteLine(screenLine);
+        }
+
+
+        async void MovePet()
+        {
+            Random random = new();
+            int bottomScreenY = screenLines.Length - 1;
+            int topScreenY = screenLines.Length - 7;
+
+            if (isMoving)
+            {
+                int setY = random.Next(topScreenY, bottomScreenY + 1);
+
+                int col = screenLines[0].Length - 6;
+                int savedRow = Console.GetCursorPosition().Top;
+                int savedCol = Console.GetCursorPosition().Left;
+                Console.SetCursorPosition(col, screenHeight);
+                Console.Write(currentPet.Appearance);
+                Console.SetCursorPosition(savedCol, savedRow);
+            }
+        }
+
+
+
         Console.WriteLine(
             $"Stats:\nName: {currentPet.Name}\nAppearance: {currentPet.Appearance}\nAge: {currentPet.Age}");
-
 
 
 
