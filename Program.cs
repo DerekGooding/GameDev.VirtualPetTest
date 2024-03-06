@@ -1,17 +1,15 @@
-﻿namespace VirtualPet.Controller;
+﻿
+using System.Security.Cryptography.X509Certificates;
 
-class Program
+public class Program
 {
-    static async void Main()
+    public static void Main()
     {
         Console.WriteLine($"Virtual Pet Test");
 
-        bool isMoving = true;
-
-
         Pet currentPet = new("Timmy");
 
-
+        
 
         string[] screenLines = [
             "---------------",
@@ -22,30 +20,13 @@ class Program
             "|             |",
             "|             |",
             "---------------" ];
+
         foreach (string screenLine in screenLines)
         {
             Console.WriteLine(screenLine);
         }
 
 
-        async void MovePet()
-        {
-            Random random = new();
-            int bottomScreenY = screenLines.Length - 1;
-            int topScreenY = screenLines.Length - 7;
-
-            if (isMoving)
-            {
-                int setY = random.Next(topScreenY, bottomScreenY + 1);
-
-                int col = screenLines[0].Length - 6;
-                int savedRow = Console.GetCursorPosition().Top;
-                int savedCol = Console.GetCursorPosition().Left;
-                Console.SetCursorPosition(col, screenHeight);
-                Console.Write(currentPet.Appearance);
-                Console.SetCursorPosition(savedCol, savedRow);
-            }
-        }
 
 
 
@@ -54,6 +35,32 @@ class Program
 
 
 
+    }
+}
+
+class Movement()
+{
+    async Task<bool> MovePet()
+    {
+        bool isMoving = true;
+
+        Random random = new();
+        int bottomScreenY =  Main   screenLines.Length - 1;
+        int topScreenY = 3;
+        int leftScreenX = 1;
+        int rightScreenX = screenLines[0].Length - 1;
+
+        if (isMoving)
+        {
+            int setX = random.Next(leftScreenX, rightScreenX + 1);
+            int setY = random.Next(topScreenY, bottomScreenY + 1);
+
+            Console.SetCursorPosition(setX, setY);
+            Console.Write(currentPet.Appearance);
+        }
+
+
+        return isMoving;
     }
 }
 
