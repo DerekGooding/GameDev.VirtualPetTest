@@ -1,0 +1,30 @@
+﻿Virtual Pet v1
+
+Overall loop:
+	Gets time
+	Creates egg
+	Hatches a baby after a time
+	Turns into toddler after a time
+	Turns into teen after a time
+	If well cared for turns into option 1
+	If NOT well cared for turns into option 2
+	Turns into adult with one of 6 options based on care
+	Turns into final form based on previous from (3 secret forms)
+	Dies
+	Gives new egg
+	Repeat
+
+Mechanics:
+	Operation:
+		3 buttons (a,b,c) a = confirm selection, b = cycle selection/clock, c = cancel, & more;
+	MainScreen:
+		Shows the pet, has menu 8 options, menu icons arranged on top and bottom rows.
+	StatsScreen:
+		Can cycle through 4 screens (health/discipline/hungry/happy)
+			HealthScreen Shows age, weight, others shows the stat they are named after.
+	FoodScreen:
+		Displays food options, select to feed, restores hunger (adds weight?)
+
+	Hunger:
+		5 points of hunger, depletes based on time passed, time passed varies based on growth level (Eg, baby -1 hunger 10mins, adult -1 1hr)
+		Refill by feeding. If at 0 for period of time, dies.

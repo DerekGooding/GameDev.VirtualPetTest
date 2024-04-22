@@ -5,62 +5,199 @@ public class Program
 {
     public static void Main()
     {
-        Console.WriteLine($"Virtual Pet Test");
+        //TestRun();
 
-        Pet currentPet = new("Timmy");
-
-        
+        string[] ownedFood = { "Rice", "Eggs", "Cake"};
 
         string[] screenLines = [
             "---------------",
             "|             |",
             "|             |",
             "|             |",
-            "|             |",
+            "|      ()     |",
             "|             |",
             "|             |",
             "---------------" ];
 
-        foreach (string screenLine in screenLines)
+
+        Pet currentPet = new("Tommy");
+
+        MainScreen();
+        
+        void MainScreen()
         {
-            Console.WriteLine(screenLine);
+            bool inMenu = true;
+            int selection = 1;
+
+            do
+            {
+                DrawScreen();
+                Console.WriteLine("Main:");
+            
+                switch (selection)
+                {
+                    case 1:
+                        Console.WriteLine($"\"{ownedFood[0]}\"\n{ownedFood[1]}\n{ownedFood[2]}");
+                        break;
+                    case 2:
+                        Console.WriteLine($"{ownedFood[0]}\n\"{ownedFood[1]}\"\n{ownedFood[2]}");
+                        break;
+                    case 3:
+                        Console.WriteLine($"{ownedFood[0]}\n{ownedFood[1]}\n\"{ownedFood[2]}\"");
+                        break;
+                    default:
+                        break;
+                }
+
+                if (Console.ReadKey().KeyChar == 's')
+                {
+                    if (selection == ownedFood.Length)
+                    {
+                        selection = 1;
+                    }
+                    else
+                    {
+                        selection++;
+                    }
+                }
+                else if (Console.ReadKey().KeyChar == 'a')
+                {
+                    switch (selection)
+                    {
+                        case 1:
+                            currentPet.Hunger += 1;
+                            break;
+                        case 2:
+                            currentPet.Hunger += 1;
+                            break;
+                        case 3:
+                            currentPet.Hunger += 1;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if(Console.ReadKey().KeyChar == 'd')
+                {
+                    inMenu = false;
+                }
+            } while (inMenu);
+
         }
 
-
-
-
-
-        Console.WriteLine(
-            $"Stats:\nName: {currentPet.Name}\nAppearance: {currentPet.Appearance}\nAge: {currentPet.Age}");
-
-
-
-    }
-}
-
-class Movement()
-{
-    async Task<bool> MovePet()
-    {
-        bool isMoving = true;
-
-        Random random = new();
-        int bottomScreenY =  Main   screenLines.Length - 1;
-        int topScreenY = 3;
-        int leftScreenX = 1;
-        int rightScreenX = screenLines[0].Length - 1;
-
-        if (isMoving)
+        void DrawScreen()
         {
-            int setX = random.Next(leftScreenX, rightScreenX + 1);
-            int setY = random.Next(topScreenY, bottomScreenY + 1);
+            Console.Clear();
+            Console.WriteLine("VIRTUAL PET");
+            foreach (string screenLine in screenLines)
+            {
+                Console.WriteLine(screenLine);
+            }
+            Console.WriteLine("  (A) (S) (D)");
 
-            Console.SetCursorPosition(setX, setY);
-            Console.Write(currentPet.Appearance);
         }
 
+        void TestRun()
+        {
 
-        return isMoving;
+
+
+            Pet currentPet = new("Timmy");
+
+
+
+/*            string[] screenLines = [
+                "---------------",
+            "|             |",
+            "|             |",
+            "|             |",
+            "|      ()     |",
+            "|             |",
+            "|             |",
+            "---------------" ];*/
+
+            while(true)
+            {            
+                Console.WriteLine($"Virtual Pet Test");
+
+                foreach (string screenLine in screenLines)
+                {
+                    Console.WriteLine(screenLine);
+                }
+
+                Console.WriteLine("(A) (S) (D)");
+
+                Console.WriteLine("\"Stats\"\nFood");
+
+                if (Console.ReadKey().KeyChar == 's')
+                {
+                    Console.Clear();
+                    Console.WriteLine($"Virtual Pet Test");
+                    foreach (string screenLine in screenLines)
+                    {
+                        Console.WriteLine(screenLine);
+                    }
+                    Console.WriteLine("(A) (S) (D)");
+
+                    Console.WriteLine("Stats\n\"Food\"");
+
+                    if(Console.ReadKey().KeyChar == 'a')
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Virtual Pet Test");
+                        screenLines[3] = "|      <3     |";
+                        foreach (string screenLine in screenLines)
+                        {
+                            Console.WriteLine(screenLine);
+                        }
+                        Console.WriteLine("(A) (S) (D)");
+                        Console.WriteLine($"Fed {currentPet.Name} and gained +1 <3!");
+                        Console.ReadKey();
+                        screenLines[3] = "|             |";
+
+                    }
+                }
+                else if (Console.ReadKey().KeyChar == 'a')
+                {
+
+                }
+                else if (Console.ReadKey().KeyChar == 'd')
+                {
+
+                }
+
+
+
+
+                //Console.WriteLine(
+                    //$"Stats:\nName: {currentPet.Name}\nAppearance: {currentPet.Appearance}\nAge: {currentPet.Age}");
+
+
+                    if (Console.ReadKey().KeyChar == 's')
+                    {
+                        Console.Clear();
+                        Console.WriteLine($"Virtual Pet Test");
+                        foreach (string screenLine in screenLines)
+                        {
+                            Console.WriteLine(screenLine);
+                        }
+                        Console.WriteLine("(A) (S) (D)");
+                        Console.WriteLine("Food:\n\"Rice\"\nCheese\nCake");
+
+                        if (Console.ReadKey().KeyChar == 's')
+                        {
+                            Console.Clear();
+                            Console.WriteLine($"Virtual Pet Test");
+                            foreach (string screenLine in screenLines)
+                            {
+                                Console.WriteLine(screenLine);
+                            }
+                            Console.WriteLine("(A) (S) (D)");
+                            Console.WriteLine("Food:\nRice\n\"Cheese\"\nCake");
+                        }
+                    }
+            }
+        }        
     }
 }
 
