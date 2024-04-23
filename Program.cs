@@ -6,7 +6,7 @@ public class Program
     public static void Main()
     {
         //TestRun();
-
+        string[] menuOptions = { "Stats", "Food", "Exit"};
         string[] ownedFood = { "Rice", "Eggs", "Cake"};
 
         string[] screenLines = [
@@ -26,13 +26,72 @@ public class Program
         
         void MainScreen()
         {
+            bool running = true;
+            int selection = 1;
+
+            do
+            {
+                DrawScreen();
+                Console.WriteLine("Menu:");
+
+                switch(selection)
+                {
+                    case 1:
+                        Console.WriteLine($"\"{menuOptions[0]}\"\n{menuOptions[1]}\n{menuOptions[2]}");
+                        break;
+                    case 2:
+                        Console.WriteLine($"{menuOptions[0]}\n\"{menuOptions[1]}\"\n{menuOptions[2]}");
+                        break;
+                    case 3:
+                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n\"{menuOptions[2]}\"");
+                        break;
+                    default:
+                        break;
+                }
+
+                var userInput = Console.ReadKey().KeyChar;
+
+                if (userInput == 's')
+                {
+                    if (selection == menuOptions.Length)
+                    {
+                        selection = 1;
+                    }
+                    else
+                    {
+                        selection++;
+                    }
+                }
+                else if (userInput == 'a')
+                {
+                    switch (selection)
+                    {
+                        case 1:
+                            //goto stats screen
+                            break;
+                        case 2:
+                            FoodScreen();
+                            break;
+                        case 3:
+                            //exit
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            } while (running);
+
+        }
+
+        void FoodScreen()
+        {
             bool inMenu = true;
             int selection = 1;
 
             do
             {
                 DrawScreen();
-                Console.WriteLine("Main:");
+                Console.WriteLine("Food:");
             
                 switch (selection)
                 {
@@ -49,7 +108,9 @@ public class Program
                         break;
                 }
 
-                if (Console.ReadKey().KeyChar == 's')
+                var userInput = Console.ReadKey().KeyChar;
+
+                if (userInput == 's')
                 {
                     if (selection == ownedFood.Length)
                     {
@@ -60,7 +121,7 @@ public class Program
                         selection++;
                     }
                 }
-                else if (Console.ReadKey().KeyChar == 'a')
+                else if (userInput == 'a')
                 {
                     switch (selection)
                     {
@@ -76,8 +137,11 @@ public class Program
                         default:
                             break;
                     }
+                    DrawScreen();
+                    Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection-1]}, gained +1 <3\n(Press any key to continue...)");
+                    Console.ReadKey();
                 }
-                else if(Console.ReadKey().KeyChar == 'd')
+                else if(userInput == 'd')
                 {
                     inMenu = false;
                 }
