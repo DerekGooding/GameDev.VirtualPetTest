@@ -4,31 +4,60 @@ public class Program
     public static void Main()
     {
         string[] menuOptions = { "Stats", "Food", "Exit"};
-        string[] ownedFood = { "Rice", "Eggs", "Cake"};
 
         string[] screenLines = [
         "---------------",
         "|             |",
         "|             |",
         "|             |",
-        "|      ()     |",
+        "|             |",
         "|             |",
         "|             |",
         "---------------" ];
 
-        DrawScreen();
-        Console.WriteLine("An Egg?...");
-        Thread.Sleep(2000);
-        screenLines[4] = "|      (z)    |";
-        DrawScreen();
-        Console.WriteLine("A crack in the egg?...");
-        Thread.Sleep(2000);
-        screenLines[4] = "|      \\?/    |";
-        DrawScreen();
-        Console.Write("It's hatching! What will you name it?\nName: ");
-        string? userInput = Console.ReadLine();
-        Pet currentPet = new(userInput, DateTime.Now.ToString());
+        Pet currentPet;
+        List<Food> ownedFood;
+        Food riceBowl;
+        Food friedEggs;
+        Food cake;
 
+        void HatchEgg()
+        {
+            DrawScreen();
+            Console.WriteLine("An Egg?...");
+            Thread.Sleep(2000);
+
+            screenLines[4] = "|      (z)    |";
+            DrawScreen();
+            Console.WriteLine("A crack in the egg?...");
+            Thread.Sleep(2000);
+
+            screenLines[4] = "|      \\?/    |";
+            DrawScreen();
+            Console.WriteLine("It's hatching! What will you name it?");
+        }
+        
+        Pet NamePet()
+        {
+            Console.Write("Name: ");
+            string? userInput = Console.ReadLine();
+
+            Pet currentPet = new(userInput, DateTime.Now.ToString());
+            screenLines[4] = $"|   {currentPet.Appearance}     |";
+
+            return currentPet;
+        }
+
+        Food LoadFood(string name, int hunger, int happy, bool owned)
+        {
+            Food riceBowl = new("Rice Bowl", 1, 0, true);
+            Food friedEggs = new("Fried Eggs", 1, 0, true);
+            Food cake = new("Cake", 1, 1, true);
+            var ownedFood = new List<Food> { riceBowl, friedEggs, cake };
+            return riceBowl;
+        }
+            
+        
         MainScreen();
         
         void MainScreen()
@@ -118,13 +147,13 @@ Birthday: {currentPet.Birthday}");
                 switch (selection)
                 {
                     case 1:
-                        Console.WriteLine($"\"{ownedFood[0]}\"\n{ownedFood[1]}\n{ownedFood[2]}");
+                        Console.WriteLine($"\"{ownedFood[0].Name}\"\n{ownedFood[1].Name}\n{ownedFood[2].Name}");
                         break;
                     case 2:
-                        Console.WriteLine($"{ownedFood[0]}\n\"{ownedFood[1]}\"\n{ownedFood[2]}");
+                        Console.WriteLine($"{ownedFood[0].Name}\n\"{ownedFood[1].Name}\"\n{ownedFood[2].Name}");
                         break;
                     case 3:
-                        Console.WriteLine($"{ownedFood[0]}\n{ownedFood[1]}\n\"{ownedFood[2]}\"");
+                        Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n\"{ownedFood[2].Name}\"");
                         break;
                     default:
                         break;
@@ -134,7 +163,7 @@ Birthday: {currentPet.Birthday}");
 
                 if (userInput == 's')
                 {
-                    if (selection == ownedFood.Length)
+                    if (selection == ownedFood.Count)
                     {
                         selection = 1;
                     }
@@ -148,19 +177,28 @@ Birthday: {currentPet.Birthday}");
                     switch (selection)
                     {
                         case 1:
-                            currentPet.Hunger += 1;
+                            currentPet.Hunger += ownedFood[0].RestoredHunger;
                             break;
                         case 2:
-                            currentPet.Hunger += 1;
+                            currentPet.Hunger += ownedFood[1].RestoredHunger;
                             break;
                         case 3:
-                            currentPet.Hunger += 1;
+                            currentPet.Hunger += ownedFood[2].RestoredHunger;
                             break;
                         default:
                             break;
                     }
                     DrawScreen();
-                    Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection-1]}, gained +1 <3\n(Press any key to continue...)");
+
+                    if(ownedFood[selection - 1].RestoredHappiness > 0)
+                    {
+                        currentPet.Happiness += 1;
+                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection - 1].Name}, gained +{ownedFood[selection - 1].RestoredHunger} <3 +{ownedFood[selection - 1].RestoredHappiness}:)\n(Press any key to continue...)");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[1]}, gained +{ownedFood[selection - 1].RestoredHunger} <3\n(Press any key to continue...)");
+                    }                    
                     Console.ReadKey();
                 }
                 else if(userInput == 'd')
@@ -287,7 +325,7 @@ Birthday: {currentPet.Birthday}");
     }
 }
 
-class Pet(string name, string birthday, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150)
+class Pet(string name, string birthday, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -296,5 +334,13 @@ class Pet(string name, string birthday, string appearance = "(0c0)", int age = 1
     public int Happiness { get; set; } = happiness;
     public int Money { get; set; } = money;
     public string Birthday { get; set; } = birthday;
+    public int Stage { get; set; } = stage;
 }
 
+class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool owned = false)
+{
+    public string Name { get; set; } = name;
+    public int RestoredHunger { get; set; } = restoredHunger;
+    public int RestoredHappiness { get; set; } = restoredHappiness;
+    public bool Owned { get; set; } = owned;
+}
