@@ -1,27 +1,33 @@
 ﻿
-using System.Data.SqlTypes;
-using System.Security.Cryptography.X509Certificates;
-
 public class Program
 {
     public static void Main()
     {
-        //TestRun();
         string[] menuOptions = { "Stats", "Food", "Exit"};
         string[] ownedFood = { "Rice", "Eggs", "Cake"};
 
         string[] screenLines = [
-            "---------------",
-            "|             |",
-            "|             |",
-            "|             |",
-            "|      ()     |",
-            "|             |",
-            "|             |",
-            "---------------" ];
+        "---------------",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|      ()     |",
+        "|             |",
+        "|             |",
+        "---------------" ];
 
-
-        Pet currentPet = new("Tommy");
+        DrawScreen();
+        Console.WriteLine("An Egg?...");
+        Thread.Sleep(2000);
+        screenLines[4] = "|      (z)    |";
+        DrawScreen();
+        Console.WriteLine("A crack in the egg?...");
+        Thread.Sleep(2000);
+        screenLines[4] = "|      \\?/    |";
+        DrawScreen();
+        Console.Write("It's hatching! What will you name it?\nName: ");
+        string? userInput = Console.ReadLine();
+        Pet currentPet = new(userInput, DateTime.Now.ToString());
 
         MainScreen();
         
@@ -93,7 +99,8 @@ $@"Name: {currentPet.Name}
 Age: {currentPet.Age}
 Hunger: {currentPet.Hunger}
 Happiness: {currentPet.Happiness}
-Money: {currentPet.Money}");
+Money: {currentPet.Money}
+Birthday: {currentPet.Birthday}");
 
             Console.ReadKey();
         }
@@ -181,7 +188,7 @@ Money: {currentPet.Money}");
 
 
 
-            Pet currentPet = new("Timmy");
+            //Pet currentPet = new("Timmy");
 
 
 
@@ -280,7 +287,7 @@ Money: {currentPet.Money}");
     }
 }
 
-class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150, DateTime birthday = DateTime.Now)
+class Pet(string name, string birthday, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -288,6 +295,6 @@ class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3,
     public int Hunger { get; set; } = hunger;
     public int Happiness { get; set; } = happiness;
     public int Money { get; set; } = money;
-    public DateTime Birthday { get; set; } = birthday;
+    public string Birthday { get; set; } = birthday;
 }
 
