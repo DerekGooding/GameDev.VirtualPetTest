@@ -1,4 +1,5 @@
 ﻿
+using System.Data.SqlTypes;
 using System.Security.Cryptography.X509Certificates;
 
 public class Program
@@ -67,7 +68,7 @@ public class Program
                     switch (selection)
                     {
                         case 1:
-                            //goto stats screen
+                            StatScreen();
                             break;
                         case 2:
                             FoodScreen();
@@ -81,6 +82,20 @@ public class Program
                 }
             } while (running);
 
+        }
+
+        void StatScreen()
+        {
+            DrawScreen();
+            Console.WriteLine("Stats:");
+            Console.WriteLine(
+$@"Name: {currentPet.Name}
+Age: {currentPet.Age}
+Hunger: {currentPet.Hunger}
+Happiness: {currentPet.Happiness}
+Money: {currentPet.Money}");
+
+            Console.ReadKey();
         }
 
         void FoodScreen()
@@ -265,12 +280,13 @@ public class Program
     }
 }
 
-class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3)
+class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
     public int Age { get; set; } = age;
     public int Hunger { get; set; } = hunger;
     public int Happiness { get; set; } = happiness;
+    public int Money { get; set; } = money;
 }
 
