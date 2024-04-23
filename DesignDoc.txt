@@ -24,7 +24,16 @@ Mechanics:
 			HealthScreen Shows age, weight, others shows the stat they are named after.
 	FoodScreen:
 		Displays food options, select to feed, restores hunger (adds weight?)
-
+	CareScreen:
+		Clean,Medicine,Praise
+		clean removes poops that appear (everytime hunger goes down?)
+		medicine cures pet if sick
+		praise raises happiness
+	GameScreen:
+		options for different games, gives money and happiness
+	ShopScreen:
+		can buy new items such as food and items to play new games
+		
 	Hunger:
 		5 points of hunger, depletes based on time passed, time passed varies based on growth level (Eg, baby -1 hunger 10mins, adult -1 1hr)
 		Refill by feeding. If at 0 for period of time, dies.

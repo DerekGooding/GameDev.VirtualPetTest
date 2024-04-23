@@ -74,7 +74,7 @@ public class Program
                             FoodScreen();
                             break;
                         case 3:
-                            //exit
+                            running = false;
                             break;
                         default:
                             break;
@@ -280,7 +280,7 @@ Money: {currentPet.Money}");
     }
 }
 
-class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150)
+class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150, DateTime birthday = DateTime.Now)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -288,5 +288,6 @@ class Pet(string name, string appearance = "(0c0)", int age = 1, int hunger = 3,
     public int Hunger { get; set; } = hunger;
     public int Happiness { get; set; } = happiness;
     public int Money { get; set; } = money;
+    public DateTime Birthday { get; set; } = birthday;
 }
 
