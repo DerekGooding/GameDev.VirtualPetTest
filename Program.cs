@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Text.Json.Serialization.Metadata;
 using System.Timers;
 
 public class Program
@@ -33,6 +34,7 @@ public class Program
 
         int petX = 5;
         int petY = 5;
+        List<int[]> poopPositions = new();
 
         //new game setup
         if (!File.Exists("SaveData"))
@@ -321,10 +323,15 @@ Birthday: {currentPet.Birthday}");
         {
             int x = rand.Next(2,12);
             int y = rand.Next(3,7);
-            Console.SetCursorPosition(x, y);
-            Console.Write("s");
-            Console.SetCursorPosition(x, y+1);
-            Console.Write("*");
+            poopPositions.Add([x, y]);
+
+            foreach(var poop in poopPositions)
+            {
+                Console.SetCursorPosition(poop[0], poop[1]);
+                Console.Write("s");
+                Console.SetCursorPosition(poop[0], poop[1]+1);
+                Console.Write("*");
+            }
         }
 
         void DrawPet()
