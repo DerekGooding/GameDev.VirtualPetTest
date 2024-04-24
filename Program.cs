@@ -31,6 +31,9 @@ public class Program
 
         Console.CursorVisible = false;
 
+        int petX = 5;
+        int petY = 5;
+
         //new game setup
         if (!File.Exists("SaveData"))
         {
@@ -326,11 +329,15 @@ Birthday: {currentPet.Birthday}");
 
         void DrawPet()
         {
+            Console.SetCursorPosition(petX, petY);
+            Console.Write("".PadRight(currentPet.Appearance.Length));
+
             int x = rand.Next(1, 10);
             int y = rand.Next(2, 8);
             Console.SetCursorPosition(x, y);
             Console.Write(currentPet.Appearance);
-
+            petX = x;
+            petY = y;
         }
 
         void TestRun()
