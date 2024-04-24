@@ -17,6 +17,8 @@ public class Program
         "|             |",
         "---------------" ];
 
+        Random rand = new();
+
         var currentPet = new Pet("Default");
         Food riceBowl;
         Food friedEggs;
@@ -262,7 +264,24 @@ Birthday: {currentPet.Birthday}");
 
         void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
-            Console.Write("a");
+            // Console.Write("aa");
+
+            int roll = rand.Next(0, 11);
+            if(currentPet.Hunger == 0)
+            {
+                if (roll == 10)
+                {
+                    Console.WriteLine("Died");
+                }
+            }
+            else
+            {
+                if(roll >= 5)
+                {
+                    currentPet.Hunger--;
+                    Console.WriteLine("Lost 1 Hunger");
+                }
+            }
         }
 
         void TestRun()
