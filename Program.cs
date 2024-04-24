@@ -5,6 +5,9 @@ public class Program
 {
     public static void Main()
     {
+        //coords for inner border of screen (c2-11,r3-6)
+        //end of screen (c0,r10)
+
         string[] menuOptions = { "Stats", "Food", "Exit"};
 
         string[] screenLines = [
@@ -81,10 +84,11 @@ public class Program
         {
             bool running = true;
             int selection = 1;
+            DrawScreen();
 
             do
             {
-                DrawScreen();
+                ClearLowerScreen();
                 Console.WriteLine("Menu:");
 
                 switch(selection)
@@ -138,7 +142,7 @@ public class Program
 
         void StatScreen()
         {
-            DrawScreen();
+            ClearLowerScreen();
             Console.WriteLine("Stats:");
             Console.WriteLine(
 $@"Name: {currentPet.Name}
@@ -158,7 +162,7 @@ Birthday: {currentPet.Birthday}");
 
             do
             {
-                DrawScreen();
+                ClearLowerScreen();
                 Console.WriteLine("Food:");
             
                 switch (selection)
@@ -205,7 +209,8 @@ Birthday: {currentPet.Birthday}");
                         default:
                             break;
                     }
-                    DrawScreen();
+
+                    ClearLowerScreen();
 
                     if(ownedFood[selection - 1].RestoredHappiness > 0)
                     {
@@ -236,6 +241,16 @@ Birthday: {currentPet.Birthday}");
             }
             Console.WriteLine("  (A) (S) (D)");
 
+        }
+
+        void ClearLowerScreen()
+        {
+            Console.SetCursorPosition(0, 10);
+            for(int i = 0; i < 8; i++)
+            {
+                Console.WriteLine("".PadRight(45));
+            }
+            Console.SetCursorPosition(0, 10);
         }
 
         void SaveGameData(Pet currentPetData, List<Food> ownedFoodList)
@@ -301,7 +316,6 @@ Birthday: {currentPet.Birthday}");
             Console.Write("s");
             Console.SetCursorPosition(2, 4);
             Console.Write("*");
-
         }
 
         void TestRun()
