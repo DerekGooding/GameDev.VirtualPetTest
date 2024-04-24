@@ -17,6 +17,7 @@ public class Program
         "|             |",
         "---------------" ];
 
+
         Random rand = new();
 
         var currentPet = new Pet("Default");
@@ -266,7 +267,8 @@ Birthday: {currentPet.Birthday}");
         {
             // Console.Write("aa");
 
-            int roll = rand.Next(0, 11);
+            //food
+            int roll = rand.Next(1, 11);
             if(currentPet.Hunger == 0)
             {
                 if (roll == 10)
@@ -276,12 +278,30 @@ Birthday: {currentPet.Birthday}");
             }
             else
             {
-                if(roll >= 5)
+                if(roll >= 6)
                 {
                     currentPet.Hunger--;
                     Console.WriteLine("Lost 1 Hunger");
+                    Poop();
                 }
             }
+
+            //happiness
+            if(roll >= 6)
+            {
+                currentPet.Happiness--;
+                Console.WriteLine("Lost 1 Happiness");
+
+            }
+        }
+
+        void Poop()
+        {
+            Console.SetCursorPosition(2, 3);
+            Console.Write("s");
+            Console.SetCursorPosition(2, 4);
+            Console.Write("*");
+
         }
 
         void TestRun()
