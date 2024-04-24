@@ -314,9 +314,11 @@ Birthday: {currentPet.Birthday}");
 
         void Poop()
         {
-            Console.SetCursorPosition(2, 3);
+            int x = rand.Next(2,12);
+            int y = rand.Next(3,7);
+            Console.SetCursorPosition(x, y);
             Console.Write("s");
-            Console.SetCursorPosition(2, 4);
+            Console.SetCursorPosition(x, y+1);
             Console.Write("*");
         }
 
