@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text.Json;
+
 public class Program
 {
     public static void Main()
@@ -15,13 +16,33 @@ public class Program
         "|             |",
         "---------------" ];
 
-        Food riceBowl = new("RiceBowl", 1, 0, true);
-        Food friedEggs = new("Fried Eggs", 1, 0, true);
-        Food cake = new("Cake", 1, 1, true);
-        var ownedFood = new List<Food> { riceBowl, friedEggs, cake};
+        var currentPet = new Pet("Default");
+        Food riceBowl;
+        Food friedEggs;
+        Food cake;
+        var ownedFood = new List<Food> { };
 
-        HatchEgg();
-        Pet currentPet = NamePet();
+        //new game setup
+        if (!File.Exists("SaveData"))
+        {
+            Console.WriteLine("Starting new game...");
+            Thread.Sleep(2000);
+            riceBowl = new("RiceBowl", 1, 0, true);
+            friedEggs = new("Fried Eggs", 1, 0, true);
+            cake = new("Cake", 1, 1, true);
+            ownedFood = new List<Food> { riceBowl, friedEggs, cake};
+            HatchEgg();
+            currentPet = NamePet();
+            SaveGameData(currentPet, ownedFood);
+        }
+        else
+        {
+            Console.WriteLine("Loading game...");
+            
+            Thread.Sleep(2000);
+        }
+
+
         MainScreen();
 
         void HatchEgg()
@@ -212,6 +233,13 @@ Birthday: {currentPet.Birthday}");
 
         }
 
+        void SaveGameData(Pet currentPetData, List<Food> ownedFoodList)
+        {
+            var saveData = new SaveData(currentPetData, ownedFoodList);
+            var jsonString = JsonSerializer.Serialize(saveData);
+            File.WriteAllText("SaveData", jsonString);
+        }
+
         void TestRun()
         {
 
@@ -316,7 +344,7 @@ Birthday: {currentPet.Birthday}");
     }
 }
 
-class Pet(string name, string birthday, string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -334,4 +362,10 @@ class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool 
     public int RestoredHunger { get; set; } = restoredHunger;
     public int RestoredHappiness { get; set; } = restoredHappiness;
     public bool Owned { get; set; } = owned;
+}
+
+class SaveData(Pet currentPet, List<Food> ownedFoodList)
+{
+    public Pet CurrentPetData { get; set; } = currentPet;
+    public List<Food> OwnedFoodList { get; set; } = ownedFoodList;
 }
