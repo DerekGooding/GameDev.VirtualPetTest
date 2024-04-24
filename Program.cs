@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using System.Timers;
 
 public class Program
 {
@@ -43,7 +44,7 @@ public class Program
             Thread.Sleep(2000);
         }
 
-
+        StartTimer();
         MainScreen();
 
         void HatchEgg()
@@ -248,6 +249,20 @@ Birthday: {currentPet.Birthday}");
             var jsonString = File.ReadAllText("SaveData");
             SaveData loadedData = JsonSerializer.Deserialize<SaveData>(jsonString);
             return loadedData;
+        }
+
+        void StartTimer()
+        {
+            System.Timers.Timer timer;
+            timer = new System.Timers.Timer(2000);
+            timer.Elapsed += OnTimedEvent;
+            timer.AutoReset = true;
+            timer.Enabled = true;
+        }
+
+        void OnTimedEvent(Object source, ElapsedEventArgs e)
+        {
+            Console.Write("a");
         }
 
         void TestRun()
