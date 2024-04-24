@@ -15,11 +15,14 @@ public class Program
         "|             |",
         "---------------" ];
 
-        Pet currentPet;
-        List<Food> ownedFood;
-        Food riceBowl;
-        Food friedEggs;
-        Food cake;
+        Food riceBowl = new("RiceBowl", 1, 0, true);
+        Food friedEggs = new("Fried Eggs", 1, 0, true);
+        Food cake = new("Cake", 1, 1, true);
+        var ownedFood = new List<Food> { riceBowl, friedEggs, cake};
+
+        HatchEgg();
+        Pet currentPet = NamePet();
+        MainScreen();
 
         void HatchEgg()
         {
@@ -47,18 +50,6 @@ public class Program
 
             return currentPet;
         }
-
-        Food LoadFood(string name, int hunger, int happy, bool owned)
-        {
-            Food riceBowl = new("Rice Bowl", 1, 0, true);
-            Food friedEggs = new("Fried Eggs", 1, 0, true);
-            Food cake = new("Cake", 1, 1, true);
-            var ownedFood = new List<Food> { riceBowl, friedEggs, cake };
-            return riceBowl;
-        }
-            
-        
-        MainScreen();
         
         void MainScreen()
         {
