@@ -29,6 +29,8 @@ public class Program
         Food cake;
         var ownedFood = new List<Food> { };
 
+        Console.CursorVisible = false;
+
         //new game setup
         if (!File.Exists("SaveData"))
         {
@@ -106,7 +108,7 @@ public class Program
                         break;
                 }
 
-                var userInput = Console.ReadKey().KeyChar;
+                var userInput = Console.ReadKey(true).KeyChar;
 
                 if (userInput == 's')
                 {
@@ -152,7 +154,7 @@ Happiness: {currentPet.Happiness}
 Money: {currentPet.Money}
 Birthday: {currentPet.Birthday}");
 
-            Console.ReadKey();
+            Console.ReadKey(true);
         }
 
         void FoodScreen()
@@ -180,7 +182,7 @@ Birthday: {currentPet.Birthday}");
                         break;
                 }
 
-                var userInput = Console.ReadKey().KeyChar;
+                var userInput = Console.ReadKey(true).KeyChar;
 
                 if (userInput == 's')
                 {
@@ -221,7 +223,7 @@ Birthday: {currentPet.Birthday}");
                     {
                         Console.WriteLine($"Fed {currentPet.Name} {ownedFood[1]}, gained +{ownedFood[selection - 1].RestoredHunger} <3\n(Press any key to continue...)");
                     }                    
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                 }
                 else if(userInput == 'd')
                 {
@@ -288,7 +290,7 @@ Birthday: {currentPet.Birthday}");
             {
                 if (roll == 10)
                 {
-                    Console.WriteLine("Died");
+                    //Console.WriteLine("Died");
                 }
             }
             else
@@ -296,7 +298,7 @@ Birthday: {currentPet.Birthday}");
                 if(roll >= 6)
                 {
                     currentPet.Hunger--;
-                    Console.WriteLine("Lost 1 Hunger");
+                    //Console.WriteLine("Lost 1 Hunger");
                     Poop();
                 }
             }
@@ -305,7 +307,7 @@ Birthday: {currentPet.Birthday}");
             if(roll >= 6)
             {
                 currentPet.Happiness--;
-                Console.WriteLine("Lost 1 Happiness");
+                //Console.WriteLine("Lost 1 Happiness");
 
             }
         }
@@ -350,7 +352,7 @@ Birthday: {currentPet.Birthday}");
 
                 Console.WriteLine("\"Stats\"\nFood");
 
-                if (Console.ReadKey().KeyChar == 's')
+                if (Console.ReadKey(true).KeyChar == 's')
                 {
                     Console.Clear();
                     Console.WriteLine($"Virtual Pet Test");
@@ -362,7 +364,7 @@ Birthday: {currentPet.Birthday}");
 
                     Console.WriteLine("Stats\n\"Food\"");
 
-                    if(Console.ReadKey().KeyChar == 'a')
+                    if(Console.ReadKey(true).KeyChar == 'a')
                     {
                         Console.Clear();
                         Console.WriteLine($"Virtual Pet Test");
@@ -373,16 +375,16 @@ Birthday: {currentPet.Birthday}");
                         }
                         Console.WriteLine("(A) (S) (D)");
                         Console.WriteLine($"Fed {currentPet.Name} and gained +1 <3!");
-                        Console.ReadKey();
+                        Console.ReadKey(true);
                         screenLines[3] = "|             |";
 
                     }
                 }
-                else if (Console.ReadKey().KeyChar == 'a')
+                else if (Console.ReadKey(true).KeyChar == 'a')
                 {
 
                 }
-                else if (Console.ReadKey().KeyChar == 'd')
+                else if (Console.ReadKey(true).KeyChar == 'd')
                 {
 
                 }
@@ -394,7 +396,7 @@ Birthday: {currentPet.Birthday}");
                     //$"Stats:\nName: {currentPet.Name}\nAppearance: {currentPet.Appearance}\nAge: {currentPet.Age}");
 
 
-                    if (Console.ReadKey().KeyChar == 's')
+                    if (Console.ReadKey(true).KeyChar == 's')
                     {
                         Console.Clear();
                         Console.WriteLine($"Virtual Pet Test");
@@ -405,7 +407,7 @@ Birthday: {currentPet.Birthday}");
                         Console.WriteLine("(A) (S) (D)");
                         Console.WriteLine("Food:\n\"Rice\"\nCheese\nCake");
 
-                        if (Console.ReadKey().KeyChar == 's')
+                        if (Console.ReadKey(true).KeyChar == 's')
                         {
                             Console.Clear();
                             Console.WriteLine($"Virtual Pet Test");
