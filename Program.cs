@@ -26,11 +26,11 @@ public class Program
         if (!File.Exists("SaveData"))
         {
             Console.WriteLine("Starting new game...");
-            Thread.Sleep(2000);
             riceBowl = new("RiceBowl", 1, 0, true);
             friedEggs = new("Fried Eggs", 1, 0, true);
             cake = new("Cake", 1, 1, true);
             ownedFood = new List<Food> { riceBowl, friedEggs, cake};
+            Thread.Sleep(2000);
             HatchEgg();
             currentPet = NamePet();
             SaveGameData(currentPet, ownedFood);
@@ -38,7 +38,8 @@ public class Program
         else
         {
             Console.WriteLine("Loading game...");
-            
+            currentPet = LoadGameData().CurrentPetData;
+            ownedFood = LoadGameData().OwnedFoodList;
             Thread.Sleep(2000);
         }
 
@@ -235,9 +236,18 @@ Birthday: {currentPet.Birthday}");
 
         void SaveGameData(Pet currentPetData, List<Food> ownedFoodList)
         {
-            var saveData = new SaveData(currentPetData, ownedFoodList);
+            var saveData = new SaveData();
+            saveData.CurrentPetData = currentPetData;
+            saveData.OwnedFoodList = ownedFoodList;
             var jsonString = JsonSerializer.Serialize(saveData);
             File.WriteAllText("SaveData", jsonString);
+        }
+
+        SaveData LoadGameData()
+        {
+            var jsonString = File.ReadAllText("SaveData");
+            SaveData loadedData = JsonSerializer.Deserialize<SaveData>(jsonString);
+            return loadedData;
         }
 
         void TestRun()
@@ -364,8 +374,8 @@ class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool 
     public bool Owned { get; set; } = owned;
 }
 
-class SaveData(Pet currentPet, List<Food> ownedFoodList)
+class SaveData()
 {
-    public Pet CurrentPetData { get; set; } = currentPet;
-    public List<Food> OwnedFoodList { get; set; } = ownedFoodList;
+    public Pet CurrentPetData { get; set; }
+    public List<Food> OwnedFoodList { get; set; }
 }
