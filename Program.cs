@@ -310,6 +310,8 @@ Birthday: {currentPet.Birthday}");
                 //Console.WriteLine("Lost 1 Happiness");
 
             }
+
+            DrawPet();
         }
 
         void Poop()
@@ -320,6 +322,15 @@ Birthday: {currentPet.Birthday}");
             Console.Write("s");
             Console.SetCursorPosition(x, y+1);
             Console.Write("*");
+        }
+
+        void DrawPet()
+        {
+            int x = rand.Next(1, 10);
+            int y = rand.Next(2, 8);
+            Console.SetCursorPosition(x, y);
+            Console.Write(currentPet.Appearance);
+
         }
 
         void TestRun()
