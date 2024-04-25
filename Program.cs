@@ -284,8 +284,14 @@ Birthday: {currentPet.Birthday}");
 
         void StartTimer()
         {
+            System.Timers.Timer drawPetTimer;
+            drawPetTimer = new System.Timers.Timer(2000);
+            drawPetTimer.Elapsed += drawPetTimed;
+            drawPetTimer.AutoReset = true;
+            drawPetTimer.Enabled = true;
+
             System.Timers.Timer timer;
-            timer = new System.Timers.Timer(2000);
+            timer = new System.Timers.Timer(3000);
             timer.Elapsed += OnTimedEvent;
             timer.AutoReset = true;
             timer.Enabled = true;
@@ -310,7 +316,7 @@ Birthday: {currentPet.Birthday}");
                 {
                     currentPet.Hunger--;
                     //Console.WriteLine("Lost 1 Hunger");
-                    Poop();
+                    addPoop();
                 }
             }
 
@@ -322,15 +328,18 @@ Birthday: {currentPet.Birthday}");
 
             }
 
-            DrawPet();
+            //DrawPet();
+        }
+
+        void addPoop()
+        {
+            int x = rand.Next(2, 12);
+            int y = rand.Next(3, 7);
+            poopPositions.Add([x, y]);
         }
 
         void Poop()
         {
-            int x = rand.Next(2,12);
-            int y = rand.Next(3,7);
-            poopPositions.Add([x, y]);
-
             foreach(var poop in poopPositions)
             {
                 Console.SetCursorPosition(poop[0], poop[1]);
@@ -352,6 +361,21 @@ Birthday: {currentPet.Birthday}");
             petX = x;
             petY = y;
         }
+
+        void drawPetTimed(Object source, ElapsedEventArgs e)
+        {
+            Poop();
+            Console.SetCursorPosition(petX, petY);
+            Console.Write("".PadRight(currentPet.Appearance.Length));
+
+            int x = rand.Next(1, 10);
+            int y = rand.Next(2, 8);
+            Console.SetCursorPosition(x, y);
+            Console.Write(currentPet.Appearance);
+            petX = x;
+            petY = y;
+        }
+
 
         void TestRun()
         {
