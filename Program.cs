@@ -21,8 +21,11 @@ public class Program
         "|             |",
         "---------------" ];
 
+        List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
-        Random rand = new();
+
+
+    Random rand = new();
 
         var currentPet = new Pet("Default");
         Food riceBowl;
@@ -62,6 +65,7 @@ public class Program
 
         void HatchEgg()
         {
+            screenLines[4] = "|      ( )    |";
             DrawScreen();
             Console.WriteLine("An Egg?...");
             Thread.Sleep(2000);
@@ -82,7 +86,7 @@ public class Program
             string? userInput = Console.ReadLine();
 
             Pet currentPet = new(userInput, DateTime.Now.ToString());
-            screenLines[4] = $"|   {currentPet.Appearance}     |";
+            screenLines[4] = $"|             |";
 
             return currentPet;
         }
@@ -91,7 +95,9 @@ public class Program
         {
             bool running = true;
             int selection = 1;
+
             DrawScreen();
+            DrawPet();
 
             do
             {
@@ -451,7 +457,7 @@ Birthday: {currentPet.Birthday}");
     }
 }
 
-class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "(0c0)", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -461,6 +467,7 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "(0c
     public int Money { get; set; } = money;
     public string Birthday { get; set; } = birthday;
     public int Stage { get; set; } = stage;
+
 }
 
 class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool owned = false)
