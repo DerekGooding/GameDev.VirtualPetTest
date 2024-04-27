@@ -11,21 +11,14 @@ public class Program
 
         string[] menuOptions = { "Stats", "Food", "Exit"};
 
-        string[] screenLines = [
-        "---------------",
-        "|             |",
-        "|             |",
-        "|             |",
-        "|             |",
-        "|             |",
-        "|             |",
-        "---------------" ];
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
 
 
-    Random rand = new();
+        Random rand = new();
+
+        Screen screen = new();
 
         var currentPet = new Pet("Default");
         Food riceBowl;
@@ -35,9 +28,6 @@ public class Program
 
         Console.CursorVisible = false;
 
-        int petX = 5;
-        int petY = 5;
-        List<int[]> poopPositions = new();
 
         //new game setup
         if (!File.Exists("SaveData"))
@@ -48,8 +38,8 @@ public class Program
             cake = new("Cake", 1, 1, true);
             ownedFood = new List<Food> { riceBowl, friedEggs, cake};
             Thread.Sleep(2000);
-            HatchEgg();
-            currentPet = NamePet();
+            //HatchEgg();
+            //currentPet = NamePet();
             SaveGameData(currentPet, ownedFood);
         }
         else
@@ -60,9 +50,9 @@ public class Program
             Thread.Sleep(2000);
         }
 
-        StartTimer();
+        StartTimers();
         MainScreen();
-
+        /*
         void HatchEgg()
         {
             screenLines[4] = "|      ( )    |";
@@ -78,8 +68,8 @@ public class Program
             screenLines[4] = "|      \\?/    |";
             DrawScreen();
             Console.WriteLine("It's hatching! What will you name it?");
-        }
-        
+        }*/
+        /*
         Pet NamePet()
         {
             Console.Write("Name: ");
@@ -89,15 +79,15 @@ public class Program
             screenLines[4] = $"|             |";
 
             return currentPet;
-        }
+        }*/
         
         void MainScreen()
         {
             bool running = true;
             int selection = 1;
 
-            DrawScreen();
-            DrawPet();
+            screen.DrawScreen();
+            screen.UpdatePetPosition(currentPet.Appearance);
 
             do
             {
@@ -244,17 +234,6 @@ Birthday: {currentPet.Birthday}");
 
         }
 
-        void DrawScreen()
-        {
-            Console.Clear();
-            Console.WriteLine("VIRTUAL PET");
-            foreach (string screenLine in screenLines)
-            {
-                Console.WriteLine(screenLine);
-            }
-            Console.WriteLine("  (A) (S) (D)");
-
-        }
 
         void ClearLowerScreen()
         {
@@ -282,19 +261,45 @@ Birthday: {currentPet.Birthday}");
             return loadedData;
         }
 
-        void StartTimer()
+        void StartTimers()
         {
             System.Timers.Timer drawPetTimer;
             drawPetTimer = new System.Timers.Timer(2000);
-            drawPetTimer.Elapsed += drawPetTimed;
+            //drawPetTimer.Elapsed += drawPetTimed;
             drawPetTimer.AutoReset = true;
             drawPetTimer.Enabled = true;
 
             System.Timers.Timer timer;
             timer = new System.Timers.Timer(3000);
-            timer.Elapsed += OnTimedEvent;
+            //timer.Elapsed += OnTimedEvent;
             timer.AutoReset = true;
             timer.Enabled = true;
+
+            //StartEvolveTimer();
+        }
+        /*
+        void StartEvolveTimer()
+        {
+            int evolveTime = 0;
+            switch (currentPet.Stage)
+            {
+                case 1:
+                    evolveTime = 20000;
+                    break;
+                case 2:
+                    evolveTime = 40000;
+                    break;
+                case 3:
+                    evolveTime = 60000;
+                    break;
+                default:
+                    break;
+            }
+            System.Timers.Timer evolveTimer;
+            evolveTimer = new System.Timers.Timer(evolveTime);
+            evolveTimer.Elapsed += EvolvePet;
+            evolveTimer.Enabled = true;
+
         }
 
         void OnTimedEvent(Object source, ElapsedEventArgs e)
@@ -331,38 +336,27 @@ Birthday: {currentPet.Birthday}");
             //DrawPet();
         }
 
-        void addPoop()
+        void EvolvePet(Object source, ElapsedEventArgs e)
         {
-            int x = rand.Next(2, 12);
-            int y = rand.Next(3, 7);
-            poopPositions.Add([x, y]);
-        }
-
-        void Poop()
-        {
-            foreach(var poop in poopPositions)
+            switch (currentPet.Stage)
             {
-                Console.SetCursorPosition(poop[0], poop[1]);
-                Console.Write("s");
-                Console.SetCursorPosition(poop[0], poop[1]+1);
-                Console.Write("*");
+                case 1:
+                    currentPet.Appearance = petModels[1];
+                    break;
+                case 2:
+                    currentPet.Appearance = petModels[2];
+                    break;
+                default:
+                    break;
+
             }
-        }
+            StartEvolveTimer();
+        }*/
 
-        void DrawPet()
-        {
-            Console.SetCursorPosition(petX, petY);
-            Console.Write("".PadRight(currentPet.Appearance.Length));
 
-            int x = rand.Next(1, 10);
-            int y = rand.Next(2, 8);
-            Console.SetCursorPosition(x, y);
-            Console.Write(currentPet.Appearance);
-            petX = x;
-            petY = y;
-        }
 
-        void drawPetTimed(Object source, ElapsedEventArgs e)
+
+        /*void drawPetTimed(Object source, ElapsedEventArgs e)
         {
             Poop();
             Console.SetCursorPosition(petX, petY);
@@ -374,111 +368,65 @@ Birthday: {currentPet.Birthday}");
             Console.Write(currentPet.Appearance);
             petX = x;
             petY = y;
-        }
-
-
-        void TestRun()
-        {
-
-
-
-            //Pet currentPet = new("Timmy");
-
-
-
-/*            string[] screenLines = [
-                "---------------",
-            "|             |",
-            "|             |",
-            "|             |",
-            "|      ()     |",
-            "|             |",
-            "|             |",
-            "---------------" ];*/
-
-            while(true)
-            {            
-                Console.WriteLine($"Virtual Pet Test");
-
-                foreach (string screenLine in screenLines)
-                {
-                    Console.WriteLine(screenLine);
-                }
-
-                Console.WriteLine("(A) (S) (D)");
-
-                Console.WriteLine("\"Stats\"\nFood");
-
-                if (Console.ReadKey(true).KeyChar == 's')
-                {
-                    Console.Clear();
-                    Console.WriteLine($"Virtual Pet Test");
-                    foreach (string screenLine in screenLines)
-                    {
-                        Console.WriteLine(screenLine);
-                    }
-                    Console.WriteLine("(A) (S) (D)");
-
-                    Console.WriteLine("Stats\n\"Food\"");
-
-                    if(Console.ReadKey(true).KeyChar == 'a')
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"Virtual Pet Test");
-                        screenLines[3] = "|      <3     |";
-                        foreach (string screenLine in screenLines)
-                        {
-                            Console.WriteLine(screenLine);
-                        }
-                        Console.WriteLine("(A) (S) (D)");
-                        Console.WriteLine($"Fed {currentPet.Name} and gained +1 <3!");
-                        Console.ReadKey(true);
-                        screenLines[3] = "|             |";
-
-                    }
-                }
-                else if (Console.ReadKey(true).KeyChar == 'a')
-                {
-
-                }
-                else if (Console.ReadKey(true).KeyChar == 'd')
-                {
-
-                }
-
-
-
-
-                //Console.WriteLine(
-                    //$"Stats:\nName: {currentPet.Name}\nAppearance: {currentPet.Appearance}\nAge: {currentPet.Age}");
-
-
-                    if (Console.ReadKey(true).KeyChar == 's')
-                    {
-                        Console.Clear();
-                        Console.WriteLine($"Virtual Pet Test");
-                        foreach (string screenLine in screenLines)
-                        {
-                            Console.WriteLine(screenLine);
-                        }
-                        Console.WriteLine("(A) (S) (D)");
-                        Console.WriteLine("Food:\n\"Rice\"\nCheese\nCake");
-
-                        if (Console.ReadKey(true).KeyChar == 's')
-                        {
-                            Console.Clear();
-                            Console.WriteLine($"Virtual Pet Test");
-                            foreach (string screenLine in screenLines)
-                            {
-                                Console.WriteLine(screenLine);
-                            }
-                            Console.WriteLine("(A) (S) (D)");
-                            Console.WriteLine("Food:\nRice\n\"Cheese\"\nCake");
-                        }
-                    }
-            }
-        }        
+        }*/
     }
+}
+
+public class Screen()
+{
+    Random rand = new();
+
+    string[] screenLines = [
+        "---------------",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|             |",
+        "---------------" ];
+    int petX = 5;
+    int petY = 5;
+    List<int[]> poopPositions = new();
+
+
+
+    public void DrawScreen()
+    {
+        Console.SetCursorPosition(0, 0);
+        Console.WriteLine(" VIRTUAL PET");
+        foreach (string screenLine in screenLines)
+        {
+            Console.WriteLine(screenLine);
+        }
+        Console.WriteLine("  (A) (S) (D)");
+    }
+
+    public void UpdatePetPosition(string petAppearance)
+    {
+        int x = rand.Next(1, 10);
+        int y = rand.Next(2, 8);
+        screenLines[y].Insert(x, petAppearance);
+        screenLines[y].Remove(x + petAppearance.Length, petAppearance.Length);
+        petX = x;
+        petY = y;
+    }
+
+    void AddPoop()
+    {
+        int x = rand.Next(2, 12);
+        int y = rand.Next(3, 7);
+        poopPositions.Add([x, y]);
+
+        foreach(int[] poop in poopPositions)
+        {
+            screenLines[poop[1]].Insert(poop[0], "S");
+            screenLines[poop[1] + 1].Insert(poop[0], "*");
+            screenLines[poop[1]].Remove(poop[0], 1);
+            screenLines[poop[1] + 1].Remove(poop[0], 1);
+        }
+    }
+
 }
 
 class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
