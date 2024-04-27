@@ -17,6 +17,7 @@ public class Program
 
         int HungerTickCount = 0;
         int HappinessTickCount = 0;
+        int EvolveTickCount = 0;
 
         Random rand = new();
 
@@ -42,8 +43,8 @@ public class Program
             cake = new("Cake", 1, 1, true);
             ownedFood = new List<Food> { riceBowl, friedEggs, cake};
             Thread.Sleep(2000);
-            //HatchEgg();
-            //currentPet = NamePet();
+            HatchEgg();
+            currentPet = NamePet();
             SaveGameData(currentPet, ownedFood);
         }
         else
@@ -56,34 +57,34 @@ public class Program
 
         StartTimers();
         MainScreen();
-        /*
+        
         void HatchEgg()
         {
-            screenLines[4] = "|      ( )    |";
-            DrawScreen();
+            screen.screenLines[4] = "|      ( )    |";
+            screen.DrawScreen();
             Console.WriteLine("An Egg?...");
             Thread.Sleep(2000);
 
-            screenLines[4] = "|      (z)    |";
-            DrawScreen();
+            screen.screenLines[4] = "|      (z)    |";
+            screen.DrawScreen();
             Console.WriteLine("A crack in the egg?...");
             Thread.Sleep(2000);
 
-            screenLines[4] = "|      \\?/    |";
-            DrawScreen();
+            screen.screenLines[4] = "|      \\?/    |";
+            screen.DrawScreen();
             Console.WriteLine("It's hatching! What will you name it?");
-        }*/
-        /*
+        }
+        
         Pet NamePet()
         {
             Console.Write("Name: ");
             string? userInput = Console.ReadLine();
 
             Pet currentPet = new(userInput, DateTime.Now.ToString());
-            screenLines[4] = $"|             |";
+            screen.screenLines[4] = $"|             |";
 
             return currentPet;
-        }*/
+        }
         
         void MainScreen()
         {
@@ -272,81 +273,32 @@ Birthday: {currentPet.Birthday}");
             tickTimer.Elapsed += TickEvent;
             tickTimer.AutoReset = true;
             tickTimer.Enabled = true;
-
-            System.Timers.Timer timer;
-            timer = new System.Timers.Timer(3000);
-            //timer.Elapsed += OnTimedEvent;
-            timer.AutoReset = true;
-            timer.Enabled = true;
-
-            //StartEvolveTimer();
         }
-        /*
-        void StartEvolveTimer()
-        {
-            int evolveTime = 0;
-            switch (currentPet.Stage)
-            {
-                case 1:
-                    evolveTime = 20000;
-                    break;
-                case 2:
-                    evolveTime = 40000;
-                    break;
-                case 3:
-                    evolveTime = 60000;
-                    break;
-                default:
-                    break;
-            }
-            System.Timers.Timer evolveTimer;
-            evolveTimer = new System.Timers.Timer(evolveTime);
-            evolveTimer.Elapsed += EvolvePet;
-            evolveTimer.Enabled = true;
-
-        }
-
-        void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {
-            // Console.Write("aa");
-
-            //happiness
-            if(roll >= 6)
-            {
-                currentPet.Happiness--;
-                //Console.WriteLine("Lost 1 Happiness");
-
-            }
-
-            //DrawPet();
-        }
-
-        void EvolvePet(Object source, ElapsedEventArgs e)
-        {
-            switch (currentPet.Stage)
-            {
-                case 1:
-                    currentPet.Appearance = petModels[1];
-                    break;
-                case 2:
-                    currentPet.Appearance = petModels[2];
-                    break;
-                default:
-                    break;
-
-            }
-            StartEvolveTimer();
-        }*/
 
         void TickEvent(object sender, EventArgs e)
         {
             HungerCheck();
             HappinessCheck();
+            EvolveCheck();
 
             screen.UpdatePoops(poopPositions);
             screen.UpdatePetPosition(currentPet.Appearance);
             screen.DrawScreen();
 
+        }
+
+        void EvolveCheck()
+        {
+            if (EvolveTickCount >= 1) //30s
+            {
+                currentPet.Appearance = petModels[currentPet.Stage];
+                currentPet.Stage++;
+                EvolveTickCount = 0;
+            }
+            else
+            {
+                EvolveTickCount++;
+            }
         }
 
         void HappinessCheck()
@@ -390,7 +342,7 @@ public class Screen()
 {
     Random rand = new();
 
-    string[] screenLines = [
+    public string[] screenLines = [
         "---------------",
         "|             |",
         "|             |",
@@ -401,8 +353,6 @@ public class Screen()
         "---------------" ];
     int petX = 5;
     int petY = 5;
-
-
 
     public void DrawScreen()
     {
@@ -426,8 +376,6 @@ public class Screen()
         petX = x;
         petY = y;
     }
-
-
 
     public void UpdatePoops(List<int[]> poopPositions)
     {
