@@ -16,6 +16,7 @@ public class Program
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
         int HungerTickCount = 0;
+        int HappinessTickCount = 0;
 
         Random rand = new();
 
@@ -309,25 +310,6 @@ Birthday: {currentPet.Birthday}");
         {
             // Console.Write("aa");
 
-            //food
-            int roll = rand.Next(1, 11);
-            if(currentPet.Hunger == 0)
-            {
-                if (roll == 10)
-                {
-                    //Console.WriteLine("Died");
-                }
-            }
-            else
-            {
-                if(roll >= 6)
-                {
-                    currentPet.Hunger--;
-                    //Console.WriteLine("Lost 1 Hunger");
-                    addPoop();
-                }
-            }
-
             //happiness
             if(roll >= 6)
             {
@@ -359,6 +341,7 @@ Birthday: {currentPet.Birthday}");
         void TickEvent(object sender, EventArgs e)
         {
             HungerCheck();
+            HappinessCheck();
 
             screen.UpdatePoops(poopPositions);
             screen.UpdatePetPosition(currentPet.Appearance);
@@ -366,9 +349,22 @@ Birthday: {currentPet.Birthday}");
 
         }
 
+        void HappinessCheck()
+        {
+            if (HappinessTickCount >= 5) //15s
+            {
+                currentPet.Happiness--;
+                HappinessTickCount = 0;
+            }
+            else
+            {
+                HappinessTickCount++;
+            }
+        }
+
         void HungerCheck()
         {
-            if (HungerTickCount >= 3)
+            if (HungerTickCount >= 3) //9s
             {
                 currentPet.Hunger--;
                 HungerTickCount = 0;
