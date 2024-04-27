@@ -15,7 +15,7 @@ public class Program
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
-        int tickCount = 1;
+        int HungerTickCount = 0;
 
         Random rand = new();
 
@@ -26,6 +26,8 @@ public class Program
         Food friedEggs;
         Food cake;
         var ownedFood = new List<Food> { };
+        List<int[]> poopPositions = new();
+
 
         Console.CursorVisible = false;
 
@@ -356,26 +358,35 @@ Birthday: {currentPet.Birthday}");
 
         void TickEvent(object sender, EventArgs e)
         {
+            HungerCheck();
+
+            screen.UpdatePoops(poopPositions);
             screen.UpdatePetPosition(currentPet.Appearance);
             screen.DrawScreen();
+
         }
 
-
-
-
-        /*void drawPetTimed(Object source, ElapsedEventArgs e)
+        void HungerCheck()
         {
-            Poop();
-            Console.SetCursorPosition(petX, petY);
-            Console.Write("".PadRight(currentPet.Appearance.Length));
+            if (HungerTickCount >= 3)
+            {
+                currentPet.Hunger--;
+                HungerTickCount = 0;
+                AddPoop();
 
-            int x = rand.Next(1, 10);
-            int y = rand.Next(2, 8);
-            Console.SetCursorPosition(x, y);
-            Console.Write(currentPet.Appearance);
-            petX = x;
-            petY = y;
-        }*/
+            }
+            else
+            {
+                HungerTickCount++;
+            }
+        }
+
+        void AddPoop()
+        {
+            int x = rand.Next(2, 12);
+            int y = rand.Next(3, 7);
+            poopPositions.Add([x, y]);
+        }
     }
 }
 
@@ -394,7 +405,6 @@ public class Screen()
         "---------------" ];
     int petX = 5;
     int petY = 5;
-    List<int[]> poopPositions = new();
 
 
 
@@ -423,18 +433,14 @@ public class Screen()
 
 
 
-    void AddPoop()
+    public void UpdatePoops(List<int[]> poopPositions)
     {
-        int x = rand.Next(2, 12);
-        int y = rand.Next(3, 7);
-        poopPositions.Add([x, y]);
-
         foreach(int[] poop in poopPositions)
         {
-            screenLines[poop[1]].Insert(poop[0], "S");
-            screenLines[poop[1] + 1].Insert(poop[0], "*");
-            screenLines[poop[1]].Remove(poop[0], 1);
-            screenLines[poop[1] + 1].Remove(poop[0], 1);
+            screenLines[poop[1]] = screenLines[poop[1]].Insert(poop[0], "S");
+            screenLines[poop[1] + 1] = screenLines[poop[1] + 1].Insert(poop[0], "*");
+            screenLines[poop[1]] = screenLines[poop[1]].Remove(poop[0] + 1, 1);
+            screenLines[poop[1] + 1] = screenLines[poop[1] + 1].Remove(poop[0] + 1, 1);
         }
     }
 
