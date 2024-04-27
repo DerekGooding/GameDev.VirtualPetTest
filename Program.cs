@@ -10,6 +10,7 @@ public class Program
         //end of screen (c0,r10)
 
         string[] menuOptions = { "Stats", "Food", "Exit"};
+        //
 
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
