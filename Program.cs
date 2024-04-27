@@ -289,15 +289,19 @@ Birthday: {currentPet.Birthday}");
 
         void EvolveCheck()
         {
-            if (EvolveTickCount >= 1) //30s
+            if(currentPet.Stage <= 2)
             {
-                currentPet.Appearance = petModels[currentPet.Stage];
-                currentPet.Stage++;
-                EvolveTickCount = 0;
-            }
-            else
-            {
-                EvolveTickCount++;
+                if (EvolveTickCount >= 1) //3s
+                {
+                    currentPet.Appearance = petModels[currentPet.Stage];
+                    currentPet.Stage++;
+                    EvolveTickCount = 0;
+                    screen.ResetScreen();
+                }
+                else
+                {
+                    EvolveTickCount++;
+                }
             }
         }
 
@@ -357,7 +361,7 @@ public class Screen()
     public void DrawScreen()
     {
         Console.SetCursorPosition(0, 0);
-        Console.WriteLine(" VIRTUAL PET");
+        Console.WriteLine(" VIRTUAL PET   ");
         foreach (string screenLine in screenLines)
         {
             Console.WriteLine(screenLine);
@@ -373,8 +377,22 @@ public class Screen()
         screenLines[y] = screenLines[y].Insert(x, petAppearance);
         screenLines[y] = screenLines[y].Remove(x + petAppearance.Length, petAppearance.Length);
 
+
         petX = x;
         petY = y;
+    }
+
+    public void ResetScreen()
+    {
+        screenLines = [
+        "---------------",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|             |",
+        "|             |",
+        "---------------" ];
     }
 
     public void UpdatePoops(List<int[]> poopPositions)
@@ -390,7 +408,7 @@ public class Screen()
 
 }
 
-class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 1)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 0)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
