@@ -15,7 +15,7 @@ public class Program
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
-
+        int tickCount = 1;
 
         Random rand = new();
 
@@ -87,8 +87,8 @@ public class Program
             bool running = true;
             int selection = 1;
 
-            screen.DrawScreen();
             screen.UpdatePetPosition(currentPet.Appearance);
+            screen.DrawScreen();
 
             do
             {
@@ -264,11 +264,11 @@ Birthday: {currentPet.Birthday}");
 
         void StartTimers()
         {
-            System.Timers.Timer drawPetTimer;
-            drawPetTimer = new System.Timers.Timer(2000);
-            //drawPetTimer.Elapsed += drawPetTimed;
-            drawPetTimer.AutoReset = true;
-            drawPetTimer.Enabled = true;
+            System.Timers.Timer tickTimer;
+            tickTimer = new System.Timers.Timer(3000);
+            tickTimer.Elapsed += TickEvent;
+            tickTimer.AutoReset = true;
+            tickTimer.Enabled = true;
 
             System.Timers.Timer timer;
             timer = new System.Timers.Timer(3000);
@@ -354,6 +354,12 @@ Birthday: {currentPet.Birthday}");
             StartEvolveTimer();
         }*/
 
+        void TickEvent(object sender, EventArgs e)
+        {
+            screen.UpdatePetPosition(currentPet.Appearance);
+            screen.DrawScreen();
+        }
+
 
 
 
@@ -405,13 +411,17 @@ public class Screen()
 
     public void UpdatePetPosition(string petAppearance)
     {
-        int x = rand.Next(1, 10);
-        int y = rand.Next(2, 8);
-        screenLines[y].Insert(x, petAppearance);
-        screenLines[y].Remove(x + petAppearance.Length, petAppearance.Length);
+        int x = rand.Next(1, 12);
+        int y = rand.Next(1, 7);
+        screenLines[petY] = screenLines[petY].Replace(petAppearance, "".PadRight(petAppearance.Length));
+        screenLines[y] = screenLines[y].Insert(x, petAppearance);
+        screenLines[y] = screenLines[y].Remove(x + petAppearance.Length, petAppearance.Length);
+
         petX = x;
         petY = y;
     }
+
+
 
     void AddPoop()
     {
