@@ -9,9 +9,17 @@ public class Program
         //coords for inner border of screen (c2-11,r3-6)
         //end of screen (c0,r10)
 
-        string[] menuOptions = { "Stats", "Food", "Exit"};
-        //
+        Random rand = new();
+        Screen screen = new();
+        Food riceBowl;
+        Food friedEggs;
+        Food cake;
+        List<int[]> poopPositions = new();
 
+        var currentPet = new Pet("Default");
+        var ownedFood = new List<Food> { };
+
+        string[] menuOptions = { "Stats", "Food", "Exit"};
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
@@ -19,20 +27,7 @@ public class Program
         int HappinessTickCount = 0;
         int EvolveTickCount = 0;
 
-        Random rand = new();
-
-        Screen screen = new();
-
-        var currentPet = new Pet("Default");
-        Food riceBowl;
-        Food friedEggs;
-        Food cake;
-        var ownedFood = new List<Food> { };
-        List<int[]> poopPositions = new();
-
-
         Console.CursorVisible = false;
-
 
         //new game setup
         if (!File.Exists("SaveData"))
@@ -138,6 +133,7 @@ public class Program
                             FoodScreen();
                             break;
                         case 3:
+                            SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;
                         default:
@@ -239,7 +235,6 @@ Birthday: {currentPet.Birthday}");
 
         }
 
-
         void ClearLowerScreen()
         {
             Console.SetCursorPosition(0, 10);
@@ -291,7 +286,7 @@ Birthday: {currentPet.Birthday}");
         {
             if(currentPet.Stage <= 2)
             {
-                if (EvolveTickCount >= 1) //3s
+                if (EvolveTickCount >= 10) //30s
                 {
                     currentPet.Appearance = petModels[currentPet.Stage];
                     currentPet.Stage++;
