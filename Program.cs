@@ -11,6 +11,7 @@ public class Program
 
         Random rand = new();
         Screen screen = new();
+        Games games = new();
         Food riceBowl;
         Food friedEggs;
         Food cake;
@@ -54,9 +55,12 @@ public class Program
             Thread.Sleep(2000);
         }
 
-        StartTimers();
-        MainScreen();
-        
+        //StartTimers();
+        //MainScreen();
+        Console.Clear();
+
+        games.LeftOrRightGame();
+
         void HatchEgg()
         {
             screen.screenLines[4] = "|      ( )    |";
@@ -448,6 +452,107 @@ Birthday: {currentPet.Birthday}");
     }
 }
 
+public class Games
+{
+    Screen screen = new();
+    public int[] LeftOrRightGame()
+    {
+        Random rand = new();
+
+        bool playing = true;
+        string flagLeft = "<I";
+        string flagRight = "I>";
+        int score = 0;
+        int side = 0;
+
+        for(int i =0;i<5;i++)
+        {
+            screen.ResetScreen();
+            screen.screenLines[2] = $"|      {score}      |";
+            screen.screenLines[4] = "|     @>@     |";
+            screen.DrawScreen();
+            Thread.Sleep(1000);
+            screen.screenLines[4] = "|   <I@>@     |";
+            screen.DrawScreen();
+            Thread.Sleep(1000);
+            screen.screenLines[4] = "|     @>@I>   |";
+            screen.DrawScreen();
+            Thread.Sleep(1000);
+            screen.screenLines[4] = "|    ?@>@?    |";
+            screen.DrawScreen();
+
+            side = rand.Next(2);
+            char answer = Console.ReadKey(true).KeyChar;
+            if(answer == 'a')
+            {
+                if(side == 0)
+                {
+                    screen.screenLines[3] = "|   +1        |";
+                    screen.screenLines[4] = "|   <I@>@     |";
+                    score++;
+                }
+                else
+                {
+                    screen.screenLines[3] = "|         !   |";
+                    screen.screenLines[4] = "|     @>@I>   |";
+                }
+            }
+            else if(answer == 's')
+            {
+                if(side == 1)
+                {
+                    screen.screenLines[3] = "|        +1   |";
+                    screen.screenLines[4] = "|     @>@I>   |";
+                    score++;
+                }
+                else
+                {
+                    screen.screenLines[3] = "|    !        |";
+                    screen.screenLines[4] = "|   <I@>@     |";
+                }
+            }
+            else if(answer == 'd')
+            {
+                break;
+            }
+            else
+            {
+                screen.screenLines[3] = "|    !   !    |";
+                screen.screenLines[4] = "|   <I@>@I>   |";
+            }
+            screen.DrawScreen();
+            Thread.Sleep(2000);
+        }
+
+        screen.screenLines[2] = $"|      {score}      |";
+        screen.screenLines[3] = "|     @>@     |";
+        screen.screenLines[4] = "|             |";
+        screen.DrawScreen();
+        Thread.Sleep(1000);
+        screen.screenLines[3] = "|             |";
+        screen.screenLines[4] = "|     @>@     |";
+        screen.DrawScreen();
+        if(score > 2)
+        {
+            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +1");
+        }
+        else
+        {
+            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
+        }
+        Thread.Sleep(1000);
+        screen.screenLines[3] = "|     @>@     |";
+        screen.screenLines[4] = "|             |";
+        screen.DrawScreen();
+        Thread.Sleep(1000);
+        screen.screenLines[3] = "|             |";
+        screen.screenLines[4] = "|     @>@     |";
+        screen.DrawScreen();
+        Console.ReadKey();
+        int[] moneyAndHappiness = [score*10];
+        return 
+    }
+}
 public class Screen()
 {
     Random rand = new();
