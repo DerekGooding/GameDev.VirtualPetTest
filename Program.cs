@@ -22,9 +22,10 @@ public class Program
 
         var currentPet = new Pet("Default");
         var ownedFood = new List<Food> { };
-
+        
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
+        string[] ownedGames = { "Left or Right?" };
         bool steakBought = false;
         bool jumpRopeBought = false;
 
@@ -151,7 +152,7 @@ public class Program
                             ShopScreen();
                             break;
                         case 4:
-                            GameScreen();
+                            //GameScreen();
 
                             tickTimer.Stop();
                             ClearLowerScreen();
