@@ -21,6 +21,8 @@ public class Program
 
         string[] menuOptions = { "Stats", "Food","Shop", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
+        bool steakBought = false;
+        bool jumpRopeBought = false;
 
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
@@ -309,16 +311,24 @@ Birthday: {currentPet.Birthday}");
                     switch (selection)
                     {
                         case 1:
-                            if(currentPet.Money >= 50)
+                            if (!steakBought)
                             {
-                                currentPet.Money -= 50;
-                                Console.WriteLine($"Bought {shopItems[0]} for $50!\n(Press any key to continue...)");
-                                shopItems[0] = "SOLD OUT - Steak";
-                                ownedFood.Add(new Food("Steak",1,1,true));
+                                if (currentPet.Money >= 50)
+                                {
+                                    currentPet.Money -= 50;
+                                    Console.WriteLine($"Bought {shopItems[0]} for $50!\n(Press any key to continue...)");
+                                    shopItems[0] = "SOLD OUT - Steak";
+                                    ownedFood.Add(new Food("Steak", 1, 1, true));
+                                    steakBought = true;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Not enough money!\n(Press any key to continue...)");
+                                }
                             }
                             else
                             {
-                                Console.WriteLine("Not enough money!\n(Press any key to continue...)");
+                                Console.WriteLine("Item Steak is sold out!\n(Press any key to continue...)");
                             }
                             Console.ReadKey(true);
                             break;
