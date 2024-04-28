@@ -19,7 +19,9 @@ public class Program
         var currentPet = new Pet("Default");
         var ownedFood = new List<Food> { };
 
-        string[] menuOptions = { "Stats", "Food", "Exit"};
+        string[] menuOptions = { "Stats", "Food","Shop", "Exit"};
+        string[] shopItems = { "Steak", "Jump Rope"};
+
 
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
 
@@ -97,13 +99,16 @@ public class Program
                 switch(selection)
                 {
                     case 1:
-                        Console.WriteLine($"\"{menuOptions[0]}\"\n{menuOptions[1]}\n{menuOptions[2]}");
+                        Console.WriteLine($"\"{menuOptions[0]}\"\n{menuOptions[1]}\n{menuOptions[2]}\n{menuOptions[3]}");
                         break;
                     case 2:
-                        Console.WriteLine($"{menuOptions[0]}\n\"{menuOptions[1]}\"\n{menuOptions[2]}");
+                        Console.WriteLine($"{menuOptions[0]}\n\"{menuOptions[1]}\"\n{menuOptions[2]}\n{menuOptions[3]}");
                         break;
                     case 3:
-                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n\"{menuOptions[2]}\"");
+                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n\"{menuOptions[2]}\"\n{menuOptions[3]}");
+                        break;
+                    case 4:
+                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n{menuOptions[2]}\n\"{menuOptions[3]}\"");
                         break;
                     default:
                         break;
@@ -133,6 +138,9 @@ public class Program
                             FoodScreen();
                             break;
                         case 3:
+                            ShopScreen();
+                            break;
+                        case 4:
                             SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;
@@ -168,20 +176,43 @@ Birthday: {currentPet.Birthday}");
             {
                 ClearLowerScreen();
                 Console.WriteLine("Food:");
-            
-                switch (selection)
+                if (ownedFood.Count == 3)
                 {
-                    case 1:
-                        Console.WriteLine($"\"{ownedFood[0].Name}\"\n{ownedFood[1].Name}\n{ownedFood[2].Name}");
-                        break;
-                    case 2:
-                        Console.WriteLine($"{ownedFood[0].Name}\n\"{ownedFood[1].Name}\"\n{ownedFood[2].Name}");
-                        break;
-                    case 3:
-                        Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n\"{ownedFood[2].Name}\"");
-                        break;
-                    default:
-                        break;
+                    switch (selection)
+                    {
+                        case 1:
+                            Console.WriteLine($"\"{ownedFood[0].Name}\"\n{ownedFood[1].Name}\n{ownedFood[2].Name}");
+                            break;
+                        case 2:
+                            Console.WriteLine($"{ownedFood[0].Name}\n\"{ownedFood[1].Name}\"\n{ownedFood[2].Name}");
+                            break;
+                        case 3:
+                            Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n\"{ownedFood[2].Name}\"");
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (ownedFood.Count == 4)
+                {
+                    switch (selection)
+                    {
+                        case 1:
+                            Console.WriteLine($"\"{ownedFood[0].Name}\"\n{ownedFood[1].Name}\n{ownedFood[2].Name}\n{ownedFood[3].Name}");
+                            break;
+                        case 2:
+                            Console.WriteLine($"{ownedFood[0].Name}\n\"{ownedFood[1].Name}\"\n{ownedFood[2].Name}\n{ownedFood[3].Name}"); 
+                            break;
+                        case 3:
+                            Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n\"{ownedFood[2].Name}\"\n{ownedFood[3].Name}"); 
+                            break;
+                        case 4:
+                            Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n{ownedFood[2].Name}\n\"{ownedFood[3].Name}\"");
+                            break;
+                        default:
+                            break;
+                    }
+
                 }
 
                 var userInput = Console.ReadKey(true).KeyChar;
@@ -235,6 +266,75 @@ Birthday: {currentPet.Birthday}");
 
         }
 
+        void ShopScreen()
+        {
+            bool inMenu = true;
+            int selection = 1;
+
+            do
+            {
+                ClearLowerScreen();
+                Console.WriteLine("Shop:");
+
+                switch (selection)
+                {
+                    case 1:
+                        Console.WriteLine($"\"{shopItems[0]}\" - $50\n{shopItems[1]} - $300");
+                        break;
+                    case 2:
+                        Console.WriteLine($"{shopItems[0]} - $50\n\"{shopItems[1]}\" - $300");
+                        break;
+                    default:
+                        break;
+                }
+
+                var userInput = Console.ReadKey(true).KeyChar;
+
+                if (userInput == 's')
+                {
+                    if (selection >= shopItems.Length)
+                    {
+                        selection = 1;
+                    }
+                    else
+                    {
+                        selection++;
+                    }
+
+                }
+                else if (userInput == 'a')
+                {
+                    ClearLowerScreen();
+
+                    switch (selection)
+                    {
+                        case 1:
+                            if(currentPet.Money >= 50)
+                            {
+                                currentPet.Money -= 50;
+                                Console.WriteLine($"Bought {shopItems[0]} for $50!\n(Press any key to continue...)");
+                                shopItems[0] = "SOLD OUT - Steak";
+                                ownedFood.Add(new Food("Steak",1,1,true));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not enough money!\n(Press any key to continue...)");
+                            }
+                            Console.ReadKey(true);
+                            break;
+                        case 2:
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (userInput == 'd')
+                {
+                    inMenu = false;
+                }
+            } while (inMenu);
+        }
+
         void ClearLowerScreen()
         {
             Console.SetCursorPosition(0, 10);
@@ -276,6 +376,7 @@ Birthday: {currentPet.Birthday}");
             HappinessCheck();
             EvolveCheck();
 
+            screen.ResetScreen();
             screen.UpdatePoops(poopPositions);
             screen.UpdatePetPosition(currentPet.Appearance);
             screen.DrawScreen();
@@ -423,6 +524,7 @@ class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool 
     public int RestoredHappiness { get; set; } = restoredHappiness;
     public bool Owned { get; set; } = owned;
 }
+
 
 class SaveData()
 {
