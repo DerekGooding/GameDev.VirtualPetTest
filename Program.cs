@@ -1,6 +1,8 @@
-﻿using System.Text.Json;
+﻿using System.Diagnostics;
+using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Timers;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Program
 {
@@ -10,6 +12,7 @@ public class Program
         //end of screen (c0,r10)
 
         Random rand = new();
+        System.Timers.Timer tickTimer;
         Screen screen = new();
         Games games = new();
         Food riceBowl;
@@ -20,7 +23,7 @@ public class Program
         var currentPet = new Pet("Default");
         var ownedFood = new List<Food> { };
 
-        string[] menuOptions = { "Stats", "Food","Shop", "Exit"};
+        string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
         bool steakBought = false;
         bool jumpRopeBought = false;
@@ -55,11 +58,9 @@ public class Program
             Thread.Sleep(2000);
         }
 
-        //StartTimers();
-        //MainScreen();
-        Console.Clear();
-
-        games.LeftOrRightGame();
+        StartTimers();
+        MainScreen();
+        //Console.Clear();
 
         void HatchEgg()
         {
@@ -105,16 +106,19 @@ public class Program
                 switch(selection)
                 {
                     case 1:
-                        Console.WriteLine($"\"{menuOptions[0]}\"\n{menuOptions[1]}\n{menuOptions[2]}\n{menuOptions[3]}");
+                        Console.WriteLine($"\"{menuOptions[0]}\"\n{menuOptions[1]}\n{menuOptions[2]}\n{menuOptions[3]}\n{menuOptions[4]}");
                         break;
                     case 2:
-                        Console.WriteLine($"{menuOptions[0]}\n\"{menuOptions[1]}\"\n{menuOptions[2]}\n{menuOptions[3]}");
+                        Console.WriteLine($"{menuOptions[0]}\n\"{menuOptions[1]}\"\n{menuOptions[2]}\n{menuOptions[3]}\n{menuOptions[4]}");
                         break;
                     case 3:
-                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n\"{menuOptions[2]}\"\n{menuOptions[3]}");
+                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n\"{menuOptions[2]}\"\n{menuOptions[3]}\n{menuOptions[4]}");
                         break;
                     case 4:
-                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n{menuOptions[2]}\n\"{menuOptions[3]}\"");
+                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n{menuOptions[2]}\n\"{menuOptions[3]}\"\n{menuOptions[4]}");
+                        break;
+                    case 5:
+                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n{menuOptions[2]}\n{menuOptions[3]}\n\"{menuOptions[4]}\"");
                         break;
                     default:
                         break;
@@ -147,6 +151,16 @@ public class Program
                             ShopScreen();
                             break;
                         case 4:
+                            GameScreen();
+
+                            tickTimer.Stop();
+                            ClearLowerScreen();
+                            int[] moneyAndHappiness = games.LeftOrRightGame();
+                            currentPet.Money += moneyAndHappiness[0];
+                            currentPet.Happiness += moneyAndHappiness[1];
+                            tickTimer.Start();
+                            break;
+                        case 5:
                             SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;
@@ -349,6 +363,11 @@ Birthday: {currentPet.Birthday}");
             } while (inMenu);
         }
 
+        void GameScreen()
+        {
+            Console.WriteLine("GameScreen");
+        }
+
         void ClearLowerScreen()
         {
             Console.SetCursorPosition(0, 10);
@@ -377,13 +396,13 @@ Birthday: {currentPet.Birthday}");
 
         void StartTimers()
         {
-            System.Timers.Timer tickTimer;
             tickTimer = new System.Timers.Timer(3000);
             tickTimer.Elapsed += TickEvent;
             tickTimer.AutoReset = true;
             tickTimer.Enabled = true;
         }
 
+        
         void TickEvent(object sender, EventArgs e)
         {
             HungerCheck();
@@ -532,14 +551,17 @@ public class Games
         screen.screenLines[3] = "|             |";
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
+        int happinessGained = 0;
         if(score > 2)
         {
+            happinessGained++;
             Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +1");
         }
         else
         {
             Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
         }
+        Console.WriteLine("(Press any key to continue...)");
         Thread.Sleep(1000);
         screen.screenLines[3] = "|     @>@     |";
         screen.screenLines[4] = "|             |";
@@ -548,9 +570,9 @@ public class Games
         screen.screenLines[3] = "|             |";
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
-        Console.ReadKey();
-        int[] moneyAndHappiness = [score*10];
-        return 
+        Console.ReadKey(true);
+        int[] moneyAndHappiness = [score*10, happinessGained];
+        return moneyAndHappiness;
     }
 }
 public class Screen()
