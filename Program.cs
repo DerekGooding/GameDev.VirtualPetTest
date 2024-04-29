@@ -8,33 +8,35 @@ public class Program
 {
     public static void Main()
     {
-        //coords for inner border of screen (c2-11,r3-6)
-        //end of screen (c0,r10)
-
         Random rand = new();
-        System.Timers.Timer tickTimer;
         Screen screen = new();
         Games games = new();
-        Food riceBowl;
-        Food friedEggs;
-        Food cake;
-        List<int[]> poopPositions = new();
 
-        var currentPet = new Pet("Default");
+        Food riceBowl = new("RiceBowl", 1, 0, true);
+        Food friedEggs = new("Fried Eggs", 1, 0, true);
+        Food cake = new("Cake", 1, 1, true);
+        Food steak = new("Steak", 1, 1, false);
+        bool steakBought = false;
         var ownedFood = new List<Food> { };
+
+        List<int[]> poopPositions = new();
+        List<string> petModels = new List<string> { "@", ">@", "@>@" };
+        var currentPet = new Pet("Default");
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
         string[] ownedGames = { "Left or Right?" };
-        bool steakBought = false;
         bool jumpRopeBought = false;
 
 
-        List<string> petModels = new List<string> { "@", ">@", "@>@" };
-
+        System.Timers.Timer tickTimer;
         int HungerTickCount = 0;
         int HappinessTickCount = 0;
         int EvolveTickCount = 0;
+
+        int[] topScreenInnerBordersX = { 2, 11};
+        int[] topScreenInnerBordersY = { 3, 6 };
+        int[] bottomScreenStartPositionXY = { 0, 10};
 
         Console.CursorVisible = false;
 
@@ -42,9 +44,6 @@ public class Program
         if (!File.Exists("SaveData"))
         {
             Console.WriteLine("Starting new game...");
-            riceBowl = new("RiceBowl", 1, 0, true);
-            friedEggs = new("Fried Eggs", 1, 0, true);
-            cake = new("Cake", 1, 1, true);
             ownedFood = new List<Food> { riceBowl, friedEggs, cake};
             Thread.Sleep(2000);
             HatchEgg();
@@ -191,58 +190,36 @@ Birthday: {currentPet.Birthday}");
         void FoodScreen()
         {
             bool inMenu = true;
-            int selection = 1;
+            int selection = 0;
 
             do
             {
                 ClearLowerScreen();
                 Console.WriteLine("Food:");
-                if (ownedFood.Count == 3)
-                {
-                    switch (selection)
-                    {
-                        case 1:
-                            Console.WriteLine($"\"{ownedFood[0].Name}\"\n{ownedFood[1].Name}\n{ownedFood[2].Name}");
-                            break;
-                        case 2:
-                            Console.WriteLine($"{ownedFood[0].Name}\n\"{ownedFood[1].Name}\"\n{ownedFood[2].Name}");
-                            break;
-                        case 3:
-                            Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n\"{ownedFood[2].Name}\"");
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                else if (ownedFood.Count == 4)
-                {
-                    switch (selection)
-                    {
-                        case 1:
-                            Console.WriteLine($"\"{ownedFood[0].Name}\"\n{ownedFood[1].Name}\n{ownedFood[2].Name}\n{ownedFood[3].Name}");
-                            break;
-                        case 2:
-                            Console.WriteLine($"{ownedFood[0].Name}\n\"{ownedFood[1].Name}\"\n{ownedFood[2].Name}\n{ownedFood[3].Name}"); 
-                            break;
-                        case 3:
-                            Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n\"{ownedFood[2].Name}\"\n{ownedFood[3].Name}"); 
-                            break;
-                        case 4:
-                            Console.WriteLine($"{ownedFood[0].Name}\n{ownedFood[1].Name}\n{ownedFood[2].Name}\n\"{ownedFood[3].Name}\"");
-                            break;
-                        default:
-                            break;
-                    }
 
+                for(int i = 0; i < ownedFood.Count; i++)
+                {
+                    if(selection == i)
+                    {
+                        Console.WriteLine($"\"{ownedFood[i].Name}\"");
+                    }
+                    else
+                    {
+                        Console.WriteLine(ownedFood[i].Name);
+
+                    }
                 }
+
+
+
 
                 var userInput = Console.ReadKey(true).KeyChar;
 
                 if (userInput == 's')
                 {
-                    if (selection == ownedFood.Count)
+                    if (selection == ownedFood.Count - 1)
                     {
-                        selection = 1;
+                        selection = 0;
                     }
                     else
                     {
