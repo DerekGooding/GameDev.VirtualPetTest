@@ -210,9 +210,6 @@ Birthday: {currentPet.Birthday}");
                     }
                 }
 
-
-
-
                 var userInput = Console.ReadKey(true).KeyChar;
 
                 if (userInput == 's')
@@ -228,31 +225,17 @@ Birthday: {currentPet.Birthday}");
                 }
                 else if (userInput == 'a')
                 {
-                    switch (selection)
-                    {
-                        case 1:
-                            currentPet.Hunger += ownedFood[0].RestoredHunger;
-                            break;
-                        case 2:
-                            currentPet.Hunger += ownedFood[1].RestoredHunger;
-                            break;
-                        case 3:
-                            currentPet.Hunger += ownedFood[2].RestoredHunger;
-                            break;
-                        default:
-                            break;
-                    }
-
+                    currentPet.Hunger += ownedFood[selection].RestoredHunger;
                     ClearLowerScreen();
 
-                    if(ownedFood[selection - 1].RestoredHappiness > 0)
+                    if(ownedFood[selection].RestoredHappiness > 0)
                     {
                         currentPet.Happiness += 1;
-                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection - 1].Name}, gained +{ownedFood[selection - 1].RestoredHunger} <3 +{ownedFood[selection - 1].RestoredHappiness}:)\n(Press any key to continue...)");
+                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection].Name}, gained +{ownedFood[selection].RestoredHunger} <3 +{ownedFood[selection].RestoredHappiness}:)\n(Press any key to continue...)");
                     }
                     else
                     {
-                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[1]}, gained +{ownedFood[selection - 1].RestoredHunger} <3\n(Press any key to continue...)");
+                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection].Name}, gained +{ownedFood[selection].RestoredHunger} <3\n(Press any key to continue...)");
                     }                    
                     Console.ReadKey(true);
                 }
