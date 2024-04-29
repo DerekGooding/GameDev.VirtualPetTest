@@ -55,6 +55,12 @@ public class Program
             Console.WriteLine("Loading game...");
             currentPet = LoadGameData().CurrentPetData;
             ownedFood = LoadGameData().OwnedFoodList;
+
+            if (ownedFood.Contains(cake))
+            {
+                shopItems[0] = "SOLD OUT - Steak";
+            }
+
             Thread.Sleep(2000);
         }
 
@@ -262,20 +268,6 @@ Birthday: {currentPet.Birthday}");
 
                     }
                 }
-/*                ClearLowerScreen();
-                Console.WriteLine("Shop:");
-
-                switch (selection)
-                {
-                    case 1:
-                        Console.WriteLine($"\"{shopItems[0]}\" - $50\n{shopItems[1]} - $300");
-                        break;
-                    case 2:
-                        Console.WriteLine($"{shopItems[0]} - $50\n\"{shopItems[1]}\" - $300");
-                        break;
-                    default:
-                        break;
-                }*/
 
                 var userInput = Console.ReadKey(true).KeyChar;
 
@@ -298,7 +290,7 @@ Birthday: {currentPet.Birthday}");
                     switch (selection)
                     {
                         case 0:
-                            if (!steakBought)
+                            if (steak.Owned)
                             {
                                 if (currentPet.Money >= 50)
                                 {
