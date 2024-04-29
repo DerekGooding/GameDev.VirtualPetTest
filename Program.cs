@@ -243,11 +243,26 @@ Birthday: {currentPet.Birthday}");
         void ShopScreen()
         {
             bool inMenu = true;
-            int selection = 1;
+            int selection = 0;
 
             do
             {
                 ClearLowerScreen();
+                Console.WriteLine("Shop:");
+
+                for (int i = 0; i < shopItems.Length; i++)
+                {
+                    if (selection == i)
+                    {
+                        Console.WriteLine($"\"{shopItems[i]}\"");
+                    }
+                    else
+                    {
+                        Console.WriteLine(shopItems[i]);
+
+                    }
+                }
+/*                ClearLowerScreen();
                 Console.WriteLine("Shop:");
 
                 switch (selection)
@@ -260,15 +275,15 @@ Birthday: {currentPet.Birthday}");
                         break;
                     default:
                         break;
-                }
+                }*/
 
                 var userInput = Console.ReadKey(true).KeyChar;
 
                 if (userInput == 's')
                 {
-                    if (selection >= shopItems.Length)
+                    if (selection == shopItems.Length - 1)
                     {
-                        selection = 1;
+                        selection = 0;
                     }
                     else
                     {
@@ -282,7 +297,7 @@ Birthday: {currentPet.Birthday}");
 
                     switch (selection)
                     {
-                        case 1:
+                        case 0:
                             if (!steakBought)
                             {
                                 if (currentPet.Money >= 50)
@@ -304,7 +319,8 @@ Birthday: {currentPet.Birthday}");
                             }
                             Console.ReadKey(true);
                             break;
-                        case 2:
+                        case 1:
+                            //jump rope
                             break;
                         default:
                             break;
