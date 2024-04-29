@@ -93,44 +93,37 @@ public class Program
         void MainScreen()
         {
             bool running = true;
-            int selection = 1;
+            int selection = 0;
 
             screen.UpdatePetPosition(currentPet.Appearance);
             screen.DrawScreen();
 
             do
             {
+            
                 ClearLowerScreen();
                 Console.WriteLine("Menu:");
 
-                switch(selection)
+                for (int i = 0; i < menuOptions.Length; i++)
                 {
-                    case 1:
-                        Console.WriteLine($"\"{menuOptions[0]}\"\n{menuOptions[1]}\n{menuOptions[2]}\n{menuOptions[3]}\n{menuOptions[4]}");
-                        break;
-                    case 2:
-                        Console.WriteLine($"{menuOptions[0]}\n\"{menuOptions[1]}\"\n{menuOptions[2]}\n{menuOptions[3]}\n{menuOptions[4]}");
-                        break;
-                    case 3:
-                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n\"{menuOptions[2]}\"\n{menuOptions[3]}\n{menuOptions[4]}");
-                        break;
-                    case 4:
-                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n{menuOptions[2]}\n\"{menuOptions[3]}\"\n{menuOptions[4]}");
-                        break;
-                    case 5:
-                        Console.WriteLine($"{menuOptions[0]}\n{menuOptions[1]}\n{menuOptions[2]}\n{menuOptions[3]}\n\"{menuOptions[4]}\"");
-                        break;
-                    default:
-                        break;
+                    if (selection == i)
+                    {
+                        Console.WriteLine($"\"{menuOptions[i]}\"");
+                    }
+                    else
+                    {
+                        Console.WriteLine(menuOptions[i]);
+
+                    }
                 }
 
                 var userInput = Console.ReadKey(true).KeyChar;
 
                 if (userInput == 's')
                 {
-                    if (selection == menuOptions.Length)
+                    if (selection == menuOptions.Length - 1)
                     {
-                        selection = 1;
+                        selection = 0;
                     }
                     else
                     {
@@ -141,16 +134,16 @@ public class Program
                 {
                     switch (selection)
                     {
-                        case 1:
+                        case 0:
                             StatScreen();
                             break;
-                        case 2:
+                        case 1:
                             FoodScreen();
                             break;
-                        case 3:
+                        case 2:
                             ShopScreen();
                             break;
-                        case 4:
+                        case 3:
                             //GameScreen();
 
                             tickTimer.Stop();
@@ -160,7 +153,7 @@ public class Program
                             currentPet.Happiness += moneyAndHappiness[1];
                             tickTimer.Start();
                             break;
-                        case 5:
+                        case 4:
                             SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;
