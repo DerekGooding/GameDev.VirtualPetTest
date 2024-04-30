@@ -40,6 +40,19 @@ public class Program
 
         Console.CursorVisible = false;
 
+        var allFood = new List<Food>{ riceBowl, friedEggs, cake, steak};
+/* Add Linq stuff to loadgame
+        IEnumerable<Food> ownedFoodQuery =
+            from food in allFood
+            where food.Owned == true
+            select food;
+
+        foreach(var i in ownedFoodQuery)
+        {
+            Console.WriteLine(i.Name);
+        }
+        Console.ReadLine();
+*/
         //new game setup
         if (!File.Exists("SaveData"))
         {
