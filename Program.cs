@@ -15,9 +15,11 @@ public class Program
         Food riceBowl = new("RiceBowl", 1, 0, true);
         Food friedEggs = new("Fried Eggs", 1, 0, true);
         Food cake = new("Cake", 1, 1, true);
-        Food steak = new("Steak", 1, 1, false);
-        bool steakBought = false;
-        var ownedFood = new List<Food> { };
+        Food steak;
+
+        var ownedFood = new List<string>{ "riceBowl","friedEggs", "cake"};
+        var ownedFoodList = new List<Food>{ riceBowl, friedEggs, cake};
+
 
         List<int[]> poopPositions = new();
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
@@ -40,42 +42,66 @@ public class Program
 
         Console.CursorVisible = false;
 
-        var allFood = new List<Food>{ riceBowl, friedEggs, cake, steak};
-/* Add Linq stuff to loadgame
-        IEnumerable<Food> ownedFoodQuery =
-            from food in allFood
-            where food.Owned == true
-            select food;
+        List<Food> allFood;
 
-        foreach(var i in ownedFoodQuery)
-        {
-            Console.WriteLine(i.Name);
-        }
-        Console.ReadLine();
-*/
+        /* Add Linq stuff to loadgame
+                IEnumerable<Food> ownedFoodQuery =
+                    from food in allFood
+                    where food.Owned == true
+                    select food;
+
+                foreach(var i in ownedFoodQuery)
+                {
+                    Console.WriteLine(i.Name);
+                }
+                Console.ReadLine();
+        */
         //new game setup
         if (!File.Exists("SaveData"))
         {
+            ownedFood = [ "riceBowl", "friedEggs", "cake"];
+            steak = new("Steak", 1, 1, false);
+
             Console.WriteLine("Starting new game...");
-            ownedFood = new List<Food> { riceBowl, friedEggs, cake};
             Thread.Sleep(2000);
             HatchEgg();
             currentPet = NamePet();
-            SaveGameData(currentPet, ownedFood);
         }
         else
         {
-            Console.WriteLine("Loading game...");
             currentPet = LoadGameData().CurrentPetData;
-            ownedFood = LoadGameData().OwnedFoodList;
-
-            if (ownedFood.Contains(cake))
+            ownedFood = LoadGameData().OwnedFood;
+            if (ownedFood.Contains("steak"))
             {
+                steak = new("Steak", 1, 1, true);
+                ownedFoodList.Add(steak);
                 shopItems[0] = "SOLD OUT - Steak";
             }
+            else
+            {
+                steak = new("Steak", 1, 1, false);
+            }
 
+            Console.WriteLine("Loading game...");
             Thread.Sleep(2000);
         }
+
+        //allFood = [riceBowl, friedEggs, cake, steak];
+
+/*        IEnumerable<Food> ownedFoodQuery =
+        from food in allFood
+        where food.Owned == true
+        select food;
+
+        foreach (var i in ownedFoodQuery)
+        {
+            ownedFood.Add(i);
+        }
+
+        SaveGameData(currentPet, ownedFood);*/
+
+
+
 
         StartTimers();
         MainScreen();
@@ -209,15 +235,15 @@ Birthday: {currentPet.Birthday}");
                 ClearLowerScreen();
                 Console.WriteLine("Food:");
 
-                for(int i = 0; i < ownedFood.Count; i++)
+                for(int i = 0; i < ownedFoodList.Count; i++)
                 {
                     if(selection == i)
                     {
-                        Console.WriteLine($"\"{ownedFood[i].Name}\"");
+                        Console.WriteLine($"\"{ownedFoodList[i].Name}\"");
                     }
                     else
                     {
-                        Console.WriteLine(ownedFood[i].Name);
+                        Console.WriteLine(ownedFoodList[i].Name);
 
                     }
                 }
@@ -226,7 +252,7 @@ Birthday: {currentPet.Birthday}");
 
                 if (userInput == 's')
                 {
-                    if (selection == ownedFood.Count - 1)
+                    if (selection == ownedFoodList.Count - 1)
                     {
                         selection = 0;
                     }
@@ -237,17 +263,17 @@ Birthday: {currentPet.Birthday}");
                 }
                 else if (userInput == 'a')
                 {
-                    currentPet.Hunger += ownedFood[selection].RestoredHunger;
+                    currentPet.Hunger += ownedFoodList[selection].RestoredHunger;
                     ClearLowerScreen();
 
-                    if(ownedFood[selection].RestoredHappiness > 0)
+                    if(ownedFoodList[selection].RestoredHappiness > 0)
                     {
                         currentPet.Happiness += 1;
-                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection].Name}, gained +{ownedFood[selection].RestoredHunger} <3 +{ownedFood[selection].RestoredHappiness}:)\n(Press any key to continue...)");
+                        Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
                     }
                     else
                     {
-                        Console.WriteLine($"Fed {currentPet.Name} {ownedFood[selection].Name}, gained +{ownedFood[selection].RestoredHunger} <3\n(Press any key to continue...)");
+                        Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3\n(Press any key to continue...)");
                     }                    
                     Console.ReadKey(true);
                 }
@@ -303,15 +329,16 @@ Birthday: {currentPet.Birthday}");
                     switch (selection)
                     {
                         case 0:
-                            if (steak.Owned)
+                            if (!steak.Owned)
                             {
                                 if (currentPet.Money >= 50)
                                 {
                                     currentPet.Money -= 50;
                                     Console.WriteLine($"Bought {shopItems[0]} for $50!\n(Press any key to continue...)");
                                     shopItems[0] = "SOLD OUT - Steak";
-                                    ownedFood.Add(new Food("Steak", 1, 1, true));
-                                    steakBought = true;
+                                    steak.Owned = true;
+                                    ownedFood.Add("steak");
+                                    ownedFoodList.Add(steak);
                                 }
                                 else
                                 {
@@ -353,11 +380,11 @@ Birthday: {currentPet.Birthday}");
             Console.SetCursorPosition(0, 10);
         }
 
-        void SaveGameData(Pet currentPetData, List<Food> ownedFoodList)
+        void SaveGameData(Pet currentPetData, List<string> ownedFood)
         {
             var saveData = new SaveData();
             saveData.CurrentPetData = currentPetData;
-            saveData.OwnedFoodList = ownedFoodList;
+            saveData.OwnedFood = ownedFood;
             var jsonString = JsonSerializer.Serialize(saveData);
             File.WriteAllText("SaveData", jsonString);
         }
@@ -550,6 +577,7 @@ public class Games
         return moneyAndHappiness;
     }
 }
+
 public class Screen()
 {
     Random rand = new();
@@ -641,5 +669,5 @@ class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool 
 class SaveData()
 {
     public Pet CurrentPetData { get; set; }
-    public List<Food> OwnedFoodList { get; set; }
+    public List<string> OwnedFood { get; set; }
 }
