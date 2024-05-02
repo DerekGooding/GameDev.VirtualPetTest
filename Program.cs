@@ -44,18 +44,6 @@ public class Program
 
         List<Food> allFood;
 
-        /* Add Linq stuff to loadgame
-                IEnumerable<Food> ownedFoodQuery =
-                    from food in allFood
-                    where food.Owned == true
-                    select food;
-
-                foreach(var i in ownedFoodQuery)
-                {
-                    Console.WriteLine(i.Name);
-                }
-                Console.ReadLine();
-        */
         //new game setup
         if (!File.Exists("SaveData"))
         {
@@ -86,26 +74,8 @@ public class Program
             Thread.Sleep(2000);
         }
 
-        //allFood = [riceBowl, friedEggs, cake, steak];
-
-/*        IEnumerable<Food> ownedFoodQuery =
-        from food in allFood
-        where food.Owned == true
-        select food;
-
-        foreach (var i in ownedFoodQuery)
-        {
-            ownedFood.Add(i);
-        }
-
-        SaveGameData(currentPet, ownedFood);*/
-
-
-
-
         StartTimers();
         MainScreen();
-        //Console.Clear();
 
         void HatchEgg()
         {
@@ -466,8 +436,8 @@ Birthday: {currentPet.Birthday}");
 
         void AddPoop()
         {
-            int x = rand.Next(2, 12);
-            int y = rand.Next(3, 7);
+            int x = rand.Next(1, 13);
+            int y = rand.Next(1, 6);
             poopPositions.Add([x, y]);
         }
     }
