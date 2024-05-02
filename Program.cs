@@ -25,7 +25,7 @@ public class Program
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
         var currentPet = new Pet("Default");
         
-        string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Exit"};
+        string[] menuOptions = { "Stats", "Food", "Clean", "Shop" ,"Games", "Medicine", "Discipline", "Light", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
         string[] ownedGames = { "Left or Right?" };
         bool jumpRopeBought = false;
@@ -156,9 +156,12 @@ public class Program
                             FoodScreen();
                             break;
                         case 2:
-                            ShopScreen();
+                            //Clean
                             break;
                         case 3:
+                            ShopScreen();
+                            break;
+                        case 4:
                             //GameScreen();
 
                             tickTimer.Stop();
@@ -168,13 +171,26 @@ public class Program
                             currentPet.Happiness += moneyAndHappiness[1];
                             tickTimer.Start();
                             break;
-                        case 4:
+                        case 5:
+                            //Medicine
+                            break;
+                        case 6:
+                            //Discipline
+                            break;
+                        case 7:
+                            //Light
+                            break;
+                        case 9:
                             SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;
                         default:
                             break;
                     }
+                }
+                else if (userInput == 'd')
+                {
+                    selection = 0;
                 }
             } while (running);
 
@@ -373,7 +389,6 @@ Birthday: {currentPet.Birthday}");
             tickTimer.AutoReset = true;
             tickTimer.Enabled = true;
         }
-
         
         void TickEvent(object sender, EventArgs e)
         {
