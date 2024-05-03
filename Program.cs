@@ -180,7 +180,7 @@ public class Program
                         case 7:
                             //Light
                             break;
-                        case 9:
+                        case 8:
                             SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;
@@ -191,6 +191,8 @@ public class Program
                 else if (userInput == 'd')
                 {
                     selection = 0;
+                    screen.DrawScreen();
+                    ClearLowerScreen();
                 }
             } while (running);
 
@@ -359,7 +361,7 @@ Birthday: {currentPet.Birthday}");
         void ClearLowerScreen()
         {
             Console.SetCursorPosition(0, 10);
-            for(int i = 0; i < 8; i++)
+            for(int i = 0; i < 10; i++)
             {
                 Console.WriteLine("".PadRight(45));
             }
