@@ -8,6 +8,8 @@ public class Program
 {
     public static void Main()
     {
+        //bug w/ drawing screen
+
         Random rand = new();
         Screen screen = new();
         Games games = new();
@@ -156,7 +158,7 @@ public class Program
                             FoodScreen();
                             break;
                         case 2:
-                            //Clean
+                            CleanPoop();
                             break;
                         case 3:
                             ShopScreen();
@@ -456,6 +458,11 @@ Birthday: {currentPet.Birthday}");
             int x = rand.Next(1, 13);
             int y = rand.Next(1, 6);
             poopPositions.Add([x, y]);
+        }
+
+        void CleanPoop()
+        {
+            poopPositions.Clear();
         }
     }
 }
