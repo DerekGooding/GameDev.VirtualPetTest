@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Timers;
+using System.Transactions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Program
@@ -37,6 +38,10 @@ public class Program
         int HungerTickCount = 0;
         int HappinessTickCount = 0;
         int EvolveTickCount = 0;
+        int illnessTickCount = 0;
+
+        bool sleeping = false;
+        bool sick = false;
 
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
@@ -174,13 +179,13 @@ public class Program
                             tickTimer.Start();
                             break;
                         case 5:
-                            //Medicine
+                            GiveMedicine();
                             break;
                         case 6:
-                            //Discipline
+                            Discipline();
                             break;
                         case 7:
-                            //Light
+                            SwitchLightOnOff();
                             break;
                         case 8:
                             SaveGameData(currentPet, ownedFood);
@@ -399,6 +404,7 @@ Birthday: {currentPet.Birthday}");
             HungerCheck();
             HappinessCheck();
             EvolveCheck();
+            IllnessCheck();
 
             screen.ResetScreen();
             screen.UpdatePoops(poopPositions);
@@ -452,6 +458,38 @@ Birthday: {currentPet.Birthday}");
                 HungerTickCount++;
             }
         }
+
+        void IllnessCheck()
+        {
+            if(illnessTickCount >= 5)
+            {
+                if(rand.Next(0,10) >= 6)
+                {
+                    //set sick
+                    sick = true;
+                }
+                illnessTickCount = 0;
+            }
+            else
+            {
+                illnessTickCount++;
+            }
+        } //todo
+
+        void GiveMedicine()
+        {
+            sick = false;
+        } //
+
+        void Discipline()//
+        {
+            //
+        }
+
+        void SwitchLightOnOff()
+        {
+
+        } //todo
 
         void AddPoop()
         {

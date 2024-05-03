@@ -1,5 +1,6 @@
 ﻿Virtual Pet v1
 https://tamagotchi.fandom.com/wiki/Tamagotchi_(1996_Pet)
+https://thaao.net/tama/p1/?p=guide
 
 Overall loop:
 	Gets time
