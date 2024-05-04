@@ -39,6 +39,9 @@ public class Program
         int HappinessTickCount = 0;
         int EvolveTickCount = 0;
         int illnessTickCount = 0;
+        int deathCheckTickCount = 0;
+
+        int deathMistakes = 10;
 
         bool sleeping = false;
         bool sick = false;
@@ -48,10 +51,11 @@ public class Program
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
         int[] bottomScreenStartPositionXY = { 0, 10};
+        List<Food> allFood;
 
         Console.CursorVisible = false;
-
-        List<Food> allFood;
+        bool programRunning = true;
+        bool isDead = false;
 
         //new game setup
         if (!File.Exists("SaveData"))
@@ -116,7 +120,6 @@ public class Program
         
         void MainScreen()
         {
-            bool running = true;
             int selection = 0;
 
             screen.UpdatePetPosition(currentPet.Appearance);
@@ -187,7 +190,7 @@ public class Program
                             break;
                         case 6:
                             SaveGameData(currentPet, ownedFood);
-                            running = false;
+                            programRunning = false;
                             break;
                         default:
                             break;
@@ -200,7 +203,14 @@ public class Program
                     screen.DrawScreen();
                     ClearLowerScreen();
                 }
-            } while (running);
+
+                if (isDead)
+                {
+                    programRunning = false;
+                    break;
+                }
+                
+            } while (programRunning);
 
         }
 
@@ -531,10 +541,12 @@ Birthday: {currentPet.Birthday}");
         
         void TickEvent(object sender, EventArgs e)
         {
+            DeathCheck();
             HungerCheck();
             HappinessCheck();
             EvolveCheck();
             IllnessCheck();
+
 
             screen.ResetScreen();
             screen.UpdatePoops(poopPositions);
@@ -574,14 +586,56 @@ Birthday: {currentPet.Birthday}");
             }
         }
 
+        void DeathCheck()
+        {
+            if(deathCheckTickCount >= 5)
+            {
+                if(deathMistakes > 0)
+                {
+                    deathMistakes--;
+                }
+                
+                if(deathMistakes > 5)
+                {
+                    //death
+                    tickTimer.Stop();
+                    Console.Clear();
+                    Console.WriteLine($"{currentPet.Name} died!");
+                    Thread.Sleep(1500);
+                    Console.WriteLine(
+$@"Name: {currentPet.Name}
+Age: {currentPet.Age}
+Hunger: {currentPet.Hunger}
+Happiness: {currentPet.Happiness}
+Money: {currentPet.Money}
+Birthday: {currentPet.Birthday}");
+                    Thread.Sleep(1500);
+                    Console.WriteLine("(Press any key to exit...)");
+                    Console.ReadKey();
+                    Thread.Sleep(1500);
+                    
+                }
+            } //15s
+            else
+            {
+                deathCheckTickCount++;
+            }
+        }
+
         void HungerCheck()
         {
             if (HungerTickCount >= 3) //9s
             {
-                currentPet.Hunger--;
+                if (currentPet.Hunger > 0)
+                {
+                    currentPet.Hunger--;
+                    AddPoop();
+                }
+                else
+                {
+                    deathMistakes++;
+                }
                 HungerTickCount = 0;
-                AddPoop();
-
             }
             else
             {
