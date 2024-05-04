@@ -207,7 +207,7 @@ Hunger: {currentPet.Hunger}
 Happiness: {currentPet.Happiness}
 Money: {currentPet.Money}
 Birthday: {currentPet.Birthday}");
-
+            Console.WriteLine("(Press any key to continue...)");
             Console.ReadKey(true);
         }
 
@@ -610,7 +610,15 @@ Birthday: {currentPet.Birthday}");
 
         void SwitchLightOnOff()
         {
-
+            if (!sleeping)
+            {
+                tickTimer.Stop();
+                screen.ResetScreen();
+                screen.screenLines[2] = "|        ZZ   |";
+                screen.screenLines[3] = "|      zz     |";
+                screen.screenLines[4] = screen.screenLines[4].Replace(currentPet.Appearance, "".PadRight(currentPet.Appearance.Length));
+                screen.DrawScreen();
+            }
         } //todo
 
         void AddPoop()
