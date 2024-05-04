@@ -42,7 +42,7 @@ public class Program
 
         bool sleeping = false;
         bool sick = false;
-
+        string[] careOptions = { "Clean", "Medicine", "Discipline/Praise"};
         int careLevel = 0;
 
         int[] topScreenInnerBordersX = { 2, 11};
@@ -172,10 +172,7 @@ public class Program
 
                             break;
                         case 4:
-                            //care
-                            CleanPoop();
-                            GiveMedicine();
-                            Discipline();                                                       
+                            CareScreen();
                             break;
                         case 5:
                             SwitchLightOnOff();
@@ -370,7 +367,7 @@ Birthday: {currentPet.Birthday}");
             do
             {
                 ClearLowerScreen();
-                Console.WriteLine("GameScreen");
+                Console.WriteLine("Games:");
 
                 for (int i = 0; i < ownedGames.Length; i++)
                 {
@@ -424,6 +421,70 @@ Birthday: {currentPet.Birthday}");
 
             } while (running);
 
+        }
+
+        void CareScreen()
+        {
+            bool running = true;
+            int selection = 0;
+
+            do
+            {
+                ClearLowerScreen();
+                Console.WriteLine("Care:");
+
+                for (int i = 0; i < careOptions.Length; i++)
+                {
+                    if (selection == i)
+                    {
+                        Console.WriteLine($"\"{careOptions[i]}\"");
+                    }
+                    else
+                    {
+                        Console.WriteLine(careOptions[i]);
+                    }
+
+
+                }
+
+                var userInput = Console.ReadKey(true).KeyChar;
+
+                if (userInput == 's')
+                {
+                    if (selection == careOptions.Length - 1)
+                    {
+                        selection = 0;
+                    }
+                    else
+                    {
+                        selection++;
+                    }
+                }
+                else if (userInput == 'a')
+                {
+                    switch (selection)
+                    {
+                        case 0:
+                            //clean
+                            CleanPoop();
+                            break;
+                        case 1:
+                            //medicine
+                            GiveMedicine();
+                            break;
+                        case 2:
+                            //discipline
+                            Discipline();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (userInput == 'd')
+                {
+                    running = false;
+                }
+            } while (running);
         }
 
         void ClearLowerScreen()
