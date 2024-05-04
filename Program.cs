@@ -28,7 +28,7 @@ public class Program
         List<string> petModels = new List<string> { "@", ">@", "@>@" };
         var currentPet = new Pet("Default");
         
-        string[] menuOptions = { "Stats", "Food", "Clean", "Shop" ,"Games", "Medicine", "Discipline", "Light", "Exit"};
+        string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
         string[] ownedGames = { "Left or Right?" };
         bool jumpRopeBought = false;
@@ -163,12 +163,9 @@ public class Program
                             FoodScreen();
                             break;
                         case 2:
-                            CleanPoop();
-                            break;
-                        case 3:
                             ShopScreen();
                             break;
-                        case 4:
+                        case 3:                            
                             //GameScreen();
 
                             tickTimer.Stop();
@@ -178,16 +175,16 @@ public class Program
                             currentPet.Happiness += moneyAndHappiness[1];
                             tickTimer.Start();
                             break;
-                        case 5:
+                        case 4:
+                            //care
+                            CleanPoop();
                             GiveMedicine();
+                            Discipline();                                                       
                             break;
-                        case 6:
-                            Discipline();
-                            break;
-                        case 7:
+                        case 5:
                             SwitchLightOnOff();
                             break;
-                        case 8:
+                        case 6:
                             SaveGameData(currentPet, ownedFood);
                             running = false;
                             break;

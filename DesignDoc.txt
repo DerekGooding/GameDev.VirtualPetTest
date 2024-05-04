@@ -2,6 +2,9 @@
 https://tamagotchi.fandom.com/wiki/Tamagotchi_(1996_Pet)
 https://thaao.net/tama/p1/?p=guide
 
+
+
+
 Overall loop:
 	Gets time
 	Creates egg
@@ -18,7 +21,7 @@ Overall loop:
 
 Mechanics:
 	Operation:
-		3 buttons (a,b,c) a = confirm selection, b = cycle selection/clock, c = cancel, & more;
+		3 buttons (a,b,c) a = confirm selection, b = cycle selection/clock, c = cancel/reset selection/return to menu, & more;
 	MainScreen:
 		Shows the pet, has menu 8 options, menu icons arranged on top and bottom rows.
 	StatsScreen:
