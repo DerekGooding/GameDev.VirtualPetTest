@@ -156,6 +156,14 @@ public class Program
                 }
                 else if (userInput == 'a')
                 {
+                    if (sleeping && selection != 0)
+                    {
+                        ClearLowerScreen();
+                        Console.WriteLine($"{currentPet.Name} is asleep!\n(Press any key to continue...)");
+                        Console.ReadKey(true);
+
+                        continue;
+                    }
                     switch (selection)
                     {
                         case 0:
@@ -616,8 +624,11 @@ Birthday: {currentPet.Birthday}");
                 screen.ResetScreen();
                 screen.screenLines[2] = "|        ZZ   |";
                 screen.screenLines[3] = "|      zz     |";
-                screen.screenLines[4] = screen.screenLines[4].Replace(currentPet.Appearance, "".PadRight(currentPet.Appearance.Length));
+                screen.screenLines[4] = screen.screenLines[4].Insert(5, currentPet.Appearance);
+                screen.screenLines[4] = screen.screenLines[4].Remove(5 + currentPet.Appearance.Length, currentPet.Appearance.Length);
                 screen.DrawScreen();
+
+                sleeping = true;
             }
         } //todo
 
