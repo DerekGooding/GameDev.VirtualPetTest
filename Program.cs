@@ -156,7 +156,7 @@ public class Program
                 }
                 else if (userInput == 'a')
                 {
-                    if (sleeping && selection != 0)
+                    if (sleeping && selection != 0 && selection != 5 && selection != 6)
                     {
                         ClearLowerScreen();
                         Console.WriteLine($"{currentPet.Name} is asleep!\n(Press any key to continue...)");
@@ -630,7 +630,15 @@ Birthday: {currentPet.Birthday}");
 
                 sleeping = true;
             }
-        } //todo
+            else
+            {
+                tickTimer.Start();
+                screen.ResetScreen();
+                screen.DrawScreen();
+
+                sleeping = false;
+            }
+        }
 
         void AddPoop()
         {
