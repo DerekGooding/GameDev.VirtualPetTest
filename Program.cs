@@ -43,6 +43,8 @@ public class Program
         bool sleeping = false;
         bool sick = false;
 
+        int careLevel = 0;
+
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
         int[] bottomScreenStartPositionXY = { 0, 10};
@@ -255,18 +257,26 @@ Birthday: {currentPet.Birthday}");
                 }
                 else if (userInput == 'a')
                 {
-                    currentPet.Hunger += ownedFoodList[selection].RestoredHunger;
-                    ClearLowerScreen();
-
-                    if(ownedFoodList[selection].RestoredHappiness > 0)
+                    if (currentPet.Hunger < 5)
                     {
-                        currentPet.Happiness += 1;
-                        Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
+                        currentPet.Hunger += ownedFoodList[selection].RestoredHunger;
+                        ClearLowerScreen();
+
+                        if (ownedFoodList[selection].RestoredHappiness > 0)
+                        {
+                            currentPet.Happiness += 1;
+                            Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3\n(Press any key to continue...)");
+                        }
                     }
                     else
                     {
-                        Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3\n(Press any key to continue...)");
-                    }                    
+                        ClearLowerScreen();
+                        Console.WriteLine($"{currentPet.Name} is already full!\n(Press any key to continue...)");
+                    }
                     Console.ReadKey(true);
                 }
                 else if(userInput == 'd')
