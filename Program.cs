@@ -30,7 +30,7 @@ public class Program
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
-        string[] ownedGames = { "Left or Right?" };
+        string[] ownedGames = { "Left or Right?" , "Test"};
         bool jumpRopeBought = false;
 
 
@@ -168,14 +168,8 @@ public class Program
                             ShopScreen();
                             break;
                         case 3:                            
-                            //GameScreen();
+                            GameScreen();
 
-                            tickTimer.Stop();
-                            ClearLowerScreen();
-                            int[] moneyAndHappiness = games.LeftOrRightGame();
-                            currentPet.Money += moneyAndHappiness[0];
-                            currentPet.Happiness += moneyAndHappiness[1];
-                            tickTimer.Start();
                             break;
                         case 4:
                             //care
@@ -370,7 +364,66 @@ Birthday: {currentPet.Birthday}");
 
         void GameScreen()
         {
-            Console.WriteLine("GameScreen");
+            bool running = true;
+            int selection = 0;
+
+            do
+            {
+                ClearLowerScreen();
+                Console.WriteLine("GameScreen");
+
+                for (int i = 0; i < ownedGames.Length; i++)
+                {
+                    if (selection == i)
+                    {
+                        Console.WriteLine($"\"{ownedGames[i]}\"");
+                    }
+                    else
+                    {
+                        Console.WriteLine(ownedGames[i]);
+
+                    }
+                }
+
+                var userInput = Console.ReadKey(true).KeyChar;
+
+                if (userInput == 's')
+                {
+                    if (selection == ownedGames.Length - 1)
+                    {
+                        selection = 0;
+                    }
+                    else
+                    {
+                        selection++;
+                    }
+                }
+                else if (userInput == 'a')
+                {
+                    switch (selection)
+                    {
+                        case 0:
+                            tickTimer.Stop();
+                            ClearLowerScreen();
+                            int[] moneyAndHappiness = games.LeftOrRightGame();
+                            currentPet.Money += moneyAndHappiness[0];
+                            currentPet.Happiness += moneyAndHappiness[1];
+                            tickTimer.Start();
+                            break;
+                        case 1:
+                            //Test
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if(userInput == 'd')
+                {
+                    running = false;
+                }
+
+            } while (running);
+
         }
 
         void ClearLowerScreen()
