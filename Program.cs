@@ -196,6 +196,7 @@ public class Program
                 }
                 else if (userInput == 'd')
                 {
+                    Console.Clear();
                     selection = 0;
                     screen.DrawScreen();
                     ClearLowerScreen();
