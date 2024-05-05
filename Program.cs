@@ -127,7 +127,12 @@ public class Program
 
             do
             {
-            
+                if (isDead)
+                {
+                    programRunning = false;
+                    break;
+                }
+
                 ClearLowerScreen();
                 Console.WriteLine("Menu:");
 
@@ -144,7 +149,14 @@ public class Program
                     }
                 }
 
+
+
                 var userInput = Console.ReadKey(true).KeyChar;
+                if (isDead)
+                {
+                    programRunning = false;
+                    break;
+                }
 
                 if (userInput == 's')
                 {
@@ -209,7 +221,7 @@ public class Program
                     programRunning = false;
                     break;
                 }
-                
+
             } while (programRunning);
 
         }
@@ -599,6 +611,7 @@ Birthday: {currentPet.Birthday}");
                 {
                     //death
                     tickTimer.Stop();
+                    isDead = true;
                     Console.Clear();
                     Console.WriteLine($"{currentPet.Name} died!");
                     Thread.Sleep(1500);
@@ -611,9 +624,8 @@ Money: {currentPet.Money}
 Birthday: {currentPet.Birthday}");
                     Thread.Sleep(1500);
                     Console.WriteLine("(Press any key to exit...)");
-                    Console.ReadKey();
+                    Console.ReadKey(true);
                     Thread.Sleep(1500);
-                    
                 }
             } //15s
             else
