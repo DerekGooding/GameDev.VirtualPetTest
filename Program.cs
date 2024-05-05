@@ -57,6 +57,15 @@ public class Program
         bool programRunning = true;
         bool isDead = false;
 
+        //agecheck?
+        string petbday = "4/1/2024 5:34:14 AM";
+        DateTime currentTime = DateTime.Now;
+        DateTime petbdayRaw = DateTime.Parse(petbday);
+        TimeSpan timeDiff = currentTime.Subtract(petbdayRaw);
+        string daysAlive = timeDiff.TotalDays.ToString();
+        Console.WriteLine(timeDiff + "\n" + daysAlive); //3. 9:05:23.02333 (days. hrs:mins:secs.ms)
+        Console.ReadKey(true);
+
         //new game setup
         if (!File.Exists("SaveData"))
         {
@@ -82,6 +91,8 @@ public class Program
             {
                 steak = new("Steak", 1, 1, false);
             }
+
+            
 
             Console.WriteLine("Loading game...");
             Thread.Sleep(2000);
