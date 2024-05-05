@@ -62,8 +62,13 @@ public class Program
         DateTime currentTime = DateTime.Now;
         DateTime petbdayRaw = DateTime.Parse(petbday);
         TimeSpan timeDiff = currentTime.Subtract(petbdayRaw);
-        string daysAlive = timeDiff.TotalDays.ToString();
-        Console.WriteLine(timeDiff + "\n" + daysAlive); //3. 9:05:23.02333 (days. hrs:mins:secs.ms)
+        string daysAlive1 = timeDiff.TotalDays.ToString();
+        Console.WriteLine(daysAlive1); //3. 9:05:23.02333 (days. hrs:mins:secs.ms)
+
+        string daysAlive = DateTime.Now.Subtract(DateTime.Parse(petbday)).TotalDays.ToString();
+        Console.WriteLine(daysAlive);
+
+
         Console.ReadKey(true);
 
         //new game setup
