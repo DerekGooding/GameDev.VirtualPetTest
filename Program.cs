@@ -590,7 +590,11 @@ Birthday: {currentPet.Birthday}");
         {
             if (HappinessTickCount >= 5) //15s
             {
-                currentPet.Happiness--;
+                if(currentPet.Happiness > 0)
+                {
+                    currentPet.Happiness--;
+                }
+
                 HappinessTickCount = 0;
             }
             else
