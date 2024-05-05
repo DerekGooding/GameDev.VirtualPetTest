@@ -3,6 +3,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using System.Timers;
 using System.Transactions;
+using static System.Formats.Asn1.AsnWriter;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 public class Program
@@ -30,7 +31,7 @@ public class Program
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
         string[] shopItems = { "Steak", "Jump Rope"};
-        string[] ownedGames = { "Left or Right?" , "Test"};
+        string[] ownedGames = { "Left or Right?" , "Higher or Lower?"};
         bool jumpRopeBought = false;
 
 
@@ -394,6 +395,7 @@ Birthday: {currentPet.Birthday}");
         {
             bool running = true;
             int selection = 0;
+            int[] moneyAndHappiness = [0,0];
 
             do
             {
@@ -428,22 +430,22 @@ Birthday: {currentPet.Birthday}");
                 }
                 else if (userInput == 'a')
                 {
+                    tickTimer.Stop();
+                    ClearLowerScreen();
                     switch (selection)
                     {
                         case 0:
-                            tickTimer.Stop();
-                            ClearLowerScreen();
-                            int[] moneyAndHappiness = games.LeftOrRightGame();
-                            currentPet.Money += moneyAndHappiness[0];
-                            currentPet.Happiness += moneyAndHappiness[1];
-                            tickTimer.Start();
+                            moneyAndHappiness = games.LeftOrRightGame();
                             break;
                         case 1:
-                            //Test
+                            moneyAndHappiness = games.HigherOrLowerGame();
                             break;
                         default:
                             break;
                     }
+                    currentPet.Money += moneyAndHappiness[0];
+                    currentPet.Happiness += moneyAndHappiness[1];
+                    tickTimer.Start();
                 }
                 else if(userInput == 'd')
                 {
@@ -728,13 +730,10 @@ Birthday: {currentPet.Birthday}");
 public class Games
 {
     Screen screen = new();
+    Random rand = new();
+
     public int[] LeftOrRightGame()
     {
-        Random rand = new();
-
-        bool playing = true;
-        string flagLeft = "<I";
-        string flagRight = "I>";
         int score = 0;
         int side = 0;
 
@@ -815,7 +814,6 @@ public class Games
         {
             Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
         }
-        Console.WriteLine("(Press any key to continue...)");
         Thread.Sleep(1000);
         screen.screenLines[3] = "|     @>@     |";
         screen.screenLines[4] = "|             |";
@@ -824,8 +822,94 @@ public class Games
         screen.screenLines[3] = "|             |";
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
+        Console.WriteLine("(Press any key to continue...)");
         Console.ReadKey(true);
         int[] moneyAndHappiness = [score*10, happinessGained];
+        return moneyAndHappiness;
+    }
+
+    public int[] HigherOrLowerGame()
+    {
+        int currentNumber = 5;
+        int nextNumber = 1;
+        int score = 0;
+        bool higher = false;
+
+        for (int i = 0; i < 5; i++)
+        {
+            screen.ResetScreen();
+            screen.screenLines[2] = $"|      {score}      |";
+            screen.screenLines[4] = $"|   {currentNumber} @>@ ?   |";
+            screen.DrawScreen();
+            Thread.Sleep(1000);
+            nextNumber = rand.Next(1, 10);
+            while(nextNumber == currentNumber)
+            {
+                nextNumber = rand.Next(1, 10);
+            }
+
+            if(nextNumber > currentNumber)
+            {
+                higher = true;
+            }
+            else
+            {
+                higher = false;
+            }
+
+            char userInput = Console.ReadKey(true).KeyChar;
+
+            if (userInput == 'a' && higher) //higher
+            {
+                score++;
+            }
+            else if(userInput == 's' && !higher) //lower
+            {
+                score++;
+            }
+            else if(userInput == 'd')
+            {
+                break;
+            }
+
+            screen.screenLines[4] = $"|   {currentNumber} @>@ {nextNumber}   |";
+            screen.DrawScreen();
+            currentNumber = nextNumber;
+            Thread.Sleep(2000);
+        }
+
+        screen.screenLines[2] = $"|      {score}      |";
+        screen.screenLines[3] = "|     @>@     |";
+        screen.screenLines[4] = "|             |";
+        screen.DrawScreen();
+        Thread.Sleep(1000);
+        screen.screenLines[3] = "|             |";
+        screen.screenLines[4] = "|     @>@     |";
+        screen.DrawScreen();
+
+        int happinessGained = 0;
+        if (score > 2)
+        {
+            happinessGained++;
+            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +1");
+        }
+        else
+        {
+            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
+        }
+
+        Thread.Sleep(1000);
+        screen.screenLines[3] = "|     @>@     |";
+        screen.screenLines[4] = "|             |";
+        screen.DrawScreen();
+        Thread.Sleep(1000);
+        screen.screenLines[3] = "|             |";
+        screen.screenLines[4] = "|     @>@     |";
+        screen.DrawScreen();
+        Console.WriteLine("(Press any key to continue...)");
+        Console.ReadKey(true);
+
+        int[] moneyAndHappiness = [score * 10, happinessGained];
         return moneyAndHappiness;
     }
 }
