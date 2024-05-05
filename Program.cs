@@ -815,6 +815,7 @@ public class Games
             Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
         }
         Thread.Sleep(1000);
+        Console.WriteLine("(Press any key to continue...)");
         screen.screenLines[3] = "|     @>@     |";
         screen.screenLines[4] = "|             |";
         screen.DrawScreen();
@@ -822,7 +823,6 @@ public class Games
         screen.screenLines[3] = "|             |";
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
-        Console.WriteLine("(Press any key to continue...)");
         Console.ReadKey(true);
         int[] moneyAndHappiness = [score*10, happinessGained];
         return moneyAndHappiness;
@@ -899,6 +899,7 @@ public class Games
         }
 
         Thread.Sleep(1000);
+        Console.WriteLine("(Press any key to continue...)");
         screen.screenLines[3] = "|     @>@     |";
         screen.screenLines[4] = "|             |";
         screen.DrawScreen();
@@ -906,7 +907,6 @@ public class Games
         screen.screenLines[3] = "|             |";
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
-        Console.WriteLine("(Press any key to continue...)");
         Console.ReadKey(true);
 
         int[] moneyAndHappiness = [score * 10, happinessGained];
