@@ -30,9 +30,9 @@ public class Program
         var currentPet = new Pet("Default");
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
-        string[] shopItems = { "Steak", "Jump Rope"};
+        string[] shopItems = { "Steak - $50", "Dice - $150"};
         string[] ownedGames = { "Left or Right?" , "Higher or Lower?"};
-        bool jumpRopeBought = false;
+
 
 
         System.Timers.Timer tickTimer;
@@ -1006,4 +1006,5 @@ class SaveData()
 {
     public Pet CurrentPetData { get; set; }
     public List<string> OwnedFood { get; set; }
+    public List<string> OwnedGames { get; set; }
 }
