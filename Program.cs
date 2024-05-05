@@ -41,7 +41,7 @@ public class Program
         int illnessTickCount = 0;
         int deathCheckTickCount = 0;
 
-        int deathMistakes = 10;
+        int deathMistakes = 0;
 
         bool sleeping = false;
         bool sick = false;
@@ -83,8 +83,6 @@ public class Program
             {
                 steak = new("Steak", 1, 1, false);
             }
-
-            
 
             Console.WriteLine("Loading game...");
             Thread.Sleep(2000);
