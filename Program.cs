@@ -58,22 +58,25 @@ public class Program
         bool isDead = false;
 
         //agecheck?
-        string petbday = "4/1/2024 5:34:14 AM";
-        DateTime currentTime = DateTime.Now;
+        string petbday = "5/3/2024 5:34:14 AM";
+        /*DateTime currentTime = DateTime.Now;
         DateTime petbdayRaw = DateTime.Parse(petbday);
         TimeSpan timeDiff = currentTime.Subtract(petbdayRaw);
         string daysAlive1 = timeDiff.TotalDays.ToString();
-        Console.WriteLine(daysAlive1); //3. 9:05:23.02333 (days. hrs:mins:secs.ms)
+        Console.WriteLine(daysAlive1); //3. 9:05:23.02333 (days. hrs:mins:secs.ms)*/
 
         string daysAlive = DateTime.Now.Subtract(DateTime.Parse(petbday)).TotalDays.ToString();
-        Console.WriteLine(daysAlive);
+        //Console.WriteLine(daysAlive);
 
-        string a = "1.2345";
+        int updatedPetAge = (int)float.Parse(daysAlive);
+        Console.WriteLine(updatedPetAge);
+
+/*        string a = "1.2345";
         string b = "43.43462346";
         int c = (int)float.Parse(a);
         Console.WriteLine(c);
         c = (int)float.Parse(b);
-        Console.WriteLine(c);
+        Console.WriteLine(c);*/
 
         Console.ReadKey(true);
 
