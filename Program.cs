@@ -68,6 +68,12 @@ public class Program
         string daysAlive = DateTime.Now.Subtract(DateTime.Parse(petbday)).TotalDays.ToString();
         Console.WriteLine(daysAlive);
 
+        string a = "1.2345";
+        string b = "43.43462346";
+        int c = (int)float.Parse(a);
+        Console.WriteLine(c);
+        c = (int)float.Parse(b);
+        Console.WriteLine(c);
 
         Console.ReadKey(true);
 
