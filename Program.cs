@@ -31,7 +31,7 @@ public class Program
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
         string[] shopItems = { "Steak - $50", "Dice - $150"};
-        string[] ownedGames = { "Left or Right?" , "Higher or Lower?"};
+        var ownedGames = new List<string>{ "Left or Right?" };
 
 
 
@@ -73,6 +73,7 @@ public class Program
         {
             currentPet = LoadGameData().CurrentPetData;
             ownedFood = LoadGameData().OwnedFood;
+            ownedGames = LoadGameData().OwnedGames;
             currentPet.Age = 1 + (int)float.Parse(DateTime.Now.Subtract(DateTime.Parse(currentPet.Birthday)).TotalDays.ToString());
             if (ownedFood.Contains("steak"))
             {
@@ -83,6 +84,11 @@ public class Program
             else
             {
                 steak = new("Steak", 1, 1, false);
+            }
+
+            if (ownedGames.Contains("Higher or Lower?"))
+            {
+                shopItems[1] = "SOLD OUT - Dice";
             }
 
             Console.WriteLine("Loading game...");
@@ -203,7 +209,7 @@ public class Program
                             SwitchLightOnOff();
                             break;
                         case 6:
-                            SaveGameData(currentPet, ownedFood);
+                            SaveGameData(currentPet, ownedFood, ownedGames);
                             programRunning = false;
                             break;
                         default:
@@ -360,7 +366,7 @@ Birthday: {currentPet.Birthday}");
                                 if (currentPet.Money >= 50)
                                 {
                                     currentPet.Money -= 50;
-                                    Console.WriteLine($"Bought {shopItems[0]} for $50!\n(Press any key to continue...)");
+                                    Console.WriteLine($"Bought Steak for $50!\n(Press any key to continue...)");
                                     shopItems[0] = "SOLD OUT - Steak";
                                     steak.Owned = true;
                                     ownedFood.Add("steak");
@@ -378,7 +384,25 @@ Birthday: {currentPet.Birthday}");
                             Console.ReadKey(true);
                             break;
                         case 1:
-                            //jump rope
+                            if(!ownedGames.Contains("Higher or Lower?"))
+                            {
+                                if(currentPet.Money >= 150)
+                                {
+                                    currentPet.Money -= 150;
+                                    Console.WriteLine($"Bought Dice for $150!\n(Press any key to continue...)");
+                                    shopItems[1] = "SOLD OUT - Dice";
+                                    ownedGames.Add("Higher or Lower?");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Not enough money!\n(Press any key to continue...)");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Item Dice is sold out!\n(Press any key to continue...)");
+                            }
+                            Console.ReadKey(true);
                             break;
                         default:
                             break;
@@ -402,7 +426,7 @@ Birthday: {currentPet.Birthday}");
                 ClearLowerScreen();
                 Console.WriteLine("Games:");
 
-                for (int i = 0; i < ownedGames.Length; i++)
+                for (int i = 0; i < ownedGames.Count; i++)
                 {
                     if (selection == i)
                     {
@@ -419,7 +443,7 @@ Birthday: {currentPet.Birthday}");
 
                 if (userInput == 's')
                 {
-                    if (selection == ownedGames.Length - 1)
+                    if (selection == ownedGames.Count - 1)
                     {
                         selection = 0;
                     }
@@ -530,16 +554,18 @@ Birthday: {currentPet.Birthday}");
             Console.SetCursorPosition(0, 10);
         }
 
-        void SaveGameData(Pet currentPetData, List<string> ownedFood)
+        void SaveGameData(Pet currentPetData, List<string> ownedFood, List<string> ownedGames)
         {
             var saveData = new SaveData();
             saveData.CurrentPetData = currentPetData;
             saveData.OwnedFood = ownedFood;
+            saveData.OwnedGames = ownedGames;
             var jsonString = JsonSerializer.Serialize(saveData);
             File.WriteAllText("SaveData", jsonString);
         }
 
         SaveData LoadGameData()
+        
         {
             var jsonString = File.ReadAllText("SaveData");
             SaveData loadedData = JsonSerializer.Deserialize<SaveData>(jsonString);
