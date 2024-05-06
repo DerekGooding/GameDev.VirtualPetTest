@@ -26,7 +26,7 @@ public class Program
 
 
         List<int[]> poopPositions = new();
-        List<string> petModels = new List<string> { "@", ">@", "@>@" };
+        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$"}; //baby, child, adults (default care, bad care, good care, good care and high money?
         var currentPet = new Pet("Default");
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
@@ -47,7 +47,6 @@ public class Program
         bool sleeping = false;
         bool sick = false;
         string[] careOptions = { "Clean", "Medicine", "Discipline/Praise"};
-        int careLevel = 0;
 
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
@@ -200,7 +199,6 @@ public class Program
                             break;
                         case 3:                            
                             GameScreen();
-
                             break;
                         case 4:
                             CareScreen();
@@ -290,6 +288,7 @@ Birthday: {currentPet.Birthday}");
                     if (currentPet.Hunger < 5)
                     {
                         currentPet.Hunger += ownedFoodList[selection].RestoredHunger;
+                        currentPet.CareLevel++;
                         ClearLowerScreen();
 
                         if (ownedFoodList[selection].RestoredHappiness > 0)
@@ -469,6 +468,7 @@ Birthday: {currentPet.Birthday}");
                     }
                     currentPet.Money += moneyAndHappiness[0];
                     currentPet.Happiness += moneyAndHappiness[1];
+                    currentPet.CareLevel++;
                     tickTimer.Start();
                 }
                 else if(userInput == 'd')
@@ -618,7 +618,12 @@ Birthday: {currentPet.Birthday}");
         {
             if (HappinessTickCount >= 5) //15s
             {
-                if(currentPet.Happiness > 0)
+                if(currentPet.Happiness >= 5)
+                {
+                    currentPet.CareLevel++;
+                }
+
+                if (currentPet.Happiness > 0)
                 {
                     currentPet.Happiness--;
                 }
@@ -671,6 +676,11 @@ Birthday: {currentPet.Birthday}");
         {
             if (HungerTickCount >= 3) //9s
             {
+                if(currentPet.Hunger >= 5)
+                {
+                    currentPet.CareLevel++;
+                }
+
                 if (currentPet.Hunger > 0)
                 {
                     currentPet.Hunger--;
@@ -707,12 +717,17 @@ Birthday: {currentPet.Birthday}");
 
         void GiveMedicine()
         {
+            if (sick)
+            {
+                currentPet.CareLevel++;
+            }
             sick = false;
         } //
 
         void Discipline()//
         {
-            //
+            //todo
+            //if(correct discipline timing){currentPet.CareLevel++;}
         }
 
         void SwitchLightOnOff()
@@ -748,6 +763,10 @@ Birthday: {currentPet.Birthday}");
 
         void CleanPoop()
         {
+            if(poopPositions.Count > 0)
+            {
+                currentPet.CareLevel++;
+            }
             poopPositions.Clear();
         }
     }
@@ -1006,7 +1025,7 @@ public class Screen()
 
 }
 
-class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 0)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 0, int care = 0)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -1016,6 +1035,7 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@",
     public int Money { get; set; } = money;
     public string Birthday { get; set; } = birthday;
     public int Stage { get; set; } = stage;
+    public int CareLevel { get; set; } = care;
 
 }
 
