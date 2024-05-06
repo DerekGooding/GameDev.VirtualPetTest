@@ -313,6 +313,8 @@ Birthday: {currentPet.Birthday}");
                     {
                         ClearLowerScreen();
                         Console.WriteLine($"{currentPet.Name} is already full!\n(Press any key to continue...)");
+                        currentPet.CareLevel--;
+                        SetIllness();
                     }
                     Console.ReadKey(true);
                 }
@@ -727,13 +729,14 @@ Birthday: {currentPet.Birthday}");
                 {
                     currentPet.CareLevel--;
                 }
-
-                //implement properly
-                if(rand.Next(0,10) >= 6)
+                else
                 {
-                    //set sick
-                    sick = true;
+                    if(currentPet.Hunger == 0 || currentPet.Happiness == 0 || poopPositions.Count >= 4)
+                    {
+                        SetIllness();
+                    }
                 }
+
                 illnessTickCount = 5;
             }
             else
@@ -741,6 +744,15 @@ Birthday: {currentPet.Birthday}");
                 illnessTickCount--;
             }
         } //todo
+
+        void SetIllness()
+        {
+            if (rand.Next(0, 10) >= 6)
+            {
+                sick = true;
+                currentPet.CareLevel--;
+            }
+        }
 
         void GiveMedicine()
         {
