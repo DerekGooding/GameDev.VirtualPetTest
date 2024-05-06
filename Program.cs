@@ -38,6 +38,7 @@ public class Program
 
         //faster events
         /*
+         *  int tickCount = 3000; //3s
             int hungerTickCount = 3; //9s
             int happinessTickCount = 5; //15s
             int evolveTickCount = 10; //30s
@@ -46,13 +47,22 @@ public class Program
             int fakeAttentionTickCount = 5; //15s
         */
 
+        //slower events
+        int tickCount = 30000; //30s
+        int hungerTickCount = 10; //5m
+        int happinessTickCount = 20; //10m
+        int evolveTickCount = 120; //1h
+        int illnessTickCount = 20; //10m
+        int deathCheckTickCount = 60; //30m
+        int fakeAttentionTickCount = 20; //10m
 
-        int hungerTickCount = 3; //9s
-        int happinessTickCount = 5; //15s
-        int evolveTickCount = 10; //30s
-        int illnessTickCount = 5; //15s
-        int deathCheckTickCount = 5; //15s
-        int fakeAttentionTickCount = 5; //15s
+        int activeHungerTickCount = hungerTickCount;
+        int activeHappinessTickCount = happinessTickCount;
+        int activeEvolveTickCount = evolveTickCount;
+        int activeIllnessTickCount = illnessTickCount;
+        int activeDeathCheckTickCount = deathCheckTickCount;
+        int activeFakeAttentionTickCount = fakeAttentionTickCount;
+
 
         int deathMistakes = 0;
 
@@ -610,7 +620,7 @@ Birthday: {currentPet.Birthday}");
 
         void StartTimers()
         {
-            tickTimer = new System.Timers.Timer(3000); //3s
+            tickTimer = new System.Timers.Timer(tickCount);
             tickTimer.Elapsed += TickEvent;
             tickTimer.AutoReset = true;
             tickTimer.Enabled = true;
@@ -637,15 +647,15 @@ Birthday: {currentPet.Birthday}");
         {
             if(currentPet.Stage <= 2)
             {
-                if (evolveTickCount <= 0) //30s
+                if (activeEvolveTickCount <= 0)
                 {
                     Evolve();
-                    evolveTickCount = 10;
+                    activeEvolveTickCount = evolveTickCount;
                     screen.ResetScreen();
                 }
                 else
                 {
-                    evolveTickCount--;
+                    activeEvolveTickCount--;
                 }
             }
         }
@@ -683,7 +693,7 @@ Birthday: {currentPet.Birthday}");
 
         void HappinessCheck()
         {
-            if (happinessTickCount <= 0) //15s
+            if (activeHappinessTickCount <= 0)
             {
                 if(currentPet.Happiness >= 5)
                 {
@@ -702,17 +712,17 @@ Birthday: {currentPet.Birthday}");
                     happyAttention = false;
                 }
 
-                happinessTickCount = 5;
+                activeHappinessTickCount = happinessTickCount;
             }
             else
             {
-                happinessTickCount--;
+                activeHappinessTickCount--;
             }
         }
 
         void DeathCheck()
         {
-            if(deathCheckTickCount <= 0) //15s
+            if(activeDeathCheckTickCount <= 0)
             {
                 if(deathMistakes > 0)
                 {
@@ -740,17 +750,17 @@ Birthday: {currentPet.Birthday}");
                     Thread.Sleep(1500);
                 }
 
-                deathCheckTickCount = 5;
+                activeDeathCheckTickCount = deathCheckTickCount;
             }
             else
             {
-                deathCheckTickCount--;
+                activeDeathCheckTickCount--;
             }
         }
 
         void HungerCheck()
         {
-            if (hungerTickCount <= 0) //9s
+            if (activeHungerTickCount <= 0)
             {
                 if(currentPet.Hunger >= 5)
                 {
@@ -772,17 +782,17 @@ Birthday: {currentPet.Birthday}");
                     hungryAttention = false;
                 }
 
-                hungerTickCount = 3;
+                activeHungerTickCount = hungerTickCount;
             }
             else
             {
-                hungerTickCount--;
+                activeHungerTickCount--;
             }
         }
 
         void IllnessCheck()
         {
-            if(illnessTickCount <= 0) //15s
+            if(activeIllnessTickCount <= 0)
             {
                 if (sick)
                 {
@@ -797,28 +807,28 @@ Birthday: {currentPet.Birthday}");
                     }
                 }
 
-                illnessTickCount = 5;
+                activeIllnessTickCount = illnessTickCount;
             }
             else
             {
-                illnessTickCount--;
+                activeIllnessTickCount--;
             }
         }
 
         void FakeAttentionCheck()
         {
-            if(fakeAttentionTickCount <= 0)
+            if(activeFakeAttentionTickCount <= 0)
             {
                 if(rand.Next(1,11) >= 7)
                 {
                     wantsAttention = true;
                     fakeAttention = true;
                 }
-                fakeAttentionTickCount = 5;
+                activeFakeAttentionTickCount = fakeAttentionTickCount;
             }
             else
             {
-                fakeAttentionTickCount--;
+                activeFakeAttentionTickCount--;
             }
         }
 
