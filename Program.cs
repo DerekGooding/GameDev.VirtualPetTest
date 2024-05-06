@@ -81,6 +81,8 @@ public class Program
         List<Food> allFood;
 
         Console.CursorVisible = false;
+        Console.WindowWidth = 20;
+        Console.WindowHeight = 20;
         bool programRunning = true;
         bool isDead = false;
 
