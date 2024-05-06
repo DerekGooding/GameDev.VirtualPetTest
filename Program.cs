@@ -40,6 +40,7 @@ public class Program
         int evolveTickCount = 10; //30s
         int illnessTickCount = 5; //15s
         int deathCheckTickCount = 5; //15s
+        int fakeAttentionTickCount = 5; //15s
 
         int deathMistakes = 0;
 
@@ -610,6 +611,7 @@ Birthday: {currentPet.Birthday}");
             HappinessCheck();
             EvolveCheck();
             IllnessCheck();
+            FakeAttentionCheck();
             AttentionCheck();
 
             screen.ResetScreen();
@@ -761,6 +763,23 @@ Birthday: {currentPet.Birthday}");
             }
         }
 
+        void FakeAttentionCheck()
+        {
+            if(fakeAttentionTickCount <= 0)
+            {
+                if(rand.Next(1,11) >= 7)
+                {
+                    wantsAttention = true;
+                    fakeAttention = true;
+                }
+                fakeAttentionTickCount = 5;
+            }
+            else
+            {
+                fakeAttentionTickCount--;
+            }
+        }
+
         void AttentionCheck()
         {
             if(!fakeAttention
@@ -799,6 +818,7 @@ Birthday: {currentPet.Birthday}");
             else
             {
                 currentPet.CareLevel--;
+                currentPet.Happiness--;
             }
         }
 
