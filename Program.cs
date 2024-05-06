@@ -249,6 +249,7 @@ $@"Name: {currentPet.Name}
 Age: {currentPet.Age}
 Hunger: {currentPet.Hunger}
 Happiness: {currentPet.Happiness}
+Discipline: {currentPet.Discipline}
 Money: {currentPet.Money}
 Weight: {currentPet.Weight}
 Birthday: {currentPet.Birthday}");
@@ -1074,7 +1075,7 @@ public class Screen()
 
 }
 
-class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int weight = 10, int stage = 0, int careLevel = 0)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int weight = 10, int discipline = 0, int stage = 0, int careLevel = 0)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -1084,6 +1085,7 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@",
     public int Money { get; set; } = money;
     public string Birthday { get; set; } = birthday;
     public int Weight { get; set; } = weight;
+    public int Discipline { get; set; } = discipline;
     public int Stage { get; set; } = stage;
     public int CareLevel { get; set; } = careLevel;
 
