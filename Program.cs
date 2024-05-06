@@ -34,7 +34,6 @@ public class Program
         var ownedGames = new List<string>{ "Left or Right?" };
 
 
-
         System.Timers.Timer tickTimer;
         int hungerTickCount = 3; //9s
         int happinessTickCount = 5; //15s
@@ -207,6 +206,15 @@ public class Program
                             SwitchLightOnOff();
                             break;
                         case 6:
+                            if (sleeping)
+                            {
+                                currentPet.CareLevel++;
+                            }
+                            else
+                            {
+                                currentPet.CareLevel--;
+                            }
+
                             SaveGameData(currentPet, ownedFood, ownedGames);
                             programRunning = false;
                             break;
@@ -753,7 +761,6 @@ Birthday: {currentPet.Birthday}");
             {
                 tickTimer.Start();
                 screen.ResetScreen();
-                screen.DrawScreen();
 
                 sleeping = false;
             }
