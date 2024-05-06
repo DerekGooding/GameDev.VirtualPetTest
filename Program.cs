@@ -16,9 +16,9 @@ public class Program
         Screen screen = new();
         Games games = new();
 
-        Food riceBowl = new("RiceBowl", 1, 0, true);
-        Food friedEggs = new("Fried Eggs", 1, 0, true);
-        Food cake = new("Cake", 1, 1, true);
+        Food riceBowl = new("RiceBowl", 1, 0, 1, true);
+        Food friedEggs = new("Fried Eggs", 1, 0, 1, true);
+        Food cake = new("Cake", 1, 1, 2, true);
         Food steak;
 
         var ownedFood = new List<string>{ "riceBowl","friedEggs", "cake"};
@@ -60,7 +60,7 @@ public class Program
         if (!File.Exists("SaveData"))
         {
             ownedFood = [ "riceBowl", "friedEggs", "cake"];
-            steak = new("Steak", 1, 1, false);
+            steak = new("Steak", 1, 1, 2, false);
 
             Console.WriteLine("Starting new game...");
             Thread.Sleep(2000);
@@ -75,13 +75,13 @@ public class Program
             currentPet.Age = 1 + (int)float.Parse(DateTime.Now.Subtract(DateTime.Parse(currentPet.Birthday)).TotalDays.ToString());
             if (ownedFood.Contains("steak"))
             {
-                steak = new("Steak", 1, 1, true);
+                steak = new("Steak", 1, 1, 2, true);
                 ownedFoodList.Add(steak);
                 shopItems[0] = "SOLD OUT - Steak";
             }
             else
             {
-                steak = new("Steak", 1, 1, false);
+                steak = new("Steak", 1, 1, 2, false);
             }
 
             if (ownedGames.Contains("Higher or Lower?"))
@@ -250,6 +250,7 @@ Age: {currentPet.Age}
 Hunger: {currentPet.Hunger}
 Happiness: {currentPet.Happiness}
 Money: {currentPet.Money}
+Weight: {currentPet.Weight}
 Birthday: {currentPet.Birthday}");
             Console.WriteLine("(Press any key to continue...)");
             Console.ReadKey(true);
@@ -296,6 +297,7 @@ Birthday: {currentPet.Birthday}");
                     if (currentPet.Hunger < 5)
                     {
                         currentPet.Hunger += ownedFoodList[selection].RestoredHunger;
+                        currentPet.Weight += ownedFoodList[selection].WeightGained;
                         currentPet.CareLevel++;
                         ClearLowerScreen();
 
@@ -303,6 +305,7 @@ Birthday: {currentPet.Birthday}");
                         {
                             currentPet.Happiness += 1;
                             Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
+                            currentPet.CareLevel--;
                         }
                         else
                         {
@@ -1071,7 +1074,7 @@ public class Screen()
 
 }
 
-class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int stage = 0, int careLevel = 0)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int weight = 10, int stage = 0, int careLevel = 0)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -1080,16 +1083,18 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@",
     public int Happiness { get; set; } = happiness;
     public int Money { get; set; } = money;
     public string Birthday { get; set; } = birthday;
+    public int Weight { get; set; } = weight;
     public int Stage { get; set; } = stage;
     public int CareLevel { get; set; } = careLevel;
 
 }
 
-class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, bool owned = false)
+class Food(string name, int restoredHunger = 1, int restoredHappiness = 0, int weightGained = 1, bool owned = false)
 {
     public string Name { get; set; } = name;
     public int RestoredHunger { get; set; } = restoredHunger;
     public int RestoredHappiness { get; set; } = restoredHappiness;
+    public int WeightGained { get; set; } = weightGained;
     public bool Owned { get; set; } = owned;
 }
 
