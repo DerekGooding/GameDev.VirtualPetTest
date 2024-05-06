@@ -633,6 +633,10 @@ Birthday: {currentPet.Birthday}");
                 {
                     currentPet.CareLevel++;
                 }
+                else if(currentPet.Happiness == 0)
+                {
+                    currentPet.CareLevel--;
+                }
 
                 if (currentPet.Happiness > 0)
                 {
@@ -693,6 +697,10 @@ Birthday: {currentPet.Birthday}");
                 {
                     currentPet.CareLevel++;
                 }
+                else if(currentPet.Hunger == 0)
+                {
+                    currentPet.CareLevel--;
+                }
 
                 if (currentPet.Hunger > 0)
                 {
@@ -715,6 +723,12 @@ Birthday: {currentPet.Birthday}");
         {
             if(illnessTickCount <= 0) //15s
             {
+                if (sick)
+                {
+                    currentPet.CareLevel--;
+                }
+
+                //implement properly
                 if(rand.Next(0,10) >= 6)
                 {
                     //set sick
@@ -741,6 +755,7 @@ Birthday: {currentPet.Birthday}");
         {
             //todo
             //if(correct discipline timing){currentPet.CareLevel++;}
+            //else if(INcorrect discipline timing){currentPet.CareLevel--;}
         }
 
         void SwitchLightOnOff()
