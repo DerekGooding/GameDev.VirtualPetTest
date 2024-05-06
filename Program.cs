@@ -468,7 +468,10 @@ Birthday: {currentPet.Birthday}");
                     }
                     currentPet.Money += moneyAndHappiness[0];
                     currentPet.Happiness += moneyAndHappiness[1];
-                    currentPet.CareLevel++;
+                    if (moneyAndHappiness[1] > 0)
+                    {
+                        currentPet.CareLevel++;
+                    }
                     tickTimer.Start();
                 }
                 else if(userInput == 'd')
