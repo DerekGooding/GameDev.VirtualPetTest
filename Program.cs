@@ -45,6 +45,7 @@ public class Program
 
         bool sleeping = false;
         bool sick = false;
+        bool wantsAttention = false;
         string[] careOptions = { "Clean", "Medicine", "Discipline/Praise"};
 
         int[] topScreenInnerBordersX = { 2, 11};
@@ -128,7 +129,7 @@ public class Program
         {
             int selection = 0;
 
-            screen.UpdatePetPosition(currentPet.Appearance, sick);
+            screen.UpdatePetPosition(currentPet.Appearance, sick, wantsAttention);
             screen.DrawScreen();
 
             do
@@ -609,7 +610,7 @@ Birthday: {currentPet.Birthday}");
 
             screen.ResetScreen();
             screen.UpdatePoops(poopPositions);
-            screen.UpdatePetPosition(currentPet.Appearance, sick);
+            screen.UpdatePetPosition(currentPet.Appearance, sick, wantsAttention);
             screen.DrawScreen();
 
         }
@@ -766,6 +767,11 @@ Birthday: {currentPet.Birthday}");
                 sick = false;
                 currentPet.CareLevel++;
             }
+        }
+
+        void CallForAttention()
+        {
+
         }
 
         void Discipline()//
@@ -1030,7 +1036,7 @@ public class Screen()
         Console.WriteLine("  (A) (S) (D)");
     }
 
-    public void UpdatePetPosition(string petAppearance, bool sick)
+    public void UpdatePetPosition(string petAppearance, bool sick, bool wantsAttention)
     {
         int x = rand.Next(1, 12);
         int y = rand.Next(1, 7);
@@ -1043,6 +1049,12 @@ public class Screen()
             screenLines[petY-1] = screenLines[petY-1].Replace("X", " ");
             screenLines[y-1] = screenLines[y-1].Insert(x, "X");
             screenLines[y-1] = screenLines[y-1].Remove(x + 1, 1);
+        }
+        if (wantsAttention)
+        {
+            screenLines[petY - 1] = screenLines[petY - 1].Replace("!", " ");
+            screenLines[y - 1] = screenLines[y - 1].Insert(x + 1, "!");
+            screenLines[y - 1] = screenLines[y - 1].Remove(x + 2, 1);
         }
 
         petX = x;
