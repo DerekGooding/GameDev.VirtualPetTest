@@ -26,7 +26,7 @@ public class Program
 
 
         List<int[]> poopPositions = new();
-        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$"}; //baby, child, adults (default care, bad care, good care, good care and high money?
+        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$"}; //baby, child, teen, adults (bad care, default care, good care)
         var currentPet = new Pet("Default");
         
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
@@ -35,6 +35,18 @@ public class Program
 
 
         System.Timers.Timer tickTimer;
+
+        //faster events
+        /*
+            int hungerTickCount = 3; //9s
+            int happinessTickCount = 5; //15s
+            int evolveTickCount = 10; //30s
+            int illnessTickCount = 5; //15s
+            int deathCheckTickCount = 5; //15s
+            int fakeAttentionTickCount = 5; //15s
+        */
+
+
         int hungerTickCount = 3; //9s
         int happinessTickCount = 5; //15s
         int evolveTickCount = 10; //30s
@@ -627,8 +639,7 @@ Birthday: {currentPet.Birthday}");
             {
                 if (evolveTickCount <= 0) //30s
                 {
-                    currentPet.Appearance = petModels[currentPet.Stage];
-                    currentPet.Stage++;
+                    Evolve();
                     evolveTickCount = 10;
                     screen.ResetScreen();
                 }
@@ -637,6 +648,37 @@ Birthday: {currentPet.Birthday}");
                     evolveTickCount--;
                 }
             }
+        }
+
+        void Evolve()
+        {
+            switch (currentPet.Stage)
+            {
+                case 0: //baby to child
+                    currentPet.Appearance = petModels[1];
+                    break;
+                case 1: //child to teen
+                    currentPet.Appearance = petModels[2];
+                    break;
+                case 2: //teen to adult
+                    if (currentPet.CareLevel >= 50 && currentPet.Discipline >= 3)
+                    {
+                        currentPet.Appearance = petModels[5];
+                    }
+                    else if(currentPet.CareLevel >= 0 && currentPet.Discipline >= 1)
+                    {
+                        currentPet.Appearance = petModels[4];
+                    }
+                    else
+                    {
+                        currentPet.Appearance = petModels[3];
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            currentPet.Stage++;
         }
 
         void HappinessCheck()
