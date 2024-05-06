@@ -50,6 +50,7 @@ public class Program
         bool wantsAttention = false;
         bool fakeAttention = false;
         bool hungryAttention = false;
+        bool happyAttention = false;
 
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
@@ -644,14 +645,17 @@ Birthday: {currentPet.Birthday}");
                 {
                     currentPet.CareLevel++;
                 }
-                else if(currentPet.Happiness == 0)
+                else if(currentPet.Happiness <= 0)
                 {
                     currentPet.CareLevel--;
+                    wantsAttention = true;
+                    happyAttention = true;
                 }
 
                 if (currentPet.Happiness > 0)
                 {
                     currentPet.Happiness--;
+                    happyAttention = false;
                 }
 
                 happinessTickCount = 5;
@@ -760,7 +764,8 @@ Birthday: {currentPet.Birthday}");
         void AttentionCheck()
         {
             if(!fakeAttention
-            && !hungryAttention)
+            && !hungryAttention
+            && !happyAttention)
             {
                 wantsAttention = false;
             }
