@@ -81,8 +81,8 @@ public class Program
         List<Food> allFood;
 
         Console.CursorVisible = false;
-        Console.WindowWidth = 20;
-        Console.WindowHeight = 20;
+        Console.WindowWidth = 30;
+        Console.WindowHeight = 30;
         bool programRunning = true;
         bool isDead = false;
 
@@ -282,7 +282,7 @@ Happiness: {currentPet.Happiness}
 Discipline: {currentPet.Discipline}
 Money: {currentPet.Money}
 Weight: {currentPet.Weight}
-Birthday: {currentPet.Birthday}");
+Bday: {currentPet.Birthday}");
             Console.WriteLine("(Press any key to continue...)");
             Console.ReadKey(true);
         }
