@@ -44,7 +44,7 @@ public class Program
         int deathMistakes = 0;
 
         bool sleeping = false;
-        bool sick = true;
+        bool sick = false;
         string[] careOptions = { "Clean", "Medicine", "Discipline/Praise"};
 
         int[] topScreenInnerBordersX = { 2, 11};
@@ -728,6 +728,7 @@ Birthday: {currentPet.Birthday}");
                 if (sick)
                 {
                     currentPet.CareLevel--;
+                    deathMistakes++;
                 }
                 else
                 {
@@ -743,7 +744,7 @@ Birthday: {currentPet.Birthday}");
             {
                 illnessTickCount--;
             }
-        } //todo
+        }
 
         void SetIllness()
         {
@@ -758,10 +759,10 @@ Birthday: {currentPet.Birthday}");
         {
             if (sick)
             {
+                sick = false;
                 currentPet.CareLevel++;
             }
-            sick = false;
-        } //
+        }
 
         void Discipline()//
         {
