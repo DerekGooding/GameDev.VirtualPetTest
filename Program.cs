@@ -769,9 +769,13 @@ Birthday: {currentPet.Birthday}");
             }
         }
 
-        void CallForAttention()
+        void CallForAttention(bool validCall)
         {
+            wantsAttention = true;
+            if (validCall)
+            {
 
+            }
         }
 
         void Discipline()//
