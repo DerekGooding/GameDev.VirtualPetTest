@@ -46,7 +46,7 @@ public class Program
 
         bool sleeping = false;
         bool sick = false;
-        string[] careOptions = { "Clean", "Medicine", "Discipline/Praise"};
+        string[] careOptions = { "Clean", "Medicine", "Discipline"};
 
         bool wantsAttention = false;
         bool fakeAttention = false;
@@ -813,6 +813,7 @@ Birthday: {currentPet.Birthday}");
             if (fakeAttention)
             {
                 currentPet.CareLevel++;
+                currentPet.Discipline++;
                 fakeAttention = false;
             }
             else
