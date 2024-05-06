@@ -45,9 +45,10 @@ public class Program
 
         bool sleeping = false;
         bool sick = false;
-        bool wantsAttention = false;
         string[] careOptions = { "Clean", "Medicine", "Discipline/Praise"};
 
+        bool wantsAttention = false;
+        bool fakeAttention = false;
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
         int[] bottomScreenStartPositionXY = { 0, 10};
@@ -769,20 +770,28 @@ Birthday: {currentPet.Birthday}");
             }
         }
 
-        void CallForAttention(bool validCall)
+        void CallForAttention(string reason)
         {
             wantsAttention = true;
-            if (validCall)
+            if (reason == "fake")
             {
-
+                fakeAttention = true;
             }
         }
 
         void Discipline()//
         {
             //todo
-            //if(correct discipline timing){currentPet.CareLevel++;}
-            //else if(INcorrect discipline timing){currentPet.CareLevel--;}
+
+            if (fakeAttention)
+            {
+                currentPet.CareLevel++;
+                fakeAttention = false;
+            }
+            else
+            {
+                currentPet.CareLevel--;
+            }
         }
 
         void SwitchLightOnOff()
