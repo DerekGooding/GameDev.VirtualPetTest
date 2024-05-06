@@ -49,6 +49,8 @@ public class Program
 
         bool wantsAttention = false;
         bool fakeAttention = false;
+        bool hungryAttention = false;
+
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
         int[] bottomScreenStartPositionXY = { 0, 10};
@@ -607,7 +609,7 @@ Birthday: {currentPet.Birthday}");
             HappinessCheck();
             EvolveCheck();
             IllnessCheck();
-
+            AttentionCheck();
 
             screen.ResetScreen();
             screen.UpdatePoops(poopPositions);
@@ -711,12 +713,15 @@ Birthday: {currentPet.Birthday}");
                     currentPet.CareLevel--;
                     currentPet.Weight--;
                     deathMistakes++;
+                    wantsAttention = true;
+                    hungryAttention = true;
                 }
 
                 if (currentPet.Hunger > 0)
                 {
                     currentPet.Hunger--;
                     AddPoop();
+                    hungryAttention = false;
                 }
 
                 hungerTickCount = 3;
@@ -752,6 +757,15 @@ Birthday: {currentPet.Birthday}");
             }
         }
 
+        void AttentionCheck()
+        {
+            if(!fakeAttention
+            && !hungryAttention)
+            {
+                wantsAttention = false;
+            }
+        }
+
         void SetIllness()
         {
             if (rand.Next(0, 10) >= 6)
@@ -770,19 +784,8 @@ Birthday: {currentPet.Birthday}");
             }
         }
 
-        void CallForAttention(string reason)
+        void Discipline()
         {
-            wantsAttention = true;
-            if (reason == "fake")
-            {
-                fakeAttention = true;
-            }
-        }
-
-        void Discipline()//
-        {
-            //todo
-
             if (fakeAttention)
             {
                 currentPet.CareLevel++;
