@@ -481,6 +481,7 @@ Birthday: {currentPet.Birthday}");
                     }
                     currentPet.Money += moneyAndHappiness[0];
                     currentPet.Happiness += moneyAndHappiness[1];
+                    currentPet.Weight--;
                     if (moneyAndHappiness[1] > 0)
                     {
                         currentPet.CareLevel++;
@@ -702,9 +703,11 @@ Birthday: {currentPet.Birthday}");
                 {
                     currentPet.CareLevel++;
                 }
-                else if(currentPet.Hunger == 0)
+                else if(currentPet.Hunger <= 0)
                 {
                     currentPet.CareLevel--;
+                    currentPet.Weight--;
+                    deathMistakes++;
                 }
 
                 if (currentPet.Hunger > 0)
@@ -712,10 +715,7 @@ Birthday: {currentPet.Birthday}");
                     currentPet.Hunger--;
                     AddPoop();
                 }
-                else
-                {
-                    deathMistakes++;
-                }
+
                 hungerTickCount = 3;
             }
             else
