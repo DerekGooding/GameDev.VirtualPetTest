@@ -10,41 +10,48 @@ public class Program
 {
     public static void Main()
     {
-        //bug w/ drawing screen
-
         Random rand = new();
         Screen screen = new();
         Games games = new();
 
-        Food riceBowl = new("RiceBowl", 1, 0, 1, true);
-        Food friedEggs = new("Fried Eggs", 1, 0, 1, true);
-        Food cake = new("Cake", 1, 1, 2, true);
-        Food steak;
-
-        var ownedFood = new List<string>{ "riceBowl","friedEggs", "cake"};
-        var ownedFoodList = new List<Food>{ riceBowl, friedEggs, cake};
-
-
-        List<int[]> poopPositions = new();
-        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$"}; //baby, child, teen, adults (bad care, default care, good care)
-        var currentPet = new Pet("Default");
-        
         string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
+
+        Food steak;
+        var ownedFood = new List<string>{ "riceBowl","friedEggs", "cake"};
+        var ownedFoodList = new List<Food>{ new("Rice Bowl", 1, 0, 1, true), new("Fried Eggs", 1, 0, 1, true), new("Cake", 1, 1, 2, true) };
+
         string[] shopItems = { "Steak - $50", "Dice - $150"};
+
         var ownedGames = new List<string>{ "Left or Right?" };
 
+        string[] careOptions = { "Clean", "Medicine", "Discipline" };
+        List<int[]> poopPositions = new();
+        bool sick = false;
+        bool wantsAttention = false;
+        bool fakeAttention = false;
+        bool hungryAttention = false;
+        bool happyAttention = false;
+
+        bool sleeping = false;
+
+        bool programRunning = true;
+
+        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$"}; //baby, child, teen, adults (bad care, default care, good care)
+        var currentPet = new Pet("Default");
+        int deathMistakes = 0;
+        bool isDead = false;
 
         System.Timers.Timer tickTimer;
 
         //faster events
         /*
-         *  int tickCount = 3000; //3s
-            int hungerTickCount = 3; //9s
-            int happinessTickCount = 5; //15s
-            int evolveTickCount = 10; //30s
-            int illnessTickCount = 5; //15s
-            int deathCheckTickCount = 5; //15s
-            int fakeAttentionTickCount = 5; //15s
+        int tickCount = 3000; //3s
+        int hungerTickCount = 3; //9s
+        int happinessTickCount = 5; //15s
+        int evolveTickCount = 10; //30s
+        int illnessTickCount = 5; //15s
+        int deathCheckTickCount = 5; //15s
+        int fakeAttentionTickCount = 5; //15s
         */
 
         //slower events
@@ -63,28 +70,13 @@ public class Program
         int activeDeathCheckTickCount = deathCheckTickCount;
         int activeFakeAttentionTickCount = fakeAttentionTickCount;
 
-
-        int deathMistakes = 0;
-
-        bool sleeping = false;
-        bool sick = false;
-        string[] careOptions = { "Clean", "Medicine", "Discipline"};
-
-        bool wantsAttention = false;
-        bool fakeAttention = false;
-        bool hungryAttention = false;
-        bool happyAttention = false;
-
         int[] topScreenInnerBordersX = { 2, 11};
         int[] topScreenInnerBordersY = { 3, 6 };
         int[] bottomScreenStartPositionXY = { 0, 10};
-        List<Food> allFood;
 
         Console.CursorVisible = false;
         Console.WindowWidth = 30;
         Console.WindowHeight = 30;
-        bool programRunning = true;
-        bool isDead = false;
 
         //new game setup
         if (!File.Exists("SaveData"))
