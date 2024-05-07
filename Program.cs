@@ -86,7 +86,7 @@ public class Program
             HatchEgg();
             currentPet = NamePet();
         }
-        else
+        else //existing game
         {
             currentPet = LoadGameData().CurrentPetData;
             ownedFood = LoadGameData().OwnedFood;
@@ -117,23 +117,17 @@ public class Program
 
         void HatchEgg()
         {
-            screen.screenLines[4] = "|      ( )    |";
-            Console.Clear();
-            screen.DrawScreen();
-            Console.WriteLine("An Egg?...");
-            Thread.Sleep(2000);
-
-            screen.screenLines[4] = "|      (z)    |";
-            Console.Clear();
-            screen.DrawScreen();
-            Console.WriteLine("A crack in the egg?...");
-            Thread.Sleep(2000);
-
-            screen.screenLines[4] = "|      \\?/    |";
-            Console.Clear();
-            screen.DrawScreen();
-            Console.WriteLine("It's hatching!\nWhat will you name it?");
-        }
+            string[] eggHatchSequence = { "|      ( )    |" , "|      (z)    |" ,  "|      \\?/    |" };
+            string[] eggHatchDialogue = { "An Egg?...", "A crack in the egg?...", "It's hatching!\nWhat will you name it?" };
+            for(int i = 0; i < 3; i++)
+            {
+                screen.screenLines[4] = eggHatchSequence[i];
+                Console.Clear();
+                screen.DrawScreen();
+                Console.WriteLine(eggHatchDialogue[i]);
+                Thread.Sleep(2000);
+            }
+      }
         
         Pet NamePet()
         {
