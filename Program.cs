@@ -55,6 +55,7 @@ public class Program
         */
 
         //slower events
+        /*        
         int tickCount = 30000; //30s
         int hungerTickCount = 10; //5m
         int happinessTickCount = 20; //10m
@@ -62,6 +63,15 @@ public class Program
         int illnessTickCount = 20; //10m
         int deathCheckTickCount = 60; //30m
         int fakeAttentionTickCount = 20; //10m
+        */
+
+        int tickCount = 5000; //5s
+        int hungerTickCount = 60; //5m
+        int happinessTickCount = 120; //10m
+        int evolveTickCount = 720; //1h
+        int illnessTickCount = 120; //10m
+        int deathCheckTickCount = 360; //30m
+        int fakeAttentionTickCount = 120; //10m
 
         int activeHungerTickCount = hungerTickCount;
         int activeHappinessTickCount = happinessTickCount;
@@ -92,6 +102,7 @@ public class Program
             ownedFood = LoadGameData().OwnedFood;
             ownedGames = LoadGameData().OwnedGames;
             currentPet.Age = 1 + (int)float.Parse(DateTime.Now.Subtract(DateTime.Parse(currentPet.Birthday)).TotalDays.ToString());
+            activeEvolveTickCount -= currentPet.EvolutionProgress;
 
             Console.WriteLine("Loading game...");
             Thread.Sleep(2000);
@@ -241,6 +252,8 @@ public class Program
                             {
                                 currentPet.CareLevel--;
                             }
+
+                            currentPet.EvolutionProgress = evolveTickCount - activeEvolveTickCount;
 
                             SaveGameData(currentPet, ownedFood, ownedGames);
                             programRunning = false;
@@ -1172,7 +1185,7 @@ public class Screen()
 
 }
 
-class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int weight = 10, int discipline = 0, int stage = 0, int careLevel = 0)
+class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@", int age = 1, int hunger = 3, int happiness = 3, int money = 150, int weight = 10, int discipline = 0, int stage = 0, int careLevel = 0, int evolutionProgress = 0)
 {
     public string Name { get; set; } = name;
     public string Appearance { get; set; } = appearance;
@@ -1185,6 +1198,7 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@",
     public int Discipline { get; set; } = discipline;
     public int Stage { get; set; } = stage;
     public int CareLevel { get; set; } = careLevel;
+    public int EvolutionProgress { get; set; } = evolutionProgress;
 
 }
 
