@@ -78,12 +78,9 @@ public class Program
         Console.WindowWidth = 30;
         Console.WindowHeight = 30;
 
-        //new game setup
+        //new game
         if (!File.Exists("SaveData"))
         {
-            ownedFood = [ "riceBowl", "friedEggs", "cake"];
-            steak = new("Steak", 1, 1, 2, false);
-
             Console.WriteLine("Starting new game...");
             Thread.Sleep(2000);
             HatchEgg();
@@ -95,24 +92,24 @@ public class Program
             ownedFood = LoadGameData().OwnedFood;
             ownedGames = LoadGameData().OwnedGames;
             currentPet.Age = 1 + (int)float.Parse(DateTime.Now.Subtract(DateTime.Parse(currentPet.Birthday)).TotalDays.ToString());
-            if (ownedFood.Contains("steak"))
-            {
-                steak = new("Steak", 1, 1, 2, true);
-                ownedFoodList.Add(steak);
-                shopItems[0] = "SOLD OUT - Steak";
-            }
-            else
-            {
-                steak = new("Steak", 1, 1, 2, false);
-            }
-
-            if (ownedGames.Contains("Higher or Lower?"))
-            {
-                shopItems[1] = "SOLD OUT - Dice";
-            }
 
             Console.WriteLine("Loading game...");
             Thread.Sleep(2000);
+        }
+
+        if (ownedFood.Contains("steak"))
+        {
+            ownedFoodList.Add(steak = new("Steak", 1, 1, 2, true));
+            shopItems[0] = "SOLD OUT - Steak";
+        }
+        else
+        {
+            steak = new("Steak", 1, 1, 2, false);
+        }
+
+        if (ownedGames.Contains("Higher or Lower?"))
+        {
+            shopItems[1] = "SOLD OUT - Dice";
         }
 
         StartTimers();
