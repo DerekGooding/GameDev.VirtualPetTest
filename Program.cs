@@ -347,7 +347,7 @@ Bday: {currentPet.Birthday}");
                         {
                             currentPet.Happiness += 1;
                             Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
-                            currentPet.CareLevel--;
+                            currentPet.CareLevel -= 2;
                         }
                         else
                         {
@@ -871,6 +871,10 @@ Birthday: {currentPet.Birthday}");
                 sick = false;
                 currentPet.CareLevel++;
             }
+            else
+            {
+                currentPet.CareLevel--;
+            }
         }
 
         void Discipline()
@@ -915,6 +919,10 @@ Birthday: {currentPet.Birthday}");
         {
             int x = rand.Next(1, 13);
             int y = rand.Next(1, 6);
+            if(poopPositions.Count >= 5)
+            {
+                currentPet.CareLevel--;
+            }
             poopPositions.Add([x, y]);
         }
 
