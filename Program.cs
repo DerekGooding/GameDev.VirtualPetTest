@@ -65,6 +65,7 @@ public class Program
         int fakeAttentionTickCount = 20; //10m
         */
 
+        //slower events with faster tick count
         int tickCount = 5000; //5s
         int hungerTickCount = 60; //5m
         int happinessTickCount = 120; //10m
