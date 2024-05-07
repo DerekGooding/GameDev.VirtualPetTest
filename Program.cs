@@ -125,25 +125,36 @@ public class Program
                 Console.Clear();
                 screen.DrawScreen();
                 Console.WriteLine(eggHatchDialogue[i]);
-                Thread.Sleep(2000);
+                Thread.Sleep(500);
             }
       }
         
         Pet NamePet()
         {
-            Console.Write("Name: ");
-            string? userInput = Console.ReadLine();
-
-            Pet currentPet = new(userInput, DateTime.Now.ToString());
-            screen.screenLines[4] = $"|             |";
-
+            bool validInput = false;
+            while (!validInput)
+            {
+                Console.Write("Name: ");
+                string? userInput = Console.ReadLine();
+                if(userInput != null && userInput.Length > 0 && userInput.Length < 11)
+                {
+                    Pet currentPet = new(userInput, DateTime.Now.ToString());
+                    validInput = true;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Input\nName must be 1-10 characters.\n(Press any key to continue...)");
+                    Console.ReadKey(true);
+                    ClearLowerScreen();
+                }
+            }
             return currentPet;
         }
         
         void MainScreen()
         {
             int selection = 0;
-
+            screen.ResetScreen();
             screen.UpdatePetPosition(currentPet.Appearance, sick, wantsAttention);
             screen.DrawScreen();
 
@@ -580,12 +591,12 @@ Bday: {currentPet.Birthday}");
 
         void ClearLowerScreen()
         {
-            Console.SetCursorPosition(0, 10);
+            Console.SetCursorPosition(bottomScreenStartPositionXY[0], bottomScreenStartPositionXY[1]);
             for(int i = 0; i < 10; i++)
             {
                 Console.WriteLine("".PadRight(45));
             }
-            Console.SetCursorPosition(0, 10);
+            Console.SetCursorPosition(bottomScreenStartPositionXY[0], bottomScreenStartPositionXY[1]);
         }
 
         void SaveGameData(Pet currentPetData, List<string> ownedFood, List<string> ownedGames)
