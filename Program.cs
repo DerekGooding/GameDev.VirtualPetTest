@@ -129,18 +129,21 @@ public class Program
         void HatchEgg()
         {
             screen.screenLines[4] = "|      ( )    |";
+            Console.Clear();
             screen.DrawScreen();
             Console.WriteLine("An Egg?...");
             Thread.Sleep(2000);
 
             screen.screenLines[4] = "|      (z)    |";
+            Console.Clear();
             screen.DrawScreen();
             Console.WriteLine("A crack in the egg?...");
             Thread.Sleep(2000);
 
             screen.screenLines[4] = "|      \\?/    |";
+            Console.Clear();
             screen.DrawScreen();
-            Console.WriteLine("It's hatching! What will you name it?");
+            Console.WriteLine("It's hatching!\nWhat will you name it?");
         }
         
         Pet NamePet()
@@ -335,12 +338,12 @@ Bday: {currentPet.Birthday}");
                         if (ownedFoodList[selection].RestoredHappiness > 0)
                         {
                             currentPet.Happiness += 1;
-                            Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
+                            Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
                             currentPet.CareLevel--;
                         }
                         else
                         {
-                            Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, gained +{ownedFoodList[selection].RestoredHunger} <3\n(Press any key to continue...)");
+                            Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, +{ownedFoodList[selection].RestoredHunger} <3\n(Press any key to continue...)");
                         }
                     }
                     else
@@ -999,12 +1002,8 @@ public class Games
         if(score > 2)
         {
             happinessGained++;
-            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +1");
         }
-        else
-        {
-            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
-        }
+        Console.WriteLine($" Score: {score}\n Money: +{score * 10}\n Happiness: +{happinessGained}");
         Thread.Sleep(1000);
         Console.WriteLine("(Press any key to continue...)");
         screen.screenLines[3] = "|     @>@     |";
@@ -1082,12 +1081,8 @@ public class Games
         if (score > 2)
         {
             happinessGained++;
-            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +1");
         }
-        else
-        {
-            Console.WriteLine($" Score: {score} Money: +{score * 10} Happiness: +0");
-        }
+        Console.WriteLine($" Score: {score}\n Money: +{score * 10}\n Happiness: +{happinessGained}");
 
         Thread.Sleep(1000);
         Console.WriteLine("(Press any key to continue...)");
