@@ -32,6 +32,8 @@
 #### A hidden stat that tracks how well cared for your pet is. Care mistakes lower care level by 1. Care mistakes include; trying to feed when full, letting pet starve, feeding snacks, letting pet be unhappy, exiting game without putting pet to sleep, letting pet get/stay sick, giving medicine unnecessarily, disciplining a valid attention call, leaving poop uncleaned. Care bonuses increase care level by 1. Care bonuses include; putting pet to sleep before exiting, feeding, keeping pet full, getting 2+ score in games, keeping pet happy, curing sickness, correctly disciplining pet, cleaning poop.
 ### Death Mistakes
 #### A hidden stat that starts at 0 and increases as death mistakes are made. If death mistakes reaches a high enough number there is a chance for your pet to die. Death mistakes slowly decrease until back at 0. Death mistakes include; letting pet starve, leaving pet sick.
+### Sickness
+#### Pet can get sick. Displays a 'X' above the pets head. Can get sick by; letting pet starve, leaving pet sad, not cleaning poop. Cure with medicine.
 ### Age
 #### Pets age goes up by 1 for everyday it's alive.
 
