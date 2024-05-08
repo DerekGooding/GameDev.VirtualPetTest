@@ -2,6 +2,16 @@
 ## Description
 #### A Virtual Pet console application in c#. Is loosely based on the original Tamagotchi (p1/p2) released in 1998. Take care of your pet's needs as it grows into an adult. Feed, Play and Care to grow a healthy pet. If you neglect it then it will die :(.
 
+## Controls
+### Menus
+#### 'A' - Confirm Selection
+#### 'S' - Cycle Selection
+#### 'D' - In main menu (Jump to top of menu/reset screen), In sub menu (Return to main menu)
+### Games
+#### 'A' - Left/Lower
+#### 'S' - Right/Higher
+#### 'D' - Exit Game
+
 ## Features/Operation
 #### Top screen is where pet is displayed/games are played. The three control buttons are displayed under this screen. Bottom screen displays all text/menus/information.
 #### Upon starting a new game the player is given an egg. After a time the egg will hatch and player can name their new pet. The name must be 1-10 characters in length.
