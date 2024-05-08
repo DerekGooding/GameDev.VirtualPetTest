@@ -1,6 +1,5 @@
 # Virtual Pet Console App C#
 ## Description
-[TopScreenImage](TopScreenSS.png)
 #### A Virtual Pet console application in c#. Is loosely based on the original Tamagotchi (p1/p2) released in 1998. Take care of your pet's needs as it grows into an adult. Feed, Play and Care to grow a healthy pet. If you neglect it then it will die :(.
 
 ## Controls
