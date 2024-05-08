@@ -44,7 +44,7 @@ public class Program
         System.Timers.Timer tickTimer;
 
         //faster events
-        /*
+
         int tickCount = 3000; //3s
         int hungerTickCount = 3; //9s
         int happinessTickCount = 5; //15s
@@ -52,7 +52,7 @@ public class Program
         int illnessTickCount = 5; //15s
         int deathCheckTickCount = 5; //15s
         int fakeAttentionTickCount = 5; //15s
-        */
+
 
         //slower events
         /*        
@@ -66,14 +66,14 @@ public class Program
         */
 
         //slower events with faster tick count
-        int tickCount = 5000; //5s
-        int hungerTickCount = 60; //5m
-        int happinessTickCount = 120; //10m
-        int evolveTickCount = 720; //1h
-        int illnessTickCount = 120; //10m
-        int deathCheckTickCount = 360; //30m
-        int fakeAttentionTickCount = 120; //10m
-
+        /*        int tickCount = 5000; //5s
+                int hungerTickCount = 60; //5m
+                int happinessTickCount = 120; //10m
+                int evolveTickCount = 720; //1h
+                int illnessTickCount = 120; //10m
+                int deathCheckTickCount = 360; //30m
+                int fakeAttentionTickCount = 120; //10m
+        */
         int activeHungerTickCount = hungerTickCount;
         int activeHappinessTickCount = happinessTickCount;
         int activeEvolveTickCount = evolveTickCount;
