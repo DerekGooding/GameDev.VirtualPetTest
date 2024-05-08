@@ -44,7 +44,7 @@ public class Program
         System.Timers.Timer tickTimer;
 
         //faster events
-
+        /*
         int tickCount = 3000; //3s
         int hungerTickCount = 3; //9s
         int happinessTickCount = 5; //15s
@@ -52,7 +52,7 @@ public class Program
         int illnessTickCount = 5; //15s
         int deathCheckTickCount = 5; //15s
         int fakeAttentionTickCount = 5; //15s
-
+        */
 
         //slower events
         /*        
@@ -66,14 +66,14 @@ public class Program
         */
 
         //slower events with faster tick count
-        /*        int tickCount = 5000; //5s
-                int hungerTickCount = 60; //5m
-                int happinessTickCount = 120; //10m
-                int evolveTickCount = 720; //1h
-                int illnessTickCount = 120; //10m
-                int deathCheckTickCount = 360; //30m
-                int fakeAttentionTickCount = 120; //10m
-        */
+        int tickCount = 5000; //5s
+        int hungerTickCount = 60; //5m
+        int happinessTickCount = 120; //10m
+        int evolveTickCount = 720; //1h
+        int illnessTickCount = 120; //10m
+        int deathCheckTickCount = 360; //30m
+        int fakeAttentionTickCount = 120; //10m
+
         int activeHungerTickCount = hungerTickCount;
         int activeHappinessTickCount = happinessTickCount;
         int activeEvolveTickCount = evolveTickCount;
@@ -345,7 +345,10 @@ Bday: {currentPet.Birthday}");
 
                         if (ownedFoodList[selection].RestoredHappiness > 0)
                         {
-                            currentPet.Happiness += 1;
+                            if(currentPet.Happiness < 5)
+                            {
+                                currentPet.Happiness += 1;
+                            }
                             Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
                             currentPet.CareLevel -= 2;
                         }
@@ -522,7 +525,11 @@ Bday: {currentPet.Birthday}");
                             break;
                     }
                     currentPet.Money += moneyAndHappiness[0];
-                    currentPet.Happiness += moneyAndHappiness[1];
+                    if (currentPet.Happiness < 5)
+                    {
+                        currentPet.Happiness += moneyAndHappiness[1];
+                    }
+
                     currentPet.Weight--;
                     if (moneyAndHappiness[1] > 0)
                     {
@@ -1202,7 +1209,7 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@",
     public int Hunger { get; set; } = hunger;
     public int Happiness { get; set; } = happiness;
     public int Money { get; set; } = money;
-    public string Birthday { get; set; } = birthday;
+    public string Birthday { get; set ; } = birthday;
     public int Weight { get; set; } = weight;
     public int Discipline { get; set; } = discipline;
     public int Stage { get; set; } = stage;
