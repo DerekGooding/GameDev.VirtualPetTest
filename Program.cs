@@ -1,5 +1,7 @@
 ﻿using System.Text.Json;
 
+namespace VirtualPetTest;
+
 public static class Program
 {
     public static void Main()
@@ -8,15 +10,15 @@ public static class Program
         Screen screen = new();
         Games games = new();
 
-        string[] menuOptions = { "Stats", "Food", "Shop" ,"Games", "Care", "Light", "Exit"};
+        string[] menuOptions = { "Stats", "Food", "Shop", "Games", "Care", "Light", "Exit" };
 
         Food steak;
-        var ownedFood = new List<string>{ "riceBowl","friedEggs", "cake"};
-        var ownedFoodList = new List<Food>{ new("Rice Bowl", 1, 0, 1, true), new("Fried Eggs", 1, 0, 1, true), new("Cake", 1, 1, 2, true) };
+        var ownedFood = new List<string> { "riceBowl", "friedEggs", "cake" };
+        var ownedFoodList = new List<Food> { new("Rice Bowl", 1, 0, 1, true), new("Fried Eggs", 1, 0, 1, true), new("Cake", 1, 1, 2, true) };
 
-        string[] shopItems = { "Steak - $50", "Dice - $150"};
+        string[] shopItems = { "Steak - $50", "Dice - $150" };
 
-        var ownedGames = new List<string>{ "Left or Right?" };
+        var ownedGames = new List<string> { "Left or Right?" };
 
         string[] careOptions = { "Clean", "Medicine", "Discipline" };
         List<int[]> poopPositions = new();
@@ -30,7 +32,7 @@ public static class Program
 
         bool programRunning = true;
 
-        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$"}; //baby, child, teen, adults (bad care, default care, good care)
+        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$" }; //baby, child, teen, adults (bad care, default care, good care)
         var currentPet = new Pet("Default");
         int deathMistakes = 0;
         bool isDead = false;
@@ -75,9 +77,9 @@ public static class Program
         int activeDeathCheckTickCount = deathCheckTickCount;
         int activeFakeAttentionTickCount = fakeAttentionTickCount;
 
-        int[] topScreenInnerBordersX = { 2, 11};
+        int[] topScreenInnerBordersX = { 2, 11 };
         int[] topScreenInnerBordersY = { 3, 6 };
-        int[] bottomScreenStartPositionXY = { 0, 10};
+        int[] bottomScreenStartPositionXY = { 0, 10 };
 
         Console.CursorVisible = false;
         Console.WindowWidth = 30;
@@ -114,18 +116,16 @@ public static class Program
         }
 
         if (ownedGames.Contains("Higher or Lower?"))
-        {
             shopItems[1] = "SOLD OUT - Dice";
-        }
 
         StartTimers();
         MainScreen();
 
         void HatchEgg()
         {
-            string[] eggHatchSequence = { "|      ( )    |" , "|      (z)    |" ,  "|      \\?/    |" };
+            string[] eggHatchSequence = { "|      ( )    |", "|      (z)    |", "|      \\?/    |" };
             string[] eggHatchDialogue = { "An Egg?...", "A crack in the egg?...", "It's hatching!\nWhat will you name it?" };
-            for(int i = 0; i < 3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 screen.screenLines[4] = eggHatchSequence[i];
                 Console.Clear();
@@ -133,8 +133,8 @@ public static class Program
                 Console.WriteLine(eggHatchDialogue[i]);
                 Thread.Sleep(500);
             }
-      }
-        
+        }
+
         Pet NamePet()
         {
             bool validInput = false;
@@ -142,7 +142,7 @@ public static class Program
             {
                 Console.Write("Name: ");
                 string? userInput = Console.ReadLine();
-                if(userInput != null && userInput.Length > 0 && userInput.Length < 11)
+                if (userInput != null && userInput.Length > 0 && userInput.Length < 11)
                 {
                     Pet currentPet = new(userInput, DateTime.Now.ToString());
                     validInput = true;
@@ -156,7 +156,7 @@ public static class Program
             }
             return currentPet;
         }
-        
+
         void MainScreen()
         {
             int selection = 0;
@@ -178,9 +178,7 @@ public static class Program
                 for (int i = 0; i < menuOptions.Length; i++)
                 {
                     if (selection == i)
-                    {
                         Console.WriteLine($"\"{menuOptions[i]}\"");
-                    }
                     else
                     {
                         Console.WriteLine(menuOptions[i]);
@@ -200,9 +198,7 @@ public static class Program
                 if (userInput == 's')
                 {
                     if (selection == menuOptions.Length - 1)
-                    {
                         selection = 0;
-                    }
                     else
                     {
                         selection++;
@@ -229,7 +225,7 @@ public static class Program
                         case 2:
                             ShopScreen();
                             break;
-                        case 3:                            
+                        case 3:
                             GameScreen();
                             break;
                         case 4:
@@ -240,9 +236,7 @@ public static class Program
                             break;
                         case 6:
                             if (sleeping)
-                            {
                                 currentPet.CareLevel++;
-                            }
                             else
                             {
                                 currentPet.CareLevel--;
@@ -302,12 +296,10 @@ Bday: {currentPet.Birthday}");
                 ClearLowerScreen();
                 Console.WriteLine("Food:");
 
-                for(int i = 0; i < ownedFoodList.Count; i++)
+                for (int i = 0; i < ownedFoodList.Count; i++)
                 {
-                    if(selection == i)
-                    {
+                    if (selection == i)
                         Console.WriteLine($"\"{ownedFoodList[i].Name}\"");
-                    }
                     else
                     {
                         Console.WriteLine(ownedFoodList[i].Name);
@@ -320,9 +312,7 @@ Bday: {currentPet.Birthday}");
                 if (userInput == 's')
                 {
                     if (selection == ownedFoodList.Count - 1)
-                    {
                         selection = 0;
-                    }
                     else
                     {
                         selection++;
@@ -339,10 +329,8 @@ Bday: {currentPet.Birthday}");
 
                         if (ownedFoodList[selection].RestoredHappiness > 0)
                         {
-                            if(currentPet.Happiness < 5)
-                            {
+                            if (currentPet.Happiness < 5)
                                 currentPet.Happiness += 1;
-                            }
                             Console.WriteLine($"Fed {currentPet.Name} {ownedFoodList[selection].Name}, +{ownedFoodList[selection].RestoredHunger} <3 +{ownedFoodList[selection].RestoredHappiness}:)\n(Press any key to continue...)");
                             currentPet.CareLevel -= 2;
                         }
@@ -360,7 +348,7 @@ Bday: {currentPet.Birthday}");
                     }
                     Console.ReadKey(true);
                 }
-                else if(userInput == 'd')
+                else if (userInput == 'd')
                 {
                     inMenu = false;
                 }
@@ -381,9 +369,7 @@ Bday: {currentPet.Birthday}");
                 for (int i = 0; i < shopItems.Length; i++)
                 {
                     if (selection == i)
-                    {
                         Console.WriteLine($"\"{shopItems[i]}\"");
-                    }
                     else
                     {
                         Console.WriteLine(shopItems[i]);
@@ -396,9 +382,7 @@ Bday: {currentPet.Birthday}");
                 if (userInput == 's')
                 {
                     if (selection == shopItems.Length - 1)
-                    {
                         selection = 0;
-                    }
                     else
                     {
                         selection++;
@@ -435,9 +419,9 @@ Bday: {currentPet.Birthday}");
                             Console.ReadKey(true);
                             break;
                         case 1:
-                            if(!ownedGames.Contains("Higher or Lower?"))
+                            if (!ownedGames.Contains("Higher or Lower?"))
                             {
-                                if(currentPet.Money >= 150)
+                                if (currentPet.Money >= 150)
                                 {
                                     currentPet.Money -= 150;
                                     Console.WriteLine($"Bought Dice for $150!\n(Press any key to continue...)");
@@ -470,7 +454,7 @@ Bday: {currentPet.Birthday}");
         {
             bool running = true;
             int selection = 0;
-            int[] moneyAndHappiness = [0,0];
+            int[] moneyAndHappiness = [0, 0];
 
             do
             {
@@ -480,9 +464,7 @@ Bday: {currentPet.Birthday}");
                 for (int i = 0; i < ownedGames.Count; i++)
                 {
                     if (selection == i)
-                    {
                         Console.WriteLine($"\"{ownedGames[i]}\"");
-                    }
                     else
                     {
                         Console.WriteLine(ownedGames[i]);
@@ -495,9 +477,7 @@ Bday: {currentPet.Birthday}");
                 if (userInput == 's')
                 {
                     if (selection == ownedGames.Count - 1)
-                    {
                         selection = 0;
-                    }
                     else
                     {
                         selection++;
@@ -520,18 +500,14 @@ Bday: {currentPet.Birthday}");
                     }
                     currentPet.Money += moneyAndHappiness[0];
                     if (currentPet.Happiness < 5)
-                    {
                         currentPet.Happiness += moneyAndHappiness[1];
-                    }
 
                     currentPet.Weight--;
                     if (moneyAndHappiness[1] > 0)
-                    {
                         currentPet.CareLevel++;
-                    }
                     tickTimer.Start();
                 }
-                else if(userInput == 'd')
+                else if (userInput == 'd')
                 {
                     running = false;
                 }
@@ -553,9 +529,7 @@ Bday: {currentPet.Birthday}");
                 for (int i = 0; i < careOptions.Length; i++)
                 {
                     if (selection == i)
-                    {
                         Console.WriteLine($"\"{careOptions[i]}\"");
-                    }
                     else
                     {
                         Console.WriteLine(careOptions[i]);
@@ -569,9 +543,7 @@ Bday: {currentPet.Birthday}");
                 if (userInput == 's')
                 {
                     if (selection == careOptions.Length - 1)
-                    {
                         selection = 0;
-                    }
                     else
                     {
                         selection++;
@@ -607,7 +579,7 @@ Bday: {currentPet.Birthday}");
         void ClearLowerScreen()
         {
             Console.SetCursorPosition(bottomScreenStartPositionXY[0], bottomScreenStartPositionXY[1]);
-            for(int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Console.WriteLine("".PadRight(45));
             }
@@ -625,7 +597,7 @@ Bday: {currentPet.Birthday}");
         }
 
         SaveData LoadGameData()
-        
+
         {
             var jsonString = File.ReadAllText("SaveData");
             SaveData loadedData = JsonSerializer.Deserialize<SaveData>(jsonString);
@@ -639,7 +611,7 @@ Bday: {currentPet.Birthday}");
             tickTimer.AutoReset = true;
             tickTimer.Enabled = true;
         }
-        
+
         void TickEvent(object sender, EventArgs e)
         {
             DeathCheck();
@@ -659,7 +631,7 @@ Bday: {currentPet.Birthday}");
 
         void EvolveCheck()
         {
-            if(currentPet.Stage <= 2)
+            if (currentPet.Stage <= 2)
             {
                 if (activeEvolveTickCount <= 0)
                 {
@@ -686,10 +658,8 @@ Bday: {currentPet.Birthday}");
                     break;
                 case 2: //teen to adult
                     if (currentPet.CareLevel >= 50 && currentPet.Discipline >= 3)
-                    {
                         currentPet.Appearance = petModels[5];
-                    }
-                    else if(currentPet.CareLevel >= 0 && currentPet.Discipline >= 1)
+                    else if (currentPet.CareLevel >= 0 && currentPet.Discipline >= 1)
                     {
                         currentPet.Appearance = petModels[4];
                     }
@@ -709,11 +679,9 @@ Bday: {currentPet.Birthday}");
         {
             if (activeHappinessTickCount <= 0)
             {
-                if(currentPet.Happiness >= 5)
-                {
+                if (currentPet.Happiness >= 5)
                     currentPet.CareLevel++;
-                }
-                else if(currentPet.Happiness <= 0)
+                else if (currentPet.Happiness <= 0)
                 {
                     currentPet.CareLevel--;
                     wantsAttention = true;
@@ -736,14 +704,12 @@ Bday: {currentPet.Birthday}");
 
         void DeathCheck()
         {
-            if(activeDeathCheckTickCount <= 0)
+            if (activeDeathCheckTickCount <= 0)
             {
-                if(deathMistakes > 0)
-                {
+                if (deathMistakes > 0)
                     deathMistakes--;
-                }
-                
-                if(deathMistakes > 5)
+
+                if (deathMistakes > 5)
                 {
                     //death
                     tickTimer.Stop();
@@ -776,11 +742,9 @@ Birthday: {currentPet.Birthday}");
         {
             if (activeHungerTickCount <= 0)
             {
-                if(currentPet.Hunger >= 5)
-                {
+                if (currentPet.Hunger >= 5)
                     currentPet.CareLevel++;
-                }
-                else if(currentPet.Hunger <= 0)
+                else if (currentPet.Hunger <= 0)
                 {
                     currentPet.CareLevel--;
                     currentPet.Weight--;
@@ -806,7 +770,7 @@ Birthday: {currentPet.Birthday}");
 
         void IllnessCheck()
         {
-            if(activeIllnessTickCount <= 0)
+            if (activeIllnessTickCount <= 0)
             {
                 if (sick)
                 {
@@ -815,10 +779,8 @@ Birthday: {currentPet.Birthday}");
                 }
                 else
                 {
-                    if(currentPet.Hunger == 0 || currentPet.Happiness == 0 || poopPositions.Count >= 4)
-                    {
+                    if (currentPet.Hunger == 0 || currentPet.Happiness == 0 || poopPositions.Count >= 4)
                         SetIllness();
-                    }
                 }
 
                 activeIllnessTickCount = illnessTickCount;
@@ -831,9 +793,9 @@ Birthday: {currentPet.Birthday}");
 
         void FakeAttentionCheck()
         {
-            if(activeFakeAttentionTickCount <= 0)
+            if (activeFakeAttentionTickCount <= 0)
             {
-                if(rand.Next(1,11) >= 7)
+                if (rand.Next(1, 11) >= 7)
                 {
                     wantsAttention = true;
                     fakeAttention = true;
@@ -848,7 +810,7 @@ Birthday: {currentPet.Birthday}");
 
         void AttentionCheck()
         {
-            if(!fakeAttention
+            if (!fakeAttention
             && !hungryAttention
             && !happyAttention)
             {
@@ -920,19 +882,15 @@ Birthday: {currentPet.Birthday}");
         {
             int x = rand.Next(1, 13);
             int y = rand.Next(1, 6);
-            if(poopPositions.Count >= 5)
-            {
+            if (poopPositions.Count >= 5)
                 currentPet.CareLevel--;
-            }
             poopPositions.Add([x, y]);
         }
 
         void CleanPoop()
         {
-            if(poopPositions.Count > 0)
-            {
+            if (poopPositions.Count > 0)
                 currentPet.CareLevel++;
-            }
             poopPositions.Clear();
         }
     }
@@ -948,7 +906,7 @@ public class Games
         int score = 0;
         int side = 0;
 
-        for(int i =0;i<5;i++)
+        for (int i = 0; i < 5; i++)
         {
             screen.ResetScreen();
             screen.screenLines[2] = $"|      {score}      |";
@@ -966,9 +924,9 @@ public class Games
 
             side = rand.Next(2);
             char answer = Console.ReadKey(true).KeyChar;
-            if(answer == 'a')
+            if (answer == 'a')
             {
-                if(side == 0)
+                if (side == 0)
                 {
                     screen.screenLines[3] = "|   +1        |";
                     screen.screenLines[4] = "|   <I@>@     |";
@@ -980,9 +938,9 @@ public class Games
                     screen.screenLines[4] = "|     @>@I>   |";
                 }
             }
-            else if(answer == 's')
+            else if (answer == 's')
             {
-                if(side == 1)
+                if (side == 1)
                 {
                     screen.screenLines[3] = "|        +1   |";
                     screen.screenLines[4] = "|     @>@I>   |";
@@ -994,7 +952,7 @@ public class Games
                     screen.screenLines[4] = "|   <I@>@     |";
                 }
             }
-            else if(answer == 'd')
+            else if (answer == 'd')
             {
                 break;
             }
@@ -1016,10 +974,8 @@ public class Games
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
         int happinessGained = 0;
-        if(score > 2)
-        {
+        if (score > 2)
             happinessGained++;
-        }
         Console.WriteLine($" Score: {score}\n Money: +{score * 10}\n Happiness: +{happinessGained}");
         Thread.Sleep(1000);
         Console.WriteLine("(Press any key to continue...)");
@@ -1031,7 +987,7 @@ public class Games
         screen.screenLines[4] = "|     @>@     |";
         screen.DrawScreen();
         Console.ReadKey(true);
-        int[] moneyAndHappiness = [score*10, happinessGained];
+        int[] moneyAndHappiness = [score * 10, happinessGained];
         return moneyAndHappiness;
     }
 
@@ -1050,15 +1006,13 @@ public class Games
             screen.DrawScreen();
             Thread.Sleep(1000);
             nextNumber = rand.Next(1, 10);
-            while(nextNumber == currentNumber)
+            while (nextNumber == currentNumber)
             {
                 nextNumber = rand.Next(1, 10);
             }
 
-            if(nextNumber > currentNumber)
-            {
+            if (nextNumber > currentNumber)
                 higher = true;
-            }
             else
             {
                 higher = false;
@@ -1067,14 +1021,12 @@ public class Games
             char userInput = Console.ReadKey(true).KeyChar;
 
             if (userInput == 'a' && higher) //higher
+                score++;
+            else if (userInput == 's' && !higher) //lower
             {
                 score++;
             }
-            else if(userInput == 's' && !higher) //lower
-            {
-                score++;
-            }
-            else if(userInput == 'd')
+            else if (userInput == 'd')
             {
                 break;
             }
@@ -1096,9 +1048,7 @@ public class Games
 
         int happinessGained = 0;
         if (score > 2)
-        {
             happinessGained++;
-        }
         Console.WriteLine($" Score: {score}\n Money: +{score * 10}\n Happiness: +{happinessGained}");
 
         Thread.Sleep(1000);
@@ -1154,9 +1104,9 @@ public class Screen()
 
         if (sick)
         {
-            screenLines[petY-1] = screenLines[petY-1].Replace("X", " ");
-            screenLines[y-1] = screenLines[y-1].Insert(x, "X");
-            screenLines[y-1] = screenLines[y-1].Remove(x + 1, 1);
+            screenLines[petY - 1] = screenLines[petY - 1].Replace("X", " ");
+            screenLines[y - 1] = screenLines[y - 1].Insert(x, "X");
+            screenLines[y - 1] = screenLines[y - 1].Remove(x + 1, 1);
         }
         if (wantsAttention)
         {
@@ -1184,7 +1134,7 @@ public class Screen()
 
     public void UpdatePoops(List<int[]> poopPositions)
     {
-        foreach(int[] poop in poopPositions)
+        foreach (int[] poop in poopPositions)
         {
             screenLines[poop[1]] = screenLines[poop[1]].Insert(poop[0], "S");
             screenLines[poop[1] + 1] = screenLines[poop[1] + 1].Insert(poop[0], "*");
@@ -1203,7 +1153,7 @@ class Pet(string name, string birthday = "1/1/1 11:11", string appearance = "@",
     public int Hunger { get; set; } = hunger;
     public int Happiness { get; set; } = happiness;
     public int Money { get; set; } = money;
-    public string Birthday { get; set ; } = birthday;
+    public string Birthday { get; set; } = birthday;
     public int Weight { get; set; } = weight;
     public int Discipline { get; set; } = discipline;
     public int Stage { get; set; } = stage;
