@@ -10,18 +10,49 @@ public static class Program
         Screen screen = new();
         Games games = new();
 
-        string[] menuOptions = { "Stats", "Food", "Shop", "Games", "Care", "Light", "Exit" };
+        string[] menuOptions =
+        [
+            "Stats",
+            "Food",
+            "Shop",
+            "Games",
+            "Care",
+            "Light",
+            "Exit"
+        ];
 
         Food steak;
-        var ownedFood = new List<string> { "riceBowl", "friedEggs", "cake" };
-        var ownedFoodList = new List<Food> { new("Rice Bowl", 1, 0, 1, true), new("Fried Eggs", 1, 0, 1, true), new("Cake", 1, 1, 2, true) };
 
-        string[] shopItems = { "Steak - $50", "Dice - $150" };
+        List<string> ownedFood =
+        [
+            "riceBowl",
+            "friedEggs",
+            "cake"
+        ];
 
-        var ownedGames = new List<string> { "Left or Right?" };
+        List<Food> ownedFoodList =
+        [
+            new("Rice Bowl", 1, 0, 1, true),
+            new("Fried Eggs", 1, 0, 1, true),
+            new("Cake", 1, 1, 2, true)
+        ];
 
-        string[] careOptions = { "Clean", "Medicine", "Discipline" };
-        List<int[]> poopPositions = new();
+        string[] shopItems =
+        [
+            "Steak - $50",
+            "Dice - $150"
+        ];
+
+        List<string> ownedGames = ["Left or Right?"];
+
+        string[] careOptions =
+        [
+            "Clean",
+            "Medicine",
+            "Discipline"
+        ];
+
+        List<int[]> poopPositions = [];
         bool sick = false;
         bool wantsAttention = false;
         bool fakeAttention = false;
@@ -32,8 +63,8 @@ public static class Program
 
         bool programRunning = true;
 
-        List<string> petModels = new List<string> { "@", ">@", "@>@", "*>*", "O>O", "$>$" }; //baby, child, teen, adults (bad care, default care, good care)
-        var currentPet = new Pet("Default");
+        List<string> petModels = ["@", ">@", "@>@", "*>*", "O>O", "$>$"]; //baby, child, teen, adults (bad care, default care, good care)
+        Pet currentPet = new("Default");
         int deathMistakes = 0;
         bool isDead = false;
 
@@ -62,13 +93,13 @@ public static class Program
         */
 
         //slower events with faster tick count
-        int tickCount = 5000; //5s
-        int hungerTickCount = 60; //5m
-        int happinessTickCount = 120; //10m
-        int evolveTickCount = 720; //1h
-        int illnessTickCount = 120; //10m
-        int deathCheckTickCount = 360; //30m
-        int fakeAttentionTickCount = 120; //10m
+        const int tickCount = 5000; //5s
+        const int hungerTickCount = 60; //5m
+        const int happinessTickCount = 120; //10m
+        const int evolveTickCount = 720; //1h
+        const int illnessTickCount = 120; //10m
+        const int deathCheckTickCount = 360; //30m
+        const int fakeAttentionTickCount = 120; //10m
 
         int activeHungerTickCount = hungerTickCount;
         int activeHappinessTickCount = happinessTickCount;
@@ -77,9 +108,9 @@ public static class Program
         int activeDeathCheckTickCount = deathCheckTickCount;
         int activeFakeAttentionTickCount = fakeAttentionTickCount;
 
-        int[] topScreenInnerBordersX = { 2, 11 };
-        int[] topScreenInnerBordersY = { 3, 6 };
-        int[] bottomScreenStartPositionXY = { 0, 10 };
+        int[] topScreenInnerBordersX = [2, 11];
+        int[] topScreenInnerBordersY = [3, 6];
+        int[] bottomScreenStartPositionXY = [0, 10];
 
         Console.CursorVisible = false;
         Console.WindowWidth = 30;
@@ -123,8 +154,8 @@ public static class Program
 
         void HatchEgg()
         {
-            string[] eggHatchSequence = { "|      ( )    |", "|      (z)    |", "|      \\?/    |" };
-            string[] eggHatchDialogue = { "An Egg?...", "A crack in the egg?...", "It's hatching!\nWhat will you name it?" };
+            string[] eggHatchSequence = ["|      ( )    |", "|      (z)    |", "|      \\?/    |"];
+            string[] eggHatchDialogue = ["An Egg?...", "A crack in the egg?...", "It's hatching!\nWhat will you name it?"];
             for (int i = 0; i < 3; i++)
             {
                 screen.screenLines[4] = eggHatchSequence[i];
