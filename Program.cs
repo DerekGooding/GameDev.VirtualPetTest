@@ -6,7 +6,6 @@ public static class Program
 {
     public static void Main()
     {
-        Random rand = new();
         Screen screen = new();
         Games games = new();
 
@@ -795,7 +794,7 @@ Birthday: {currentPet.Birthday}");
         {
             if (activeFakeAttentionTickCount <= 0)
             {
-                if (rand.Next(1, 11) >= 7)
+                if (Random.Shared.Next(1, 11) >= 7)
                 {
                     wantsAttention = true;
                     fakeAttention = true;
@@ -820,7 +819,7 @@ Birthday: {currentPet.Birthday}");
 
         void SetIllness()
         {
-            if (rand.Next(0, 10) >= 6)
+            if (Random.Shared.Next(0, 10) >= 6)
             {
                 sick = true;
                 currentPet.CareLevel--;
@@ -880,8 +879,8 @@ Birthday: {currentPet.Birthday}");
 
         void AddPoop()
         {
-            int x = rand.Next(1, 13);
-            int y = rand.Next(1, 6);
+            int x = Random.Shared.Next(1, 13);
+            int y = Random.Shared.Next(1, 6);
             if (poopPositions.Count >= 5)
                 currentPet.CareLevel--;
             poopPositions.Add([x, y]);
@@ -899,7 +898,6 @@ Birthday: {currentPet.Birthday}");
 public class Games
 {
     Screen screen = new();
-    Random rand = new();
 
     public int[] LeftOrRightGame()
     {
@@ -922,7 +920,7 @@ public class Games
             screen.screenLines[4] = "|    ?@>@?    |";
             screen.DrawScreen();
 
-            side = rand.Next(2);
+            side = Random.Shared.Next(2);
             char answer = Console.ReadKey(true).KeyChar;
             if (answer == 'a')
             {
@@ -1005,10 +1003,10 @@ public class Games
             screen.screenLines[4] = $"|   {currentNumber} @>@ ?   |";
             screen.DrawScreen();
             Thread.Sleep(1000);
-            nextNumber = rand.Next(1, 10);
+            nextNumber = Random.Shared.Next(1, 10);
             while (nextNumber == currentNumber)
             {
-                nextNumber = rand.Next(1, 10);
+                nextNumber = Random.Shared.Next(1, 10);
             }
 
             if (nextNumber > currentNumber)
@@ -1069,8 +1067,6 @@ public class Games
 
 public class Screen()
 {
-    Random rand = new();
-
     public string[] screenLines = [
         "---------------",
         "|             |",
@@ -1096,8 +1092,8 @@ public class Screen()
 
     public void UpdatePetPosition(string petAppearance, bool sick, bool wantsAttention)
     {
-        int x = rand.Next(1, 12);
-        int y = rand.Next(1, 7);
+        int x = Random.Shared.Next(1, 12);
+        int y = Random.Shared.Next(1, 7);
         screenLines[petY] = screenLines[petY].Replace(petAppearance, "".PadRight(petAppearance.Length));
         screenLines[y] = screenLines[y].Insert(x, petAppearance);
         screenLines[y] = screenLines[y].Remove(x + petAppearance.Length, petAppearance.Length);
